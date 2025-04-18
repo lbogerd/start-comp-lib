@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Base rule
+
+Always use TanStack Start
+Always use TailwindCSS
