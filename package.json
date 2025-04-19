@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
-    "start": "vinxi start"
+    "start": "vinxi start",
+    "build:lib": "tsup",
+    "dev:lib": "tsup --watch"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "1.2.2",
@@ -31,6 +33,7 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
+    "tsup": "8.4.0",
     "typescript": "^5.7.2",
     "vite-tsconfig-paths": "^5.1.4"
   },
