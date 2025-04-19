@@ -76,7 +76,8 @@ export function PropField({
   if (type.name === "enum") {
     const options = type.raw!
       .split("|")
-      .map(s => s.trim().replace(/"/g, ""));
+      .map(s => s.trim().replace(/"/g, ""))
+      .filter(o => o !== "undefined")
     return (
       <label className="flex flex-col gap-1">
         {name}
@@ -88,7 +89,7 @@ export function PropField({
           render={({ field }) => (
             <select {...field} className="select">
               {options.map(o => (
-                <option key={o}>{o}</option>
+                <option key={o}>{o} {o === def ? "(default)" : ""}</option>
               ))}
             </select>
           )}
