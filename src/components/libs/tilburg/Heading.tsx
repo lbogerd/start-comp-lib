@@ -17,3 +17,12 @@ const Heading: React.FC<HeadingProps> = ({ children, className, level = 1, ...pr
 };
 
 export default Heading;
+
+// type CoolHeadingProps = HeadingProps & {
+//   extraCool?: boolean
+// }
+
+// export const CoolHeading: React.FC<CoolHeadingProps> = ({ children, className, level = 1, extraCool = false, ...props }) => {
+//   const Tag = `h${level}`;
+//   return React.createElement(Tag, { className: `text-2xl font-bold text-orange-500 tracking-tight ${className ?? ''} ${extraCool ? 'text-blue-500' : ''}`, ...props }, children);
+// };

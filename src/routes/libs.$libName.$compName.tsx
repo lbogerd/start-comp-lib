@@ -5,6 +5,9 @@ import type { ComponentType } from 'react'
 import { getComp } from '~/utils/comps/get'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { ComponentDoc } from 'react-docgen-typescript'
+import { PropField } from '~/components/PropField'
+import { Form, useForm } from 'react-hook-form'
 
 export const Route = createFileRoute('/libs/$libName/$compName')({
   loader: async ({ params: { libName, compName } }) => {
@@ -17,7 +20,17 @@ function RouteComponent() {
   const params = Route.useParams()
   const data = Route.useLoaderData()
 
+  const form = useForm()
+
   const [Cmp, setCmp] = useState<ComponentType<any>[] | null>(null)
+  const [componentPropValues, setComponentPropValues] = useState<any>({})
+
+  // Use watch to subscribe to all form changes
+  const watchedValues = form.watch();
+
+  useEffect(() => {
+    setComponentPropValues(watchedValues);
+  }, [watchedValues]);
 
   useEffect(() => {
     import(`../components/libs/${params.libName}/${params.compName}.tsx`).then((mod) => {
@@ -40,9 +53,37 @@ function RouteComponent() {
           margin: '1em 0'
         }}
       >
-        {data}
+        {data.sourceCode}
       </SyntaxHighlighter>
-      {Cmp ? Cmp.map((Cmp) => <Cmp>asdf</Cmp>) : <span>Loading...</span>}
+
+
+      <div>
+        <Form {...form}>
+          <form>
+            {JSON.parse(data.docs).map((doc: ComponentDoc) => (
+              <>
+                <pre>{JSON.stringify(doc, null, 2)}</pre>
+                  <PropField 
+                    key="children" 
+                    meta={{ 
+                      name: "children", 
+                      type: { name: "ReactNode" }, 
+                      required: false,
+                      description: "",
+                      defaultValue: undefined
+                    }} 
+                    control={form.control} 
+                  />
+                  {Object.keys(doc.props).map((prop: string) => (
+                    <PropField key={prop} meta={doc.props[prop]} control={form.control} />
+                  ))}
+              </>
+
+            ))}
+          </form>
+        </Form>
+      </div>
+      {Cmp ? Cmp.map((Cmp) => <Cmp {...componentPropValues} />) : <span>Loading...</span>}
     </div>
   )
 }

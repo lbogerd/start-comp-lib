@@ -16,7 +16,9 @@
     "clsx": "2.1.1",
     "lucide-react": "0.501.0",
     "react": "^19.0.0",
+    "react-docgen-typescript": "2.2.2",
     "react-dom": "^19.0.0",
+    "react-hook-form": "7.55.0",
     "react-syntax-highlighter": "15.6.1",
     "tailwind-merge": "^2.6.0",
     "vinxi": "0.5.3"
