@@ -27,4 +27,8 @@ const Checkbox = React.forwardRef<
 ))
 Checkbox.displayName = CheckboxPrimitive.Root.displayName
 
-export default Checkbox
+const CoolCheckbox = () => {
+  return <Checkbox className="bg-red-500" />
+}
+
+export { Checkbox, CoolCheckbox }

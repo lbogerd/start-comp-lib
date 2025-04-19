@@ -3,6 +3,9 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import type { ComponentType } from 'react'
 import { getComp } from '~/utils/comps/get'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+
 export const Route = createFileRoute('/libs/$libName/$compName')({
   loader: async ({ params: { libName, compName } }) => {
     return await getComp({ data: `${libName}/${compName}.tsx` })
@@ -14,20 +17,32 @@ function RouteComponent() {
   const params = Route.useParams()
   const data = Route.useLoaderData()
 
-  const [Cmp, setCmp] = useState<ComponentType<any> | null>(null)
+  const [Cmp, setCmp] = useState<ComponentType<any>[] | null>(null)
 
   useEffect(() => {
     import(`../components/libs/${params.libName}/${params.compName}.tsx`).then((mod) => {
-      setCmp(() => mod.default)
+      setCmp(() => {
+        return Object.keys(mod).map((key) => mod[key])
+      })
     })
   }, [params.libName, params.compName])
 
   return (
     <div>
-      <pre className="bg-gray-100 max-w-md p-4 rounded-md overflow-auto">
+      <SyntaxHighlighter 
+        language="typescript"
+        style={vscDarkPlus}
+        showLineNumbers={true}
+        wrapLines={true}
+        customStyle={{
+          borderRadius: '4px',
+          padding: '1em',
+          margin: '1em 0'
+        }}
+      >
         {data}
-      </pre>
-      {Cmp ? <Cmp>Your Children Here</Cmp> : <span>Loading...</span>}
+      </SyntaxHighlighter>
+      {Cmp ? Cmp.map((Cmp) => <Cmp>asdf</Cmp>) : <span>Loading...</span>}
     </div>
   )
 }

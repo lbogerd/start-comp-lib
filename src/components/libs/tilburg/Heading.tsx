@@ -5,7 +5,7 @@ type HeadingProps = React.HTMLAttributes<HTMLHeadingElement> & {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
 };
 
-export const Heading: React.FC<HeadingProps> = ({ children, className, level = 1, ...props }) => {
+const Heading: React.FC<HeadingProps> = ({ children, className, level = 1, ...props }) => {
   const Tag = `h${level}`;
   // Combine props and className
   const combinedProps = {
