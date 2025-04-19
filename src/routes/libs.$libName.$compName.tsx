@@ -20,7 +20,11 @@ function RouteComponent() {
   const params = Route.useParams()
   const data = Route.useLoaderData()
 
-  const form = useForm()
+  const form = useForm({
+    defaultValues: {
+      children: "Lorem ipsum dolor sit amet"
+    }
+  })
 
   const [Cmp, setCmp] = useState<ComponentType<any>[] | null>(null)
   const [componentPropValues, setComponentPropValues] = useState<any>({})
@@ -67,7 +71,7 @@ function RouteComponent() {
                     key="children" 
                     meta={{ 
                       name: "children", 
-                      type: { name: "ReactNode" }, 
+                      type: { name: "string" }, 
                       required: false,
                       description: "",
                       defaultValue: undefined
