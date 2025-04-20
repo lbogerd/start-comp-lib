@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="100" height="130"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130" width="100" height="130">
+  <rect x="10" y="10" width="80" height="30" rx="6" fill="#3B82F6" stroke="#06284D" stroke-width="4"></rect>
+  <rect x="10" y="50" width="80" height="30" rx="6" fill="#3B82F6" stroke="#06284D" stroke-width="4"></rect>
+  <rect x="10" y="90" width="80" height="30" rx="6" fill="#3B82F6" stroke="#06284D" stroke-width="4"></rect>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>
