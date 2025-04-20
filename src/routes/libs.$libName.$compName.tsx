@@ -6,7 +6,7 @@ import { getComp } from '~/logic/server/comps'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { ComponentDoc } from 'react-docgen-typescript'
-import { PropField } from '~/components/PropField'
+import { PropField } from '~/components/internal/comps/prop-field'
 import { Form, useForm } from 'react-hook-form'
 
 export const Route = createFileRoute('/libs/$libName/$compName')({

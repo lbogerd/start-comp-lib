@@ -1,5 +1,5 @@
-import { Control, Controller } from "react-hook-form";
 import { PropItem } from "react-docgen-typescript";
+import { Control, Controller } from "react-hook-form";
 
 /**
  * A form field component that renders different input types based on component prop metadata.
@@ -89,7 +89,7 @@ export function PropField({
           render={({ field }) => (
             <select {...field} className="select">
               {options.map(o => (
-                <option key={o}>{o} {o === def ? "(default)" : ""}</option>
+                <option key={o}>{o} {o === def && "(default)"}</option>
               ))}
             </select>
           )}
