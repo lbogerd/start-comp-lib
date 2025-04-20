@@ -7,10 +7,12 @@
     "dev": "vinxi dev",
     "build": "vinxi build",
     "start": "vinxi start",
-    "build:lib": "tsup",
-    "dev:lib": "tsup --watch"
+    "shad:add": "pnpm dlx shadcn@latest add",
+    "lib:build": "tsup",
+    "lib:dev": "tsup --watch"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "1.2.7",
     "@radix-ui/react-checkbox": "1.2.2",
     "@tailwindcss/vite": "4.1.4",
     "@tanstack/react-router": "^1.116.0",
