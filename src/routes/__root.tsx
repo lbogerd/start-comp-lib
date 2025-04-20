@@ -10,8 +10,8 @@ import * as React from 'react'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
-import { getAllLibs } from '~/utils/libs/getAll'
-import { seo } from '~/utils/seo'
+import { getAllLibs } from '~/logic/server/libs'
+import { seo } from '~/logic/seo'
 
 export const Route = createRootRoute({
   head: () => ({

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import type { User } from '~/utils/users'
-import { DEPLOY_URL } from '~/utils/users'
+import type { User } from '~/logic/users'
+import { DEPLOY_URL } from '~/logic/users'
 import { NotFound } from '~/components/NotFound'
 import { UserErrorComponent } from '~/components/UserError'
 

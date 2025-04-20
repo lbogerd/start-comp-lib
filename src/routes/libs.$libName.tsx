@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
-import { getLibComps } from '~/utils/libs/get'
+import { getLibComps } from '~/logic/server/libs'
 
 export const Route = createFileRoute('/libs/$libName')({
   loader: async ({ params: { libName } }) => {
