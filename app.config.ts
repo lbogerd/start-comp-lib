@@ -1,6 +1,6 @@
 import { defineConfig } from '@tanstack/react-start/config'
 import tsConfigPaths from 'vite-tsconfig-paths'
-
+import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   tsr: {
     appDirectory: 'src',
@@ -10,6 +10,8 @@ export default defineConfig({
       tsConfigPaths({
         projects: ['./tsconfig.json'],
       }),
+      // @ts-ignore - minor typing errors
+      tailwindcss()
     ],
   },
 })
