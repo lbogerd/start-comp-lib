@@ -9,20 +9,10 @@ export const Route = createFileRoute('/libs/$libName')({
 })
 
 function RouteComponent() {
-	const comps = Route.useLoaderData()
-	const params = Route.useParams()
-
 	return (
-		<nav>
-			{comps.map((comp) => (
-				<Link
-					to="/libs/$libName/$compName"
-					params={{ libName: params.libName, compName: comp }}
-				>
-					{comp}
-				</Link>
-			))}
+		<div>
+			<h1>Lib: {Route.useParams().libName}</h1>
 			<Outlet />
-		</nav>
+		</div>
 	)
 }

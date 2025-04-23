@@ -12,6 +12,9 @@ import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
 import { getAllLibs } from '~/logic/server/libs'
 import { seo } from '~/logic/seo'
+import { getLibsServerFn } from '~/logic/server/server-functions/libs'
+import { Suspense } from 'react'
+import { Nav } from '~/components/libs/internal/nav'
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -25,8 +28,8 @@ export const Route = createRootRoute({
 			},
 			...seo({
 				title:
-					'TanStack Start | Type-Safe, Client-First, Full-Stack React Framework',
-				description: `TanStack Start is a type-safe, client-first, full-stack React framework. `,
+					'start-comp-lib',
+				description: `start-comp-lib is an easy way to create and share components with your team.`,
 			}),
 		],
 		links: [
@@ -60,7 +63,7 @@ export const Route = createRootRoute({
 		)
 	},
 	loader: async () => {
-		return await getAllLibs()
+		return await getLibsServerFn()
 	},
 	notFoundComponent: () => <NotFound />,
 	component: RootComponent,
@@ -80,21 +83,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body>
-				<nav>
-					<ul>
-						<li>
-							<Link to="/">Home</Link>
-						</li>
-						{Route.useLoaderData().map((lib) => (
-							<li key={lib}>
-								<Link to="/libs/$libName" params={{ libName: lib }}>
-									{lib}
-								</Link>
-							</li>
-						))}
-					</ul>
-				</nav>
+			<body className="flex min-h-dvh min-w-dvw">
+				<Suspense fallback={<div>Loading...</div>}>
+					<Nav libs={Route.useLoaderData()} />
+				</Suspense>
 
 				{children}
 

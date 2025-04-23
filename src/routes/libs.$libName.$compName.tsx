@@ -5,12 +5,14 @@ import { getComp } from '~/logic/server/comps'
 
 import { ComponentDoc } from 'react-docgen-typescript'
 import { Form, useForm } from 'react-hook-form'
-import { Code } from '~/components/internal/comps/code'
-import { PropField } from '~/components/internal/comps/prop-field'
+import { CodeDisplay } from '~/components/libs/internal/code-display'
+import { PropField } from '~/components/libs/internal/prop-field'
 
 export const Route = createFileRoute('/libs/$libName/$compName')({
 	loader: async ({ params: { libName, compName } }) => {
-		return await getComp({ data: `${libName}/${compName}.tsx` })
+		console.log(`${libName}/${compName}`)
+		
+		return await getComp({ data: `${libName}/${compName}` })
 	},
 	component: RouteComponent,
 })
@@ -36,7 +38,7 @@ function RouteComponent() {
 	}, [watchedValues])
 
 	useEffect(() => {
-		import(`../components/libs/${params.libName}/${params.compName}.tsx`).then(
+		import(`../components/libs/${params.libName}/${params.compName}`).then(
 			(mod) => {
 				setCmp(() => {
 					return Object.keys(mod).map((key) => mod[key])
@@ -47,7 +49,7 @@ function RouteComponent() {
 
 	return (
 		<div>
-			<Code code={data.sourceCode} />
+			<CodeDisplay>{data.sourceCode}</CodeDisplay>
 
 			<div>
 				<Form {...form}>
