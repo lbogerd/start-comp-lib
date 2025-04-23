@@ -27,8 +27,7 @@ export const Route = createRootRoute({
 				content: 'width=device-width, initial-scale=1',
 			},
 			...seo({
-				title:
-					'start-comp-lib',
+				title: 'start-comp-lib',
 				description: `start-comp-lib is an easy way to create and share components with your team.`,
 			}),
 		],

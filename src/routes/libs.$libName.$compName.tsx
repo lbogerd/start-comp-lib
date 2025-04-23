@@ -11,7 +11,7 @@ import { PropField } from '~/components/libs/internal/prop-field'
 export const Route = createFileRoute('/libs/$libName/$compName')({
 	loader: async ({ params: { libName, compName } }) => {
 		console.log(`${libName}/${compName}`)
-		
+
 		return await getComp({ data: `${libName}/${compName}` })
 	},
 	component: RouteComponent,
