@@ -38,7 +38,7 @@ export function PropField({
 	const { name, type, defaultValue, required } = meta
 	const def = defaultValue?.value
 
-	// 1. simple scalars -----------------------------------------------------
+	// 1. simple scalars
 	if (type.name === 'string' || type.name === 'number')
 		return (
 			<label className="flex flex-col gap-1">
@@ -72,7 +72,7 @@ export function PropField({
 			</label>
 		)
 
-	// 2. literal unions like `"sm" | "md" | "lg"` ---------------------------
+	// 2. literal unions like `"sm" | "md" | "lg"`
 	if (type.name === 'enum') {
 		const options = type
 			.raw!.split('|')
@@ -100,7 +100,7 @@ export function PropField({
 		)
 	}
 
-	// 3. everything else: JSON textarea ------------------------------------
+	// 3. everything else: JSON textarea
 	return (
 		<label className="flex flex-col gap-1">
 			{name} (JSON)

@@ -29,22 +29,40 @@ function RouteComponent() {
 
 	const [Cmp, setCmp] = useState<ComponentType<any>[] | null>(null)
 	const [componentPropValues, setComponentPropValues] = useState<any>({})
+	const [isLoading, setIsLoading] = useState(true)
 
 	// Use watch to subscribe to all form changes
 	const watchedValues = form.watch()
 
+	// Fix: Only update componentPropValues when watchedValues actually changes
+	// This prevents infinite re-renders
 	useEffect(() => {
-		setComponentPropValues(watchedValues)
+		// Using a functional update to ensure we're not causing unnecessary updates
+		setComponentPropValues((prev: any) => {
+			// Only update if values are different
+			if (JSON.stringify(prev) === JSON.stringify(watchedValues)) {
+				return prev;
+			}
+
+			return watchedValues;
+		});
 	}, [watchedValues])
 
 	useEffect(() => {
-		import(`../components/libs/${params.libName}/${params.compName}`).then(
-			(mod) => {
+		setIsLoading(true)
+
+		import(`../components/libs/${params.libName}/${params.compName}`)
+			.then((mod) => {
 				setCmp(() => {
 					return Object.keys(mod).map((key) => mod[key])
 				})
-			},
-		)
+			})
+			.catch((error) => {
+				console.error("Failed to load component:", error)
+			})
+			.finally(() => {
+				setIsLoading(false)
+			})
 	}, [params.libName, params.compName])
 
 	return (
@@ -53,7 +71,7 @@ function RouteComponent() {
 
 			<div>
 				<Form {...form}>
-					<form>
+
 						{JSON.parse(data.docs).map((doc: ComponentDoc) => (
 							<>
 								<pre>{JSON.stringify(doc, null, 2)}</pre>
@@ -77,11 +95,11 @@ function RouteComponent() {
 								))}
 							</>
 						))}
-					</form>
+
 				</Form>
 			</div>
-			{Cmp ? (
-				Cmp.map((Cmp) => <Cmp {...componentPropValues} />)
+			{Cmp && !isLoading ? (
+				Cmp.map((Cmp, index) => <Cmp key={index} {...componentPropValues} />)
 			) : (
 				<span>Loading...</span>
 			)}
