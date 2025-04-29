@@ -43,6 +43,8 @@ function RouteComponent() {
 		<div>
 			<CodeDisplay>{data.sourceCode}</CodeDisplay>
 
+			<CodeDisplay title="Docs">{data.docs}</CodeDisplay>
+
 			{Cmp && !isLoading ? (
 				Cmp.map((Cmp, index) => <Cmp key={index} />)
 			) : (

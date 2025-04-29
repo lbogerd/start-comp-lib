@@ -21,6 +21,6 @@ export const getComp = createServerFn({ method: 'GET' })
 
 		return {
 			sourceCode,
-			docs: JSON.stringify(docs),
+			docs: JSON.stringify(docs, null, 2),
 		}
 	})
