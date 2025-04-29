@@ -1,17 +1,14 @@
+import { glob } from 'tinyglobby'
 import { Registry } from '~/logic/shared/types'
-import { glob, globSync } from 'tinyglobby'
-import path from 'path'
 
 export const getLibs = async (): Promise<Registry[]> => {
 	// get the name of all folders in the libs directory
-	const libs = (
-		await glob({
-			cwd: 'src/components/libs',
-			onlyDirectories: true,
-			deep: 1,
-			expandDirectories: false,
-		})
-	).sort((a, b) => a.localeCompare(b))
+	const libs = await glob({
+		cwd: 'src/components/libs',
+		onlyDirectories: true,
+		deep: 1,
+		expandDirectories: false,
+	})
 
 	// loop through each lib and add the items
 	const registry: Registry[] = []
@@ -20,20 +17,20 @@ export const getLibs = async (): Promise<Registry[]> => {
 			cwd: `src/components/libs/${lib}`,
 		})
 
+		const sortedLibItems = libItems.sort((a, b) => a.localeCompare(b))
+
 		registry.push({
 			name: lib.slice(0, -1),
 			homepage: `http://localhost:3000/libs/${lib}`,
-			items: libItems
-				.sort((a, b) => a.localeCompare(b))
-				.map((item) => {
-					return {
-						name: item,
-						// TODO: make this dynamic based on either the file name or the file's frontmatter
-						type: 'registry:lib',
-					}
-				}),
+			items: sortedLibItems.map((item) => {
+				return {
+					name: item,
+					// TODO: make this dynamic based on either the file name or the file's frontmatter
+					type: 'registry:lib',
+				}
+			}),
 		})
 	}
 
-	return registry
+	return registry.sort((a, b) => a.name.localeCompare(b.name))
 }
