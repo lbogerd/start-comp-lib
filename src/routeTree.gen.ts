@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as RedirectImport } from './routes/redirect'
+import { Route as FormTestImport } from './routes/form-test'
 import { Route as DeferredImport } from './routes/deferred'
 import { Route as PathlessLayoutImport } from './routes/_pathlessLayout'
 import { Route as UsersRouteImport } from './routes/users.route'
@@ -33,6 +34,12 @@ import { Route as PathlessLayoutNestedLayoutRouteAImport } from './routes/_pathl
 const RedirectRoute = RedirectImport.update({
   id: '/redirect',
   path: '/redirect',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FormTestRoute = FormTestImport.update({
+  id: '/form-test',
+  path: '/form-test',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -165,6 +172,13 @@ declare module '@tanstack/react-router' {
       path: '/deferred'
       fullPath: '/deferred'
       preLoaderRoute: typeof DeferredImport
+      parentRoute: typeof rootRoute
+    }
+    '/form-test': {
+      id: '/form-test'
+      path: '/form-test'
+      fullPath: '/form-test'
+      preLoaderRoute: typeof FormTestImport
       parentRoute: typeof rootRoute
     }
     '/redirect': {
@@ -325,6 +339,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof UsersRouteRouteWithChildren
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
+  '/form-test': typeof FormTestRoute
   '/redirect': typeof RedirectRoute
   '/libs/$libName': typeof LibsLibNameRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
@@ -341,6 +356,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
+  '/form-test': typeof FormTestRoute
   '/redirect': typeof RedirectRoute
   '/libs/$libName': typeof LibsLibNameRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
@@ -360,6 +376,7 @@ export interface FileRoutesById {
   '/users': typeof UsersRouteRouteWithChildren
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
+  '/form-test': typeof FormTestRoute
   '/redirect': typeof RedirectRoute
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/libs/$libName': typeof LibsLibNameRouteWithChildren
@@ -381,6 +398,7 @@ export interface FileRouteTypes {
     | '/users'
     | ''
     | '/deferred'
+    | '/form-test'
     | '/redirect'
     | '/libs/$libName'
     | '/posts/$postId'
@@ -396,6 +414,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/deferred'
+    | '/form-test'
     | '/redirect'
     | '/libs/$libName'
     | '/posts/$postId'
@@ -413,6 +432,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/_pathlessLayout'
     | '/deferred'
+    | '/form-test'
     | '/redirect'
     | '/_pathlessLayout/_nested-layout'
     | '/libs/$libName'
@@ -433,6 +453,7 @@ export interface RootRouteChildren {
   UsersRouteRoute: typeof UsersRouteRouteWithChildren
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
   DeferredRoute: typeof DeferredRoute
+  FormTestRoute: typeof FormTestRoute
   RedirectRoute: typeof RedirectRoute
   LibsLibNameRoute: typeof LibsLibNameRouteWithChildren
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
@@ -444,6 +465,7 @@ const rootRouteChildren: RootRouteChildren = {
   UsersRouteRoute: UsersRouteRouteWithChildren,
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
   DeferredRoute: DeferredRoute,
+  FormTestRoute: FormTestRoute,
   RedirectRoute: RedirectRoute,
   LibsLibNameRoute: LibsLibNameRouteWithChildren,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
@@ -464,6 +486,7 @@ export const routeTree = rootRoute
         "/users",
         "/_pathlessLayout",
         "/deferred",
+        "/form-test",
         "/redirect",
         "/libs/$libName",
         "/posts_/$postId/deep"
@@ -494,6 +517,9 @@ export const routeTree = rootRoute
     },
     "/deferred": {
       "filePath": "deferred.tsx"
+    },
+    "/form-test": {
+      "filePath": "form-test.tsx"
     },
     "/redirect": {
       "filePath": "redirect.tsx"
