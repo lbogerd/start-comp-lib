@@ -2,7 +2,6 @@ import { Link } from '@tanstack/react-router'
 import { ChevronRight } from 'lucide-react'
 import { ComponentProps, HTMLAttributes } from 'react'
 import { cn } from '~/logic/client/cn'
-import { removeExtension } from '~/logic/shared/files'
 import { Registry } from '~/logic/shared/types'
 
 type SidebarProps = {
@@ -39,7 +38,7 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 											params={{ libName: lib.name, compName: itemName }}
 											className="block grow text-sm text-gray-700 transition group-hover:text-indigo-600 dark:text-gray-300 dark:group-hover:text-indigo-400"
 										>
-											{removeExtension(itemName)}
+											{itemName}
 										</Link>
 									</li>
 								))}
@@ -61,8 +60,8 @@ export function SidebarSkeleton({
 	return (
 		<BaseSidebar className={cn('space-y-2 px-4', className)} {...props}>
 			<div className="h-4 w-24 animate-pulse rounded bg-gray-200"></div>
-			<div className="ml-4 h-4 w-32 animate-pulse rounded bg-gray-200"></div>
-			<div className="ml-4 h-4 w-32 animate-pulse rounded bg-gray-200"></div>
+			<div className="ml-6 h-4 w-32 animate-pulse rounded bg-gray-200"></div>
+			<div className="ml-6 h-4 w-32 animate-pulse rounded bg-gray-200"></div>
 		</BaseSidebar>
 	)
 }

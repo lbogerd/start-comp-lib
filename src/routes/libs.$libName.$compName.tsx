@@ -9,7 +9,7 @@ export const Route = createFileRoute('/libs/$libName/$compName')({
 	loader: async ({ params: { libName, compName } }) => {
 		console.log(`${libName}/${compName}`)
 
-		return await getComp({ data: `${libName}/${compName}` })
+		return await getComp({ data: `${libName}/${compName}.tsx` })
 	},
 	component: RouteComponent,
 })
@@ -24,7 +24,7 @@ function RouteComponent() {
 	useEffect(() => {
 		setIsLoading(true)
 
-		import(`../components/libs/${params.libName}/${params.compName}`)
+		import(`../components/libs/${params.libName}/${params.compName}.tsx`)
 			.then((mod) => {
 				setCmp(() => {
 					return Object.keys(mod).map((key) => mod[key])

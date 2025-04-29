@@ -1,5 +1,6 @@
 import { glob } from 'tinyglobby'
 import { Registry } from '~/logic/shared/types'
+import { removeExtension } from '~/logic/shared/files'
 
 export const getLibs = async (): Promise<Registry[]> => {
 	// get the name of all folders in the libs directory
@@ -24,7 +25,7 @@ export const getLibs = async (): Promise<Registry[]> => {
 			homepage: `http://localhost:3000/libs/${lib}`,
 			items: sortedLibItems.map((item) => {
 				return {
-					name: item,
+					name: removeExtension(item),
 					// TODO: make this dynamic based on either the file name or the file's frontmatter
 					type: 'registry:lib',
 				}

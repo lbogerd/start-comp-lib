@@ -11,7 +11,6 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TestPageImport } from './routes/test-page'
 import { Route as RedirectImport } from './routes/redirect'
 import { Route as DeferredImport } from './routes/deferred'
 import { Route as PathlessLayoutImport } from './routes/_pathlessLayout'
@@ -30,12 +29,6 @@ import { Route as PathlessLayoutNestedLayoutRouteBImport } from './routes/_pathl
 import { Route as PathlessLayoutNestedLayoutRouteAImport } from './routes/_pathlessLayout/_nested-layout/route-a'
 
 // Create/Update Routes
-
-const TestPageRoute = TestPageImport.update({
-  id: '/test-page',
-  path: '/test-page',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const RedirectRoute = RedirectImport.update({
   id: '/redirect',
@@ -179,13 +172,6 @@ declare module '@tanstack/react-router' {
       path: '/redirect'
       fullPath: '/redirect'
       preLoaderRoute: typeof RedirectImport
-      parentRoute: typeof rootRoute
-    }
-    '/test-page': {
-      id: '/test-page'
-      path: '/test-page'
-      fullPath: '/test-page'
-      preLoaderRoute: typeof TestPageImport
       parentRoute: typeof rootRoute
     }
     '/_pathlessLayout/_nested-layout': {
@@ -340,7 +326,6 @@ export interface FileRoutesByFullPath {
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
-  '/test-page': typeof TestPageRoute
   '/libs/$libName': typeof LibsLibNameRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
@@ -357,7 +342,6 @@ export interface FileRoutesByTo {
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
-  '/test-page': typeof TestPageRoute
   '/libs/$libName': typeof LibsLibNameRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
@@ -377,7 +361,6 @@ export interface FileRoutesById {
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
-  '/test-page': typeof TestPageRoute
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/libs/$libName': typeof LibsLibNameRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
@@ -399,7 +382,6 @@ export interface FileRouteTypes {
     | ''
     | '/deferred'
     | '/redirect'
-    | '/test-page'
     | '/libs/$libName'
     | '/posts/$postId'
     | '/users/$userId'
@@ -415,7 +397,6 @@ export interface FileRouteTypes {
     | ''
     | '/deferred'
     | '/redirect'
-    | '/test-page'
     | '/libs/$libName'
     | '/posts/$postId'
     | '/users/$userId'
@@ -433,7 +414,6 @@ export interface FileRouteTypes {
     | '/_pathlessLayout'
     | '/deferred'
     | '/redirect'
-    | '/test-page'
     | '/_pathlessLayout/_nested-layout'
     | '/libs/$libName'
     | '/posts/$postId'
@@ -454,7 +434,6 @@ export interface RootRouteChildren {
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
   DeferredRoute: typeof DeferredRoute
   RedirectRoute: typeof RedirectRoute
-  TestPageRoute: typeof TestPageRoute
   LibsLibNameRoute: typeof LibsLibNameRouteWithChildren
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
@@ -466,7 +445,6 @@ const rootRouteChildren: RootRouteChildren = {
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
   DeferredRoute: DeferredRoute,
   RedirectRoute: RedirectRoute,
-  TestPageRoute: TestPageRoute,
   LibsLibNameRoute: LibsLibNameRouteWithChildren,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
@@ -487,7 +465,6 @@ export const routeTree = rootRoute
         "/_pathlessLayout",
         "/deferred",
         "/redirect",
-        "/test-page",
         "/libs/$libName",
         "/posts_/$postId/deep"
       ]
@@ -520,9 +497,6 @@ export const routeTree = rootRoute
     },
     "/redirect": {
       "filePath": "redirect.tsx"
-    },
-    "/test-page": {
-      "filePath": "test-page.tsx"
     },
     "/_pathlessLayout/_nested-layout": {
       "filePath": "_pathlessLayout/_nested-layout.tsx",
