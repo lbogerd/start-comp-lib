@@ -14,7 +14,7 @@ import { getAllLibs } from '~/logic/server/libs'
 import { seo } from '~/logic/seo'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 import { Suspense } from 'react'
-import { Nav } from '~/components/libs/internal/nav'
+import { Sidebar, SidebarSkeleton } from '~/components/libs/internal/sidebar'
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -83,8 +83,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="flex min-h-dvh min-w-dvw">
-				<Suspense fallback={<div>Loading...</div>}>
-					<Nav libs={Route.useLoaderData()} />
+				  <Suspense fallback={<SidebarSkeleton className="w-64" />}>
+					<Sidebar 
+            className="w-64"
+            libs={
+              Route.useLoaderData().map((lib) => ({
+                name: lib.name,
+                itemNames: lib.items.map((item) => item.name)
+              }))
+            } />
 				</Suspense>
 
 				{children}
