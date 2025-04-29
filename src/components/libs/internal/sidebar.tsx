@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { ChevronRight } from 'lucide-react'
 import { ComponentProps, HTMLAttributes } from 'react'
 import { cn } from '~/logic/client/cn'
 import { removeExtension } from '~/logic/shared/files'
@@ -21,18 +22,22 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 							<Link
 								to={`/libs/$libName`}
 								params={{ libName: lib.name }}
-								className="font-semibold text-indigo-600 hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-500 text-lg px-4 transition-all block"
+								className="block px-4 text-lg font-semibold text-indigo-600 transition-all hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-500"
 							>
 								{lib.name}
 							</Link>
 
 							<ul className="mt-1 space-y-1">
 								{lib.itemNames.map((itemName) => (
-									<li key={itemName}>
+									<li
+										key={itemName}
+										className="group flex items-center space-x-2"
+									>
+										<ChevronRight className="mt-0.5 ml-3 size-4 shrink-0 opacity-0 group-hover:text-indigo-600 group-hover:opacity-100 dark:group-hover:text-indigo-400" />
 										<Link
 											to={`/libs/$libName/$compName`}
 											params={{ libName: lib.name, compName: itemName }}
-											className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 text-sm transition block px-6 before:content-['>'] before:text-indigo-600 dark:before:text-indigo-400 before:opacity-0 hover:before:opacity-100 before:duration-75 before:mr-1"
+											className="block grow text-sm text-gray-700 transition group-hover:text-indigo-600 dark:text-gray-300 dark:group-hover:text-indigo-400"
 										>
 											{removeExtension(itemName)}
 										</Link>
@@ -55,9 +60,9 @@ export function SidebarSkeleton({
 }: Omit<ComponentProps<typeof BaseSidebar>, 'libs'>) {
 	return (
 		<BaseSidebar className={cn('space-y-2 px-4', className)} {...props}>
-			<div className="animate-pulse h-4 w-24 bg-gray-200 rounded"></div>
-			<div className="animate-pulse h-4 w-32 bg-gray-200 rounded ml-4"></div>
-			<div className="animate-pulse h-4 w-32 bg-gray-200 rounded ml-4"></div>
+			<div className="h-4 w-24 animate-pulse rounded bg-gray-200"></div>
+			<div className="ml-4 h-4 w-32 animate-pulse rounded bg-gray-200"></div>
+			<div className="ml-4 h-4 w-32 animate-pulse rounded bg-gray-200"></div>
 		</BaseSidebar>
 	)
 }
@@ -70,7 +75,7 @@ function BaseSidebar({
 	return (
 		<nav
 			className={cn(
-				'bg-neutral-50 dark:bg-neutral-900 shrink-0 border-r border-gray-200 py-4',
+				'shrink-0 border-r border-gray-200 bg-neutral-50 py-4 dark:bg-neutral-900',
 				className,
 			)}
 			{...props}
