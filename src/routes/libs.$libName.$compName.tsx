@@ -22,7 +22,6 @@ function RouteComponent() {
 	const [Cmp, setCmp] = useState<ComponentType<any>[] | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
 
-
 	useEffect(() => {
 		setIsLoading(true)
 
@@ -33,7 +32,7 @@ function RouteComponent() {
 				})
 			})
 			.catch((error) => {
-				console.error("Failed to load component:", error)
+				console.error('Failed to load component:', error)
 			})
 			.finally(() => {
 				setIsLoading(false)
