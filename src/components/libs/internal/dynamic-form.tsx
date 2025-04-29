@@ -73,7 +73,7 @@ export function DynamicForm() {
 
 			<button
 				type="submit"
-				className="bg-blue-500 text-white p-2 rounded cursor-pointer"
+				className="cursor-pointer rounded bg-blue-500 p-2 text-white"
 			>
 				Submit
 			</button>

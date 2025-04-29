@@ -38,6 +38,7 @@
 		"@types/react-dom": "^19.0.3",
 		"@types/react-syntax-highlighter": "15.5.13",
 		"prettier": "3.5.3",
+		"prettier-plugin-tailwindcss": "0.6.11",
 		"tsup": "8.4.0",
 		"typescript": "^5.7.2",
 		"vite-tsconfig-paths": "^5.1.4"
@@ -46,7 +47,10 @@
 		"singleQuote": true,
 		"semi": false,
 		"useTabs": true,
-		"tabWidth": 2
+		"tabWidth": 2,
+		"plugins": [
+			"prettier-plugin-tailwindcss"
+		]
 	},
 	"packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
 }
