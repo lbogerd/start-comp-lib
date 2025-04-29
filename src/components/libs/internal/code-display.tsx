@@ -7,7 +7,13 @@ import {
 	AccordionTrigger,
 } from '~/components/libs/new-york/ui/accordion'
 
-export function CodeDisplay({ children, title = 'Show Code' }: { children: string, title?: string }) {
+export function CodeDisplay({
+	children,
+	title = 'Code',
+}: {
+	children: string
+	title?: string
+}) {
 	return (
 		<Accordion type="single" collapsible className="w-full">
 			<AccordionItem value="item-1">

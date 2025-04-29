@@ -1,6 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
-import path from 'path'
 import fs from 'fs/promises'
+import path from 'path'
 import { withCustomConfig } from 'react-docgen-typescript'
 
 const parser = withCustomConfig(path.join(process.cwd(), 'tsconfig.json'), {

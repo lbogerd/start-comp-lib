@@ -1,20 +1,18 @@
 import {
 	HeadContent,
-	Link,
 	Outlet,
 	Scripts,
 	createRootRoute,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import * as React from 'react'
+import { Suspense } from 'react'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
+import { Sidebar, SidebarSkeleton } from '~/components/libs/internal/sidebar'
 import { NotFound } from '~/components/NotFound'
-import appCss from '~/styles/app.css?url'
-import { getAllLibs } from '~/logic/server/libs'
 import { seo } from '~/logic/seo'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
-import { Suspense } from 'react'
-import { Sidebar, SidebarSkeleton } from '~/components/libs/internal/sidebar'
+import appCss from '~/styles/app.css?url'
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -82,16 +80,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="flex min-h-dvh min-w-dvw">
-				  <Suspense fallback={<SidebarSkeleton className="w-64" />}>
-					<Sidebar 
-            className="w-64"
-            libs={
-              Route.useLoaderData().map((lib) => ({
-                name: lib.name,
-                itemNames: lib.items.map((item) => item.name)
-              }))
-            } />
+			<body className="flex min-h-dvh min-w-dvw bg-neutral-100">
+				<Suspense fallback={<SidebarSkeleton className="w-64" />}>
+					<Sidebar
+						className="w-64"
+						libs={Route.useLoaderData().map((lib) => ({
+							name: lib.name,
+							itemNames: lib.items.map((item) => item.name),
+						}))}
+					/>
 				</Suspense>
 
 				{children}

@@ -3,7 +3,6 @@ import type { ComponentType } from 'react'
 import { useEffect, useState } from 'react'
 import { getComp } from '~/logic/server/comps'
 
-import { ComponentDoc } from 'react-docgen-typescript'
 import { CodeDisplay } from '~/components/libs/internal/code-display'
 
 export const Route = createFileRoute('/libs/$libName/$compName')({
@@ -44,6 +43,10 @@ function RouteComponent() {
 			<CodeDisplay>{data.sourceCode}</CodeDisplay>
 
 			<CodeDisplay title="Docs">{data.docs}</CodeDisplay>
+
+			{
+				
+			}
 
 			{Cmp && !isLoading ? (
 				Cmp.map((Cmp, index) => <Cmp key={index} />)
