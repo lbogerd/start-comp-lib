@@ -3,18 +3,6 @@ import { z } from 'zod'
 /* ------------------------------------------------------------- */
 /* 1. Enumerations                                                */
 /* ------------------------------------------------------------- */
-export const ItemTypeEnum = z.enum([
-	'registry:lib',
-	'registry:block',
-	'registry:component',
-	'registry:ui',
-	'registry:hook',
-	'registry:theme',
-	'registry:page',
-	'registry:file',
-	'registry:style',
-])
-
 export const FileTypeEnum = z.enum([
 	'registry:lib',
 	'registry:block',
@@ -25,6 +13,8 @@ export const FileTypeEnum = z.enum([
 	'registry:page',
 	'registry:file',
 ])
+
+export const ItemTypeEnum = z.union([FileTypeEnum, z.literal('registry:style')])
 
 /* ------------------------------------------------------------- */
 /* 2. File schema (discriminated on `type`)                       */
