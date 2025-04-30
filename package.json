@@ -9,12 +9,15 @@
 		"start": "vinxi start",
 		"shad:add": "pnpm dlx shadcn@latest add",
 		"lib:build": "tsup",
-		"lib:dev": "tsup --watch"
+		"lib:dev": "tsup --watch",
+		"precommit": "pnpx prettier . --write",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@radix-ui/react-accordion": "1.2.7",
 		"@radix-ui/react-checkbox": "1.2.2",
 		"@tailwindcss/vite": "4.1.4",
+		"@tanstack/react-form": "1.8.0",
 		"@tanstack/react-router": "^1.116.0",
 		"@tanstack/react-router-devtools": "^1.116.0",
 		"@tanstack/react-start": "^1.116.1",
@@ -23,7 +26,6 @@
 		"react": "^19.0.0",
 		"react-docgen-typescript": "2.2.2",
 		"react-dom": "^19.0.0",
-		"react-hook-form": "7.55.0",
 		"react-syntax-highlighter": "15.6.1",
 		"shadcn": "2.5.0-canary.1",
 		"tailwind-merge": "3.2.0",
@@ -37,6 +39,9 @@
 		"@types/react": "^19.0.8",
 		"@types/react-dom": "^19.0.3",
 		"@types/react-syntax-highlighter": "15.5.13",
+		"husky": "9.1.7",
+		"prettier": "3.5.3",
+		"prettier-plugin-tailwindcss": "0.6.11",
 		"tsup": "8.4.0",
 		"typescript": "^5.7.2",
 		"vite-tsconfig-paths": "^5.1.4"
@@ -45,7 +50,10 @@
 		"singleQuote": true,
 		"semi": false,
 		"useTabs": true,
-		"tabWidth": 2
+		"tabWidth": 2,
+		"plugins": [
+			"prettier-plugin-tailwindcss"
+		]
 	},
 	"packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
 }

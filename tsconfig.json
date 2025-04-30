@@ -1,5 +1,9 @@
 {
-	"include": ["**/*.ts", "**/*.tsx"],
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"src/components/libs/internal/field-info.tsx"
+	],
 	"compilerOptions": {
 		"strict": true,
 		"esModuleInterop": true,

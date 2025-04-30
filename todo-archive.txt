@@ -1,0 +1,14 @@
+_[x] show code below preview
+# 4/30/2025, 11:27:37 AM
+_[x] component preview card/window-thingy
+# 4/30/2025, 11:27:37 AM
+_[x] implement dark mode toggle
+# 4/30/2025, 11:27:37 AM
+[x] improve preview | try to match shadcn/ui website
+# 4/30/2025, 11:27:37 AM
+_[x] add styling for active page
+# 4/30/2025, 11:00:28 AM
+_[x] add filter
+# 4/30/2025, 11:00:28 AM
+[x] sidebar
+# 4/30/2025, 11:00:28 AM

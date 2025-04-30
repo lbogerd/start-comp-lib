@@ -7,11 +7,17 @@ import {
 	AccordionTrigger,
 } from '~/components/libs/new-york/ui/accordion'
 
-export function CodeDisplay({ children }: { children: string }) {
+export function CodeDisplay({
+	children,
+	title = 'Code',
+}: {
+	children: string
+	title?: string
+}) {
 	return (
 		<Accordion type="single" collapsible className="w-full">
 			<AccordionItem value="item-1">
-				<AccordionTrigger>Show Code</AccordionTrigger>
+				<AccordionTrigger>{title}</AccordionTrigger>
 				<AccordionContent>
 					<SyntaxHighlighter
 						language="typescript"
@@ -22,6 +28,8 @@ export function CodeDisplay({ children }: { children: string }) {
 							borderRadius: '4px',
 							padding: '1em',
 							margin: '0', // Remove margin from highlighter
+							maxHeight: '500px',
+							overflow: 'auto',
 						}}
 					>
 						{children}

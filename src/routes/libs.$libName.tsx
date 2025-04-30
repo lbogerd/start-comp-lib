@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { getLibComps } from '~/logic/server/libs'
 
 export const Route = createFileRoute('/libs/$libName')({
@@ -9,10 +9,5 @@ export const Route = createFileRoute('/libs/$libName')({
 })
 
 function RouteComponent() {
-	return (
-		<div>
-			<h1>Lib: {Route.useParams().libName}</h1>
-			<Outlet />
-		</div>
-	)
+	return <Outlet />
 }
