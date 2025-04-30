@@ -1,10 +1,17 @@
 import { Link } from '@tanstack/react-router'
 import { ChevronRight } from 'lucide-react'
-import { ComponentProps, HTMLAttributes, useEffect, useState } from 'react'
+import {
+	ComponentProps,
+	HTMLAttributes,
+	useEffect,
+	useState,
+	useRef,
+} from 'react'
 import { cn } from '~/logic/client/cn'
 import { Registry } from '~/logic/shared/types'
 import { useDebounce } from '~/logic/shared/use-debounce'
 import { Input } from './input'
+import { useHotkey } from '~/logic/client/use-hotkey'
 
 type SidebarProps = {
 	libs: {
@@ -17,6 +24,7 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 	const [filterText, setFilterText] = useState('')
 	const debouncedFilterText = useDebounce<string>(filterText, 200)
 	const [displayedLibs, setDisplayedLibs] = useState(libs)
+	const filterInputRef = useRef<HTMLInputElement>(null)
 
 	useEffect(() => {
 		if (debouncedFilterText === '') {
@@ -39,10 +47,20 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 		}
 	}, [debouncedFilterText, libs])
 
+	useHotkey(
+		[
+			{ key: 'k', options: { meta: true } },
+			{ key: 'k', options: { ctrl: true } },
+		],
+		() => filterInputRef.current?.focus(),
+	)
+
 	return (
 		<BaseSidebar className={className} {...props}>
 			<div className="relative px-4 pb-4">
 				<Input
+					ref={filterInputRef}
+					id="filter-input"
 					placeholder="Filter components..."
 					value={filterText}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
