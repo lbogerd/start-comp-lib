@@ -81,9 +81,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="flex min-h-dvh min-w-dvw bg-neutral-100">
-				<Suspense fallback={<SidebarSkeleton className="w-64" />}>
+				<Suspense fallback={<SidebarSkeleton className="w-48" />}>
 					<Sidebar
-						className="w-64"
+						className="w-48"
 						libs={Route.useLoaderData().map((lib) => ({
 							name: lib.name,
 							itemNames: lib.items.map((item) => item.name),

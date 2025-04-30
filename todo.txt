@@ -1,0 +1,3 @@
+[ ] sidebar
+_[x] add filter
+_[ ] add styling for active page

@@ -1,8 +1,10 @@
 import { Link } from '@tanstack/react-router'
 import { ChevronRight } from 'lucide-react'
-import { ComponentProps, HTMLAttributes } from 'react'
+import { ComponentProps, HTMLAttributes, useEffect, useState } from 'react'
 import { cn } from '~/logic/client/cn'
 import { Registry } from '~/logic/shared/types'
+import { useDebounce } from '~/logic/shared/use-debounce'
+import { Input } from './input'
 
 type SidebarProps = {
 	libs: {
@@ -12,11 +14,45 @@ type SidebarProps = {
 } & ComponentProps<typeof BaseSidebar>
 
 export function Sidebar({ libs, className, ...props }: SidebarProps) {
+	const [filterText, setFilterText] = useState('')
+	const debouncedFilterText = useDebounce<string>(filterText, 200)
+	const [displayedLibs, setDisplayedLibs] = useState(libs)
+
+	useEffect(() => {
+		if (debouncedFilterText === '') {
+			setDisplayedLibs(libs)
+		} else {
+			const lowerCaseFilter = debouncedFilterText.toLowerCase()
+			const filtered = libs
+				.map((lib) => ({
+					...lib,
+					itemNames: lib.itemNames.filter((itemName) =>
+						itemName.toLowerCase().includes(lowerCaseFilter),
+					),
+				}))
+				.filter(
+					(lib) =>
+						lib.itemNames.length > 0 ||
+						lib.name.toLowerCase().includes(lowerCaseFilter),
+				)
+			setDisplayedLibs(filtered)
+		}
+	}, [debouncedFilterText, libs])
+
 	return (
 		<BaseSidebar className={className} {...props}>
+			<div className="relative px-4 pb-4">
+				<Input
+					placeholder="Filter components..."
+					value={filterText}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
+					className="w-full"
+				/>
+			</div>
+			
 			<ul className="space-y-4">
-				{libs?.length > 0 ? (
-					libs.map((lib) => (
+				{displayedLibs?.length > 0 ? (
+					displayedLibs.map((lib) => (
 						<li key={lib.name}>
 							<Link
 								to={`/libs/$libName`}
@@ -46,7 +82,7 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 						</li>
 					))
 				) : (
-					<li className="text-gray-500 italic">None found</li>
+					<li className="px-4 text-sm text-gray-500 italic">None found</li>
 				)}
 			</ul>
 		</BaseSidebar>
