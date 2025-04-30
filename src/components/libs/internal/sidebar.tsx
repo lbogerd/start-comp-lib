@@ -58,6 +58,12 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 								to={`/libs/$libName`}
 								params={{ libName: lib.name }}
 								className="block px-4 text-lg font-semibold text-indigo-600 transition-all hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-500"
+								activeOptions={{
+									exact: false,
+								}}
+								activeProps={{
+									className: '!text-indigo-600 dark:!text-indigo-400',
+								}}
 							>
 								{lib.name}
 							</Link>
@@ -72,7 +78,13 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 										<Link
 											to={`/libs/$libName/$compName`}
 											params={{ libName: lib.name, compName: itemName }}
-											className="block grow text-sm text-gray-700 transition group-hover:text-indigo-600 dark:text-gray-300 dark:group-hover:text-indigo-400"
+											className="block grow text-sm text-neutral-700 transition group-hover:text-indigo-600 dark:text-neutral-300 dark:group-hover:text-indigo-400"
+											activeOptions={{
+												exact: true,
+											}}
+											activeProps={{
+												className: '!text-indigo-600 dark:!text-indigo-400',
+											}}
 										>
 											{itemName}
 										</Link>
@@ -82,7 +94,7 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 						</li>
 					))
 				) : (
-					<li className="px-4 text-sm text-gray-500 italic">None found</li>
+					<li className="px-4 text-sm text-neutral-500 italic">None found</li>
 				)}
 			</ul>
 		</BaseSidebar>
@@ -110,7 +122,7 @@ function BaseSidebar({
 	return (
 		<nav
 			className={cn(
-				'shrink-0 border-r border-gray-200 bg-neutral-50 py-4 dark:bg-neutral-900',
+				'shrink-0 border-r border-neutral-200 bg-neutral-50 py-4 dark:bg-neutral-900',
 				className,
 			)}
 			{...props}
