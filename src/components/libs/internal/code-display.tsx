@@ -28,6 +28,8 @@ export function CodeDisplay({
 							borderRadius: '4px',
 							padding: '1em',
 							margin: '0', // Remove margin from highlighter
+							maxHeight: '500px',
+							overflow: 'auto',
 						}}
 					>
 						{children}

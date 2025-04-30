@@ -45,11 +45,13 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 				<Input
 					placeholder="Filter components..."
 					value={filterText}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						setFilterText(e.target.value)
+					}
 					className="w-full"
 				/>
 			</div>
-			
+
 			<ul className="space-y-4">
 				{displayedLibs?.length > 0 ? (
 					displayedLibs.map((lib) => (
@@ -122,7 +124,7 @@ function BaseSidebar({
 	return (
 		<nav
 			className={cn(
-				'shrink-0 border-r border-neutral-200 bg-neutral-50 py-4 dark:bg-neutral-900',
+				'shrink-0 border-r border-neutral-200 bg-neutral-50 py-4 shadow dark:border-neutral-700 dark:bg-neutral-900',
 				className,
 			)}
 			{...props}
