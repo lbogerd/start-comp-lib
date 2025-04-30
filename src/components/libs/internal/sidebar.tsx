@@ -4,14 +4,14 @@ import {
 	ComponentProps,
 	HTMLAttributes,
 	useEffect,
-	useState,
 	useRef,
+	useState,
 } from 'react'
 import { cn } from '~/logic/client/cn'
+import { useHotkey } from '~/logic/client/use-hotkey'
 import { Registry } from '~/logic/shared/types'
 import { useDebounce } from '~/logic/shared/use-debounce'
 import { Input } from './input'
-import { useHotkey } from '~/logic/client/use-hotkey'
 
 type SidebarProps = {
 	libs: {
@@ -82,7 +82,7 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 									exact: false,
 								}}
 								activeProps={{
-									className: '!text-indigo-600 dark:!text-indigo-400',
+									className: 'text-indigo-600 dark:text-indigo-400',
 								}}
 							>
 								{lib.name}

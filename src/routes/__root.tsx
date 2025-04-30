@@ -80,7 +80,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="flex min-h-dvh w-dvh min-w-dvw overflow-x-hidden overscroll-none bg-white text-neutral-900 dark:bg-neutral-700 dark:text-neutral-100">
+			<body className="flex min-h-dvh w-dvh min-w-dvw overflow-x-hidden overscroll-none bg-white text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">
 				<Suspense fallback={<SidebarSkeleton className="w-48" />}>
 					<Sidebar
 						className="w-48"
