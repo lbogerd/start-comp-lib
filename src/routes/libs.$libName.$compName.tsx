@@ -38,31 +38,29 @@ function RouteComponent() {
 	}, [params.libName, params.compName])
 
 	return (
-		<div className="w-full p-4">
-			<div className="mx-auto max-w-2xl">
-				<h1 className="pl-2 text-2xl font-bold">{params.compName}</h1>
-				<p className="pb-4 pl-2 text-neutral-500 dark:text-neutral-300">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in
-					imperdiet lacus. Cras lacinia, ligula sed mollis mattis, metus turpis
-					pretium turpis, id porta orci lorem ac lorem.
-				</p>
+		<div className="mx-auto max-w-2xl">
+			<h1 className="pl-2 text-2xl font-bold">{params.compName}</h1>
+			<p className="pb-4 pl-2 text-neutral-500 dark:text-neutral-300">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in imperdiet
+				lacus. Cras lacinia, ligula sed mollis mattis, metus turpis pretium
+				turpis, id porta orci lorem ac lorem.
+			</p>
 
-				<h3 className="pb-2 pl-2 text-lg font-bold">Preview</h3>
-				<div
-					id="component-container"
-					className="flex min-h-96 w-full flex-col rounded-lg border border-neutral-200 bg-neutral-50 p-4 pb-4 dark:border-neutral-700 dark:bg-neutral-900"
-				>
-					{Cmp && !isLoading ? (
-						Cmp.map((Cmp, index) => <Cmp key={index} />)
-					) : (
-						<Loader2 className="m-auto size-10 animate-spin text-neutral-500 dark:text-neutral-400" />
-					)}
-				</div>
-
-				<CodeDisplay>{data.sourceCode}</CodeDisplay>
-
-				<CodeDisplay title="Docs">{data.docs}</CodeDisplay>
+			<h3 className="pb-2 pl-2 text-lg font-bold">Preview</h3>
+			<div
+				id="component-container"
+				className="flex min-h-96 w-full flex-col rounded-lg border border-neutral-200 bg-neutral-50 p-4 pb-4 dark:border-neutral-700 dark:bg-neutral-900"
+			>
+				{Cmp && !isLoading ? (
+					Cmp.map((Cmp, index) => <Cmp key={index} />)
+				) : (
+					<Loader2 className="m-auto size-10 animate-spin text-neutral-500 dark:text-neutral-400" />
+				)}
 			</div>
+
+			<CodeDisplay>{data.sourceCode}</CodeDisplay>
+
+			<CodeDisplay title="Docs">{data.docs}</CodeDisplay>
 		</div>
 	)
 }

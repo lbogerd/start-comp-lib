@@ -91,7 +91,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					/>
 				</Suspense>
 
-				{children}
+				<div className="w-full p-4">{children}</div>
 
 				<TanStackRouterDevtools position="bottom-right" />
 				<Scripts />
