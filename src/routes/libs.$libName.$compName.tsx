@@ -5,6 +5,7 @@ import { getComp } from '~/logic/server/comps'
 
 import { Loader2 } from 'lucide-react'
 import { CodeDisplay } from '~/components/libs/internal/code-display'
+import { ErrorBoundary } from '~/components/internal/error-boundary'
 
 export const Route = createFileRoute('/libs/$libName/$compName')({
 	loader: async ({ params: { libName, compName } }) => {
@@ -23,7 +24,9 @@ function RouteComponent() {
 	useEffect(() => {
 		setIsLoading(true)
 
-		import(`../components/libs/${params.libName}/${params.compName}.tsx`)
+		import(
+			`../components/libs/${decodeURIComponent(params.libName)}/${decodeURIComponent(params.compName)}.tsx`
+		)
 			.then((mod) => {
 				setCmp(() => {
 					return Object.keys(mod).map((key) => mod[key])
@@ -52,7 +55,11 @@ function RouteComponent() {
 				className="flex min-h-96 w-full flex-col rounded-lg border border-neutral-200 bg-neutral-50 p-4 pb-4 dark:border-neutral-700 dark:bg-neutral-900"
 			>
 				{Cmp && !isLoading ? (
-					Cmp.map((Cmp, index) => <Cmp key={index} />)
+					Cmp.map((Cmp, index) => (
+						<ErrorBoundary key={index} fallback={null}>
+							<Cmp />
+						</ErrorBoundary>
+					))
 				) : (
 					<Loader2 className="m-auto size-10 animate-spin text-neutral-500 dark:text-neutral-400" />
 				)}
