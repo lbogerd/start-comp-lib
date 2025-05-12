@@ -10,6 +10,7 @@
 		"shad:add": "pnpm dlx shadcn@latest add",
 		"precommit": "pnpx prettier . --write",
 		"lib:build:tilburg": "echo '@import \"tailwindcss\" source(none); @source \"./src/components/libs/tilburg\";' | pnpx @tailwindcss/cli --input - --output ./dist/tilburg/tilburg.css",
+		"lib:versions:tilburg": "node --experimental-strip-types scripts/versions.ts",
 		"prepare": "husky"
 	},
 	"dependencies": {
@@ -23,6 +24,7 @@
 		"@tanstack/react-router-devtools": "^1.116.0",
 		"@tanstack/react-start": "^1.116.1",
 		"clsx": "2.1.1",
+		"ejs": "3.1.10",
 		"lucide-react": "0.501.0",
 		"react": "^19.0.0",
 		"react-docgen-typescript": "2.2.2",
@@ -32,10 +34,12 @@
 		"tailwind-merge": "3.2.0",
 		"tailwindcss": "4.1.4",
 		"tinyglobby": "0.2.13",
+		"ts-morph": "25.0.1",
 		"vinxi": "0.5.3",
 		"zod": "4.0.0-beta.20250420T053007"
 	},
 	"devDependencies": {
+		"@tailwindcss/cli": "4.1.4",
 		"@types/node": "^22.5.4",
 		"@types/react": "^19.0.8",
 		"@types/react-dom": "^19.0.3",
@@ -43,7 +47,6 @@
 		"husky": "9.1.7",
 		"prettier": "3.5.3",
 		"prettier-plugin-tailwindcss": "0.6.11",
-		"@tailwindcss/cli": "4.1.4",
 		"tsdown": "0.10.2",
 		"tsup": "8.4.0",
 		"typescript": "^5.7.2",

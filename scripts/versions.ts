@@ -5,6 +5,7 @@
 import fs from 'fs/promises'
 import { createRequire } from 'module'
 import path from 'path'
+import { Project } from 'ts-morph'
 import { fileURLToPath } from 'url'
 
 const require = createRequire(import.meta.url)
@@ -113,8 +114,8 @@ async function getPackageVersion(packageName: string): Promise<string> {
  * Scans the internal components directory to find and report external dependencies.
  *
  * This function:
- * 1. Reads all TypeScript/JavaScript files in the internal components directory
- * 2. Parses each file to extract import statements using regex
+ * 1. Reads all TypeScript/JavaScript files in the internal components directory using ts-morph
+ * 2. Parses each file to extract import statements using ts-morph
  * 3. Identifies external dependencies (excluding React and internal imports)
  * 4. Retrieves and displays the version of each external dependency
  *
@@ -130,45 +131,47 @@ async function findExternalDependencies(): Promise<void> {
 		'../src/components/libs/internal',
 	) // Use absolute path
 
+	const project = new Project() // Create a new ts-morph project
+	project.addSourceFilesAtPaths(`${componentsDir}/**/*.{ts,tsx,js,jsx}`) // Add source files
+
 	try {
-		const files = await fs.readdir(componentsDir)
-		const tsxFiles = files.filter((file) => /\.(tsx?|jsx?)$/.test(file))
+		const sourceFiles = project.getSourceFiles()
 
-		for (const file of tsxFiles) {
-			const filePath = path.join(componentsDir, file)
-			const content = await fs.readFile(filePath, 'utf8')
+		for (const sourceFile of sourceFiles) {
+			const filePath = sourceFile.getFilePath()
+			const file = path.basename(filePath) // Get the file name for logging
 
-			const importRegex =
-				/import\s+(?:(?:{[^}]*}|\*\s+as\s+\w+|\w+)\s+from\s+)?['"]((?:@[^/'"\s]+\/)?[^/'"\s.]+[^/'"\s]*)['"]/g
-			const imports = new Set()
-			let match
+			const imports = new Set<string>() // Use Set<string> for type safety
 
-			while ((match = importRegex.exec(content)) !== null) {
-				const fullPackageName = match[1]
+			sourceFile.getImportDeclarations().forEach((importDeclaration) => {
+				const moduleSpecifier = importDeclaration
+					.getModuleSpecifierValue()
+					.replace(/^['"]|['"]$/g, '') // Remove surrounding quotes if any
+
 				// Skip React and internal paths (starting with ~ or .)
 				if (
-					fullPackageName !== 'react' &&
-					!fullPackageName.startsWith('~') &&
-					!fullPackageName.startsWith('@/') &&
-					!fullPackageName.startsWith('.')
+					moduleSpecifier !== 'react' &&
+					!moduleSpecifier.startsWith('~') &&
+					!moduleSpecifier.startsWith('@/') &&
+					!moduleSpecifier.startsWith('.')
 				) {
-					// Use the full package name, including scope
-					imports.add(fullPackageName)
+					imports.add(moduleSpecifier)
 				}
-			}
+			})
 
 			const uniqueImports = [...imports]
 
 			if (uniqueImports.length > 0) {
-				console.log(`\nFile: ${file}`)
+				console.log(`File: ${file}`)
 				console.log('External dependencies:')
 
 				for (const packageName of uniqueImports) {
-					const version = await getPackageVersion(packageName as string)
+					// No need to cast to string, as it's already string
+					const version = await getPackageVersion(packageName)
 					console.log(`  - ${packageName}: ${version}`)
 				}
 			} else {
-				console.log(`\nFile: ${file}`)
+				console.log(`File: ${file}`)
 				console.log('No external dependencies found.')
 			}
 		}
