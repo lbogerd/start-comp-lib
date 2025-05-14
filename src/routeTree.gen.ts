@@ -21,12 +21,11 @@ import { Route as UsersIndexImport } from './routes/users.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
-import { Route as LibsLibNameImport } from './routes/libs.$libName'
 import { Route as PathlessLayoutNestedLayoutImport } from './routes/_pathlessLayout/_nested-layout'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
-import { Route as LibsLibNameCompNameImport } from './routes/libs.$libName.$compName'
 import { Route as PathlessLayoutNestedLayoutRouteBImport } from './routes/_pathlessLayout/_nested-layout/route-b'
 import { Route as PathlessLayoutNestedLayoutRouteAImport } from './routes/_pathlessLayout/_nested-layout/route-a'
+import { Route as LibsLibNameCompTypeCompNameImport } from './routes/libs.$libName.$compType.$compName'
 
 // Create/Update Routes
 
@@ -89,12 +88,6 @@ const PostsPostIdRoute = PostsPostIdImport.update({
   getParentRoute: () => PostsRouteRoute,
 } as any)
 
-const LibsLibNameRoute = LibsLibNameImport.update({
-  id: '/libs/$libName',
-  path: '/libs/$libName',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const PathlessLayoutNestedLayoutRoute = PathlessLayoutNestedLayoutImport.update(
   {
     id: '/_nested-layout',
@@ -106,12 +99,6 @@ const PostsPostIdDeepRoute = PostsPostIdDeepImport.update({
   id: '/posts_/$postId/deep',
   path: '/posts/$postId/deep',
   getParentRoute: () => rootRoute,
-} as any)
-
-const LibsLibNameCompNameRoute = LibsLibNameCompNameImport.update({
-  id: '/$compName',
-  path: '/$compName',
-  getParentRoute: () => LibsLibNameRoute,
 } as any)
 
 const PathlessLayoutNestedLayoutRouteBRoute =
@@ -126,6 +113,13 @@ const PathlessLayoutNestedLayoutRouteARoute =
     id: '/route-a',
     path: '/route-a',
     getParentRoute: () => PathlessLayoutNestedLayoutRoute,
+  } as any)
+
+const LibsLibNameCompTypeCompNameRoute =
+  LibsLibNameCompTypeCompNameImport.update({
+    id: '/libs/$libName/$compType/$compName',
+    path: '/libs/$libName/$compType/$compName',
+    getParentRoute: () => rootRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -181,13 +175,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PathlessLayoutNestedLayoutImport
       parentRoute: typeof PathlessLayoutImport
     }
-    '/libs/$libName': {
-      id: '/libs/$libName'
-      path: '/libs/$libName'
-      fullPath: '/libs/$libName'
-      preLoaderRoute: typeof LibsLibNameImport
-      parentRoute: typeof rootRoute
-    }
     '/posts/$postId': {
       id: '/posts/$postId'
       path: '/$postId'
@@ -230,18 +217,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PathlessLayoutNestedLayoutRouteBImport
       parentRoute: typeof PathlessLayoutNestedLayoutImport
     }
-    '/libs/$libName/$compName': {
-      id: '/libs/$libName/$compName'
-      path: '/$compName'
-      fullPath: '/libs/$libName/$compName'
-      preLoaderRoute: typeof LibsLibNameCompNameImport
-      parentRoute: typeof LibsLibNameImport
-    }
     '/posts_/$postId/deep': {
       id: '/posts_/$postId/deep'
       path: '/posts/$postId/deep'
       fullPath: '/posts/$postId/deep'
       preLoaderRoute: typeof PostsPostIdDeepImport
+      parentRoute: typeof rootRoute
+    }
+    '/libs/$libName/$compType/$compName': {
+      id: '/libs/$libName/$compType/$compName'
+      path: '/libs/$libName/$compType/$compName'
+      fullPath: '/libs/$libName/$compType/$compName'
+      preLoaderRoute: typeof LibsLibNameCompTypeCompNameImport
       parentRoute: typeof rootRoute
     }
   }
@@ -307,18 +294,6 @@ const PathlessLayoutRouteWithChildren = PathlessLayoutRoute._addFileChildren(
   PathlessLayoutRouteChildren,
 )
 
-interface LibsLibNameRouteChildren {
-  LibsLibNameCompNameRoute: typeof LibsLibNameCompNameRoute
-}
-
-const LibsLibNameRouteChildren: LibsLibNameRouteChildren = {
-  LibsLibNameCompNameRoute: LibsLibNameCompNameRoute,
-}
-
-const LibsLibNameRouteWithChildren = LibsLibNameRoute._addFileChildren(
-  LibsLibNameRouteChildren,
-)
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/posts': typeof PostsRouteRouteWithChildren
@@ -326,15 +301,14 @@ export interface FileRoutesByFullPath {
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
-  '/libs/$libName': typeof LibsLibNameRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
-  '/libs/$libName/$compName': typeof LibsLibNameCompNameRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
+  '/libs/$libName/$compType/$compName': typeof LibsLibNameCompTypeCompNameRoute
 }
 
 export interface FileRoutesByTo {
@@ -342,15 +316,14 @@ export interface FileRoutesByTo {
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
-  '/libs/$libName': typeof LibsLibNameRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts': typeof PostsIndexRoute
   '/users': typeof UsersIndexRoute
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
-  '/libs/$libName/$compName': typeof LibsLibNameCompNameRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
+  '/libs/$libName/$compType/$compName': typeof LibsLibNameCompTypeCompNameRoute
 }
 
 export interface FileRoutesById {
@@ -362,15 +335,14 @@ export interface FileRoutesById {
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
-  '/libs/$libName': typeof LibsLibNameRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
   '/_pathlessLayout/_nested-layout/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/_pathlessLayout/_nested-layout/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
-  '/libs/$libName/$compName': typeof LibsLibNameCompNameRoute
   '/posts_/$postId/deep': typeof PostsPostIdDeepRoute
+  '/libs/$libName/$compType/$compName': typeof LibsLibNameCompTypeCompNameRoute
 }
 
 export interface FileRouteTypes {
@@ -382,30 +354,28 @@ export interface FileRouteTypes {
     | ''
     | '/deferred'
     | '/redirect'
-    | '/libs/$libName'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts/'
     | '/users/'
     | '/route-a'
     | '/route-b'
-    | '/libs/$libName/$compName'
     | '/posts/$postId/deep'
+    | '/libs/$libName/$compType/$compName'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | ''
     | '/deferred'
     | '/redirect'
-    | '/libs/$libName'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts'
     | '/users'
     | '/route-a'
     | '/route-b'
-    | '/libs/$libName/$compName'
     | '/posts/$postId/deep'
+    | '/libs/$libName/$compType/$compName'
   id:
     | '__root__'
     | '/'
@@ -415,15 +385,14 @@ export interface FileRouteTypes {
     | '/deferred'
     | '/redirect'
     | '/_pathlessLayout/_nested-layout'
-    | '/libs/$libName'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts/'
     | '/users/'
     | '/_pathlessLayout/_nested-layout/route-a'
     | '/_pathlessLayout/_nested-layout/route-b'
-    | '/libs/$libName/$compName'
     | '/posts_/$postId/deep'
+    | '/libs/$libName/$compType/$compName'
   fileRoutesById: FileRoutesById
 }
 
@@ -434,8 +403,8 @@ export interface RootRouteChildren {
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
   DeferredRoute: typeof DeferredRoute
   RedirectRoute: typeof RedirectRoute
-  LibsLibNameRoute: typeof LibsLibNameRouteWithChildren
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
+  LibsLibNameCompTypeCompNameRoute: typeof LibsLibNameCompTypeCompNameRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -445,8 +414,8 @@ const rootRouteChildren: RootRouteChildren = {
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
   DeferredRoute: DeferredRoute,
   RedirectRoute: RedirectRoute,
-  LibsLibNameRoute: LibsLibNameRouteWithChildren,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
+  LibsLibNameCompTypeCompNameRoute: LibsLibNameCompTypeCompNameRoute,
 }
 
 export const routeTree = rootRoute
@@ -465,8 +434,8 @@ export const routeTree = rootRoute
         "/_pathlessLayout",
         "/deferred",
         "/redirect",
-        "/libs/$libName",
-        "/posts_/$postId/deep"
+        "/posts_/$postId/deep",
+        "/libs/$libName/$compType/$compName"
       ]
     },
     "/": {
@@ -506,12 +475,6 @@ export const routeTree = rootRoute
         "/_pathlessLayout/_nested-layout/route-b"
       ]
     },
-    "/libs/$libName": {
-      "filePath": "libs.$libName.tsx",
-      "children": [
-        "/libs/$libName/$compName"
-      ]
-    },
     "/posts/$postId": {
       "filePath": "posts.$postId.tsx",
       "parent": "/posts"
@@ -536,12 +499,11 @@ export const routeTree = rootRoute
       "filePath": "_pathlessLayout/_nested-layout/route-b.tsx",
       "parent": "/_pathlessLayout/_nested-layout"
     },
-    "/libs/$libName/$compName": {
-      "filePath": "libs.$libName.$compName.tsx",
-      "parent": "/libs/$libName"
-    },
     "/posts_/$postId/deep": {
       "filePath": "posts_.$postId.deep.tsx"
+    },
+    "/libs/$libName/$compType/$compName": {
+      "filePath": "libs.$libName.$compType.$compName.tsx"
     }
   }
 }

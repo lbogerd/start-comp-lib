@@ -3,7 +3,7 @@
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { ChevronDownIcon } from 'lucide-react'
 import * as React from 'react'
-import { cn } from '~/logic/client/cn'
+import { cn } from '~/logic/shared/cn'
 
 function Accordion({
 	...props
@@ -62,4 +62,17 @@ function AccordionContent({
 	)
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger }
+function Example() {
+	return (
+		<Accordion type="single" collapsible>
+			<AccordionItem value="item-1">
+				<AccordionTrigger>Example</AccordionTrigger>
+				<AccordionContent>
+					<p>Example</p>
+				</AccordionContent>
+			</AccordionItem>
+		</Accordion>
+	)
+}
+
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Example }

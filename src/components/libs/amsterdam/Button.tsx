@@ -1,5 +1,5 @@
 import React from 'react'
-import { cn } from '~/logic/client/cn'
+import { cn } from '~/logic/shared/cn'
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 

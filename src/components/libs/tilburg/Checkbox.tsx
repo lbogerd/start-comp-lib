@@ -3,8 +3,8 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { Check } from 'lucide-react'
 
-import { cn } from '../../../logic/client/cn'
 import { ComponentProps } from 'react'
+import { cn } from '../../../logic/shared/cn'
 
 const Checkbox = ({
 	className,

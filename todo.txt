@@ -1,0 +1,10 @@
+[x] better file > registry item logic
+-[x] get by lib
+--[x] move the libs folder
+--[x] move logic to own file
+-[x] conversion, pt1
+--[x] item name
+--[x] item path
+--[x] item type | based on path and containing folder: [type]/[name].[extension]
+--[x] item 'homepage' | based on item path
+--[x] item dependencies | based on import statements

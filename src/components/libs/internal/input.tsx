@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react'
-import { cn } from '~/logic/client/cn'
+import { cn } from '~/logic/shared/cn'
 
 export function Input({
 	className,

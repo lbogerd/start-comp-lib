@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react'
 import { getComp } from '~/logic/server/comps'
 
 import { Loader2 } from 'lucide-react'
+import { ErrorBoundary } from '~/components/internal/error-boundary'
 import { CodeDisplay } from '~/components/libs/internal/code-display'
 
-export const Route = createFileRoute('/libs/$libName/$compName')({
-	loader: async ({ params: { libName, compName } }) => {
-		return await getComp({ data: `${libName}/${compName}.tsx` })
+export const Route = createFileRoute('/libs/$libName/$compType/$compName')({
+	loader: async ({ params: { libName, compType, compName } }) => {
+		return await getComp({
+			data: `${decodeURIComponent(libName)}/${decodeURIComponent(compType)}/${decodeURIComponent(compName)}.tsx`,
+		})
 	},
 	component: RouteComponent,
 })
@@ -23,7 +26,9 @@ function RouteComponent() {
 	useEffect(() => {
 		setIsLoading(true)
 
-		import(`../components/libs/${params.libName}/${params.compName}.tsx`)
+		import(
+			`../libs/${decodeURIComponent(params.libName)}/${decodeURIComponent(params.compType)}/${decodeURIComponent(params.compName)}.tsx`
+		)
 			.then((mod) => {
 				setCmp(() => {
 					return Object.keys(mod).map((key) => mod[key])
@@ -51,8 +56,12 @@ function RouteComponent() {
 				id="component-container"
 				className="flex min-h-96 w-full flex-col rounded-lg border border-neutral-200 bg-neutral-50 p-4 pb-4 dark:border-neutral-700 dark:bg-neutral-900"
 			>
-				{Cmp && !isLoading ? (
-					Cmp.map((Cmp, index) => <Cmp key={index} />)
+				{Cmp?.length && Cmp.length > 0 && !isLoading ? (
+					Cmp.map((Cmp, index) => (
+						<ErrorBoundary key={index} fallback={null}>
+							<Cmp />
+						</ErrorBoundary>
+					))
 				) : (
 					<Loader2 className="m-auto size-10 animate-spin text-neutral-500 dark:text-neutral-400" />
 				)}
