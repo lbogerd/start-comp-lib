@@ -7,8 +7,8 @@ import {
 	useRef,
 	useState,
 } from 'react'
-import { cn } from '~/logic/client/cn'
 import { useHotkey } from '~/logic/client/use-hotkey'
+import { cn } from '~/logic/shared/cn'
 import { Registry } from '~/logic/shared/types'
 import { useDebounce } from '~/logic/shared/use-debounce'
 import { Input } from './input'
@@ -96,8 +96,12 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 									>
 										<ChevronRight className="mt-0.5 ml-3 size-4 shrink-0 opacity-0 group-hover:text-indigo-600 group-hover:opacity-100 dark:group-hover:text-indigo-400" />
 										<Link
-											to={`/libs/$libName/$compName`}
-											params={{ libName: lib.name, compName: itemName }}
+											to={`/libs/$libName/$compType/$compName`}
+											params={{
+												libName: lib.name,
+												compType: 'ui',
+												compName: itemName,
+											}}
 											className="block grow text-sm text-neutral-700 transition group-hover:text-indigo-600 dark:text-neutral-300 dark:group-hover:text-indigo-400"
 											activeOptions={{
 												exact: true,

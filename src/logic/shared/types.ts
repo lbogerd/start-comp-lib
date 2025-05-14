@@ -15,6 +15,7 @@ export const FileTypeEnum = z.enum([
 ])
 
 export const ItemTypeEnum = z.union([FileTypeEnum, z.literal('registry:style')])
+export type ItemType = z.infer<typeof ItemTypeEnum>
 
 /* ------------------------------------------------------------- */
 /* 2. File schema (discriminated on `type`)                       */
