@@ -1,6 +1,13 @@
+import { readFile } from 'fs/promises'
 import { glob } from 'tinyglobby'
 import { removeExtension } from '~/logic/shared/files'
-import { ItemType, ItemTypeEnum, Registry } from '~/logic/shared/types'
+import {
+	ItemType,
+	ItemTypeEnum,
+	Registry,
+	RegistryItem,
+} from '~/logic/shared/types'
+import { getItemDependencies } from './getItemDependencies'
 
 export const getLibs = async (): Promise<Registry[]> => {
 	// get the name of all folders in the libs directory
@@ -45,19 +52,75 @@ export const getLibs = async (): Promise<Registry[]> => {
 
 			const sortedLibItems = libItems.sort((a, b) => a.localeCompare(b))
 
+			const dependencies = new Set<string>()
+			const devDependencies = new Set<string>()
+			const registryDependencies = new Set<string>()
+
+			// loop through each item and get the dependencies
+			for (const item of sortedLibItems) {
+				const {
+					externalPackages,
+					devDependencies: itemDevDependencies,
+					internalImports,
+				} = await getItemDependencies(
+					`src/libs/${lib}/${itemType}/${item}`,
+					true,
+				)
+
+				for (const pkg of externalPackages) {
+					dependencies.add(pkg)
+				}
+				for (const dev of itemDevDependencies) {
+					devDependencies.add(dev)
+				}
+				for (const imp of internalImports) {
+					registryDependencies.add(imp)
+				}
+			}
+
 			registry.push({
 				name: lib.slice(0, -1),
 				homepage: `http://localhost:3000/libs/${lib}`,
-				items: sortedLibItems.map((item) => {
-					return {
-						name: removeExtension(item),
-						// we can safely cast here because we checked the itemType
-						type: registryItemType as ItemType,
-					}
-				}),
+				items: await Promise.all(
+					sortedLibItems.map(async (item) => {
+						const registryItem: RegistryItem = {
+							name: removeExtension(item),
+							// we can safely cast here because we checked the itemType
+							type: registryItemType as ItemType,
+
+							// TODO: remove or implement
+							description: '',
+							title: '',
+							author: '',
+
+							dependencies: [...dependencies],
+							devDependencies: [...devDependencies],
+							registryDependencies: [...registryDependencies],
+
+							files: [
+								{
+									path: `libs/${lib}/${itemType}/${item}`,
+									type: registryItemType as ItemType,
+									content: await readFile(
+										`src/libs/${lib}/${itemType}/${item}`,
+										'utf-8',
+									),
+								},
+							],
+						}
+
+						return registryItem
+					}),
+				),
 			})
 		}
 	}
 
-	return registry.sort((a, b) => a.name.localeCompare(b.name))
+	// sort by item type and then by name
+	return registry.sort((a, b) => {
+		if (a.items[0].type === b.items[0].type) {
+			return a.name.localeCompare(b.name)
+		}
+		return a.items[0].type.localeCompare(b.items[0].type)
+	})
 }

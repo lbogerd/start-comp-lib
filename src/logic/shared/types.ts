@@ -20,35 +20,23 @@ export type ItemType = z.infer<typeof ItemTypeEnum>
 /* ------------------------------------------------------------- */
 /* 2. File schema (discriminated on `type`)                       */
 /* ------------------------------------------------------------- */
-const FileBaseSchema = z.object({
+const FileSchema = z.object({
 	path: z.string(),
 	content: z.string(),
-	type: FileTypeEnum,
+	type: ItemTypeEnum,
 	target: z.string().optional(), // added conditionally below
 })
-
-const PageOrFile = z.union([
-	z.literal('registry:page'),
-	z.literal('registry:file'),
-])
-
-export const FileSchema = FileBaseSchema.superRefine((file, ctx) => {
-	if (PageOrFile.safeParse(file.type).success && !file.target) {
-		ctx.addIssue({
-			code: 'custom',
-			message:
-				"`target` is required when file.type is 'registry:page' or 'registry:file'",
-			path: ['target'],
-		})
-	}
-})
-
-export type File = z.infer<typeof FileSchema>
 
 /* ------------------------------------------------------------- */
 /* 3. Shared "base" for every registry item                       */
 /* ------------------------------------------------------------- */
 const BaseItemSchema = z.object({
+	/* static */
+	$schema: z
+		.literal('https://ui.shadcn.com/schema/registry-item.json')
+		.default('https://ui.shadcn.com/schema/registry-item.json')
+		.optional(),
+
 	/* required */
 	name: z.string(),
 	type: ItemTypeEnum,
