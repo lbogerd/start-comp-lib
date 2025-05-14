@@ -54,7 +54,7 @@ function RouteComponent() {
 			<h3 className="pb-2 pl-2 text-lg font-bold">Preview</h3>
 			<div
 				id="component-container"
-				className="flex min-h-96 w-full flex-col rounded-lg border border-neutral-200 bg-neutral-50 p-4 pb-4 dark:border-neutral-700 dark:bg-neutral-900"
+				className="flex min-h-96 w-full max-w-full resize flex-col overflow-auto rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-900"
 			>
 				{Cmp?.length && Cmp.length > 0 && !isLoading ? (
 					Cmp.map((Cmp, index) => (
