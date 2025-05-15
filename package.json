@@ -11,7 +11,8 @@
 		"precommit": "pnpx prettier . --write",
 		"lib:build:tilburg": "echo '@import \"tailwindcss\" source(none); @source \"./src/components/libs/tilburg\";' | pnpx @tailwindcss/cli --input - --output ./dist/tilburg/tilburg.css",
 		"lib:versions:tilburg": "node --experimental-strip-types scripts/versions.ts",
-		"prepare": "husky"
+		"prepare": "husky",
+		"props": "node --experimental-strip-types scripts/props.ts"
 	},
 	"dependencies": {
 		"@radix-ui/react-accordion": "1.2.7",
