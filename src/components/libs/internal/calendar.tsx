@@ -10,7 +10,7 @@ interface CalendarProps {
 	initialEndDate?: Date | null
 }
 
-const Calendar: React.FC<CalendarProps> = ({
+export const Calendar: React.FC<CalendarProps> = ({
 	onDateRangeChange,
 	initialStartDate = null,
 	initialEndDate = null,
@@ -362,5 +362,3 @@ const Calendar: React.FC<CalendarProps> = ({
 		</div>
 	)
 }
-
-export default Calendar
