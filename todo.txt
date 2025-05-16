@@ -1,0 +1,29 @@
+[ ] dynamically generate form fields | based on the component props
+-[ ] simple types
+--[ ] string | input
+--[ ] number | input type="number"
+--[ ] boolean | checkbox
+--[ ] date | input type="date"
+--[ ] read default values where applicable
+--[ ] generate form fields for each type
+--[ ] add tests for each type
+-[ ] enum type
+--[ ] loop through the enum values
+--[ ] generate select field with the enum values as options
+--[ ] add tests for each enum type
+-[ ] object type
+--[ ] loop through the object props
+--[ ] generate form fields for each simple type | re-use the simple type form generation from above
+--[ ] recurse for nested objects
+--[ ] add tests for object type
+-[ ] array type
+--[ ] loop through the array items
+--[ ] generate form fields for all types | will have to recurse for objects
+--[ ] add tests for array types
+-[ ] all other types explicitly unhandled
+--[ ] show warning and textarea 
+--[ ] add tests for unhandled types
+[ ] hook up form fields to form | do it live, no submit button
+-[ ] update form state on value change
+-[ ] update component props on form state change
+-[ ] add tests for form state updates
