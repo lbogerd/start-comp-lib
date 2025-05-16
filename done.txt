@@ -1,3 +1,15 @@
+# 2025-05-16T12:18:33.446Z
+[x] better file > registry item logic
+-[x] get by lib
+-[x] conversion, pt1
+--[x] move the libs folder
+--[x] move logic to own file
+--[x] item name
+--[x] item path
+--[x] item type | based on path and containing folder: [type]/[name].[extension]
+--[x] item 'homepage' | based on item path
+--[x] item dependencies | based on import statements
+
 _[x] show code below preview
 # 4/30/2025, 11:27:37 AM
 _[x] component preview card/window-thingy
