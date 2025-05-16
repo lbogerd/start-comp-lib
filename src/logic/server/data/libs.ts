@@ -33,12 +33,15 @@ export const getLibs = async (): Promise<Registry[]> => {
 		})
 
 		for (const itemType of itemTypes) {
-			const registryItemType = `registry:${itemType}`
+			const itemTypeParse = await ItemTypeEnum.safeParseAsync(
+				`registry:${itemType}`,
+			)
 
-			// check if the registryItemType exists in the ItemTypeEnum
-			if (!ItemTypeEnum.safeParse(registryItemType).success) {
-				throw new Error(`Invalid item type: ${registryItemType}`)
+			// check if the itemType exists in the ItemTypeEnum
+			if (!itemTypeParse.success) {
+				throw new Error(`Invalid item type: ${itemTypeParse.error}`)
 			}
+			const registryItemType = itemTypeParse.data
 
 			const libItems = await glob('**/*.{js,ts,jsx,tsx}', {
 				// we dont use registryItemType here as that would include
