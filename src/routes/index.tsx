@@ -1,5 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { getLibsServerFn } from '../logic/server/server-functions/libs'
+import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/')({
 	component: Home,
 })
