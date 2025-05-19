@@ -25,20 +25,53 @@ export async function getItemDependencies(
 	const internalImports = new Set<string>()
 
 	// Process imports in the file
-	sourceFile.getImportDeclarations().forEach((importDeclaration) => {
+	sourceFile.getImportDeclarations().forEach(async (importDeclaration) => {
 		const moduleSpecifier = importDeclaration
 			.getModuleSpecifierValue()
 			.replace(/^['"]|['"]$/g, '')
 
-		// Categorize imports
-		if (
-			!moduleSpecifier.startsWith('~') &&
-			!moduleSpecifier.startsWith('@/') &&
-			!moduleSpecifier.startsWith('.')
-		) {
-			externalPackages.add(moduleSpecifier)
-		} else {
+		// Dynamically categorize imports based on tsconfig paths
+		const tsconfigPath = path.join(findProjectRoot(filePath), 'tsconfig.json')
+		let tsconfigPaths: Record<string, string[]> = {}
+
+		try {
+			const tsconfigContent = await fs.readFile(tsconfigPath, 'utf8')
+			const tsconfig = JSON.parse(tsconfigContent)
+			tsconfigPaths =
+				(tsconfig.compilerOptions && tsconfig.compilerOptions.paths) || {}
+		} catch {
+			// If tsconfig can't be read, fallback to default behavior
+		}
+
+		/**
+		 * Determines if the given `moduleSpecifier` refers to an internal module.
+		 *
+		 * A module is considered internal if:
+		 * - It is a relative import (starts with '.').
+		 * - It matches any alias defined in `tsconfigPaths`, either exactly or as a prefix.
+		 *
+		 * @returns `true` if the module is internal, otherwise `false`.
+		 */
+		const isInternal = (() => {
+			if (moduleSpecifier.startsWith('.')) return true
+			for (const alias in tsconfigPaths) {
+				// Remove trailing /* for matching
+				const aliasPrefix = alias.replace(/\/\*$/, '')
+				if (
+					aliasPrefix &&
+					(moduleSpecifier === aliasPrefix ||
+						moduleSpecifier.startsWith(aliasPrefix + '/'))
+				) {
+					return true
+				}
+			}
+			return false
+		})()
+
+		if (isInternal) {
 			internalImports.add(moduleSpecifier)
+		} else {
+			externalPackages.add(moduleSpecifier)
 		}
 	})
 
@@ -118,7 +151,10 @@ function findProjectRoot(startPath: string): string {
 /**
  * Gets the version of a specified npm package
  */
-async function getPackageVersion(packageName: string): Promise<string> {
+async function getPackageVersion(
+	packageName: string,
+	maxDepth = 10,
+): Promise<string> {
 	try {
 		// Resolve the main entry point of the package
 		const entryPoint = require.resolve(packageName, {
@@ -129,8 +165,12 @@ async function getPackageVersion(packageName: string): Promise<string> {
 		let currentDir = path.dirname(entryPoint)
 		let packageJsonPath
 
-		while (currentDir !== '/') {
+		let depth = 0
+		while (currentDir !== '/' && depth < maxDepth) {
+			depth++
+
 			const potentialPath = path.join(currentDir, 'package.json')
+
 			try {
 				await fs.access(potentialPath)
 				// Read the package.json to check if it's the right one

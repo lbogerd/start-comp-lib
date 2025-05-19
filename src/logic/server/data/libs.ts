@@ -7,7 +7,7 @@ import {
 	Registry,
 	RegistryItem,
 } from '~/logic/shared/types'
-import { getItemDependencies } from './getItemDependencies'
+import { getItemDependencies } from './dependencies'
 
 export const getLibs = async (): Promise<Registry[]> => {
 	// get the name of all folders in the libs directory
