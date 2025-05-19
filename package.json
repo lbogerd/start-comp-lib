@@ -11,8 +11,7 @@
 		"precommit": "pnpx prettier . --write",
 		"lib:build:ny": "echo '@import \"tailwindcss\" source(none); @source \"./src/libs/new-york\";' | pnpx @tailwindcss/cli --input - --output ./dist/libs/new-york/main.css",
 		"lib:versions:ny": "node --experimental-strip-types scripts/versions.ts",
-		"prepare": "husky",
-		"props": "node --experimental-strip-types scripts/props.ts "
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@radix-ui/react-accordion": "1.2.7",
