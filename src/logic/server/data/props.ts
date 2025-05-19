@@ -4,6 +4,7 @@ import {
 	FunctionExpression,
 	Project,
 	SourceFile,
+	Type as TsType,
 	VariableDeclaration,
 } from 'ts-morph'
 import ts from 'typescript'
@@ -67,12 +68,13 @@ export function getFunctionDeclaration(
 
 export function extractParamTypes(
 	fnDecl: FunctionDeclaration | ArrowFunction | FunctionExpression,
+	depth = 3,
 ): Props[] {
 	const params = fnDecl.getParameters()
 
 	return params.map((p) => {
 		const type = p.getType()
-		if (type.isObject()) {
+		if (type.isObject() && depth > 0) {
 			const properties = type.getProperties()
 			const propsArray: Props[] = properties.map((prop) => {
 				// HACK: return { name: style, type: 'string' } for style prop
@@ -86,9 +88,10 @@ export function extractParamTypes(
 				const propType = prop.getDeclarations()[0].getType()
 				return {
 					name: prop.getName(),
-					type: propType.isObject()
-						? extractObjectProps(propType)
-						: propType.getText(),
+					type:
+						propType.isObject() && depth > 1
+							? extractObjectProps(propType, depth - 1)
+							: propType.getText(),
 				}
 			})
 			return {
@@ -103,16 +106,18 @@ export function extractParamTypes(
 	})
 }
 
-// Helper to recursively extract object properties
-function extractObjectProps(type: import('ts-morph').Type): Props[] {
+// Helper to recursively extract object properties with depth
+function extractObjectProps(type: TsType, depth: number): Props[] {
+	if (depth <= 0) return []
 	const properties = type.getProperties()
 	return properties.map((prop) => {
 		const propType = prop.getDeclarations()[0].getType()
 		return {
 			name: prop.getName(),
-			type: propType.isObject()
-				? extractObjectProps(propType)
-				: propType.getText(),
+			type:
+				propType.isObject() && depth > 1
+					? extractObjectProps(propType, depth - 1)
+					: propType.getText(),
 		}
 	})
 }
