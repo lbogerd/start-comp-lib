@@ -10,7 +10,7 @@ import {
 import { useHotkey } from '~/logic/client/use-hotkey'
 import { cn } from '~/logic/shared/cn'
 import { Registry } from '~/logic/shared/types'
-import { useDebounce } from '~/logic/shared/use-debounce'
+import { useDebounce } from '~/logic/client/use-debounce'
 import { Input } from './input'
 
 type SidebarProps = {
@@ -74,7 +74,7 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 				{displayedLibs?.length > 0 ? (
 					displayedLibs.map((lib) => (
 						<li key={lib.name}>
-							<Link
+							{/* <Link
 								to={`/libs/$libName`}
 								params={{ libName: lib.name }}
 								className="block px-4 text-lg font-semibold text-indigo-600 transition-all hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-500"
@@ -84,9 +84,9 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 								activeProps={{
 									className: 'text-indigo-600 dark:text-indigo-400',
 								}}
-							>
-								{lib.name}
-							</Link>
+							> */}
+							{lib.name}
+							{/* </Link> */}
 
 							<ul className="mt-1 space-y-1">
 								{lib.itemNames.map((itemName) => (
