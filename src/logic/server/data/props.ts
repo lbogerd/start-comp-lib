@@ -10,7 +10,7 @@ import ts from 'typescript'
 
 export type Props = {
 	name: string
-	type: string
+	type: string | Props[]
 }
 
 export function getReactProps(
@@ -67,30 +67,52 @@ export function getFunctionDeclaration(
 
 export function extractParamTypes(
 	fnDecl: FunctionDeclaration | ArrowFunction | FunctionExpression,
-) {
+): Props[] {
 	const params = fnDecl.getParameters()
 
 	return params.map((p) => {
 		const type = p.getType()
 		if (type.isObject()) {
 			const properties = type.getProperties()
-			const propertiesText = properties
-				.map(
-					(prop) =>
-						`${prop.getName()}: ${prop
-							.getDeclarations()[0]
-							.getType()
-							.getText()}`,
-				)
-				.join(', ')
+			const propsArray: Props[] = properties.map((prop) => {
+				// HACK: return { name: style, type: 'string' } for style prop
+				if (prop.getName() === 'style') {
+					return {
+						name: prop.getName(),
+						type: 'string',
+					}
+				}
+
+				const propType = prop.getDeclarations()[0].getType()
+				return {
+					name: prop.getName(),
+					type: propType.isObject()
+						? extractObjectProps(propType)
+						: propType.getText(),
+				}
+			})
 			return {
 				name: p.getName(),
-				type: `{ ${propertiesText} }`,
+				type: propsArray,
 			}
 		}
 		return {
 			name: p.getName(),
 			type: type.getText(),
+		}
+	})
+}
+
+// Helper to recursively extract object properties
+function extractObjectProps(type: import('ts-morph').Type): Props[] {
+	const properties = type.getProperties()
+	return properties.map((prop) => {
+		const propType = prop.getDeclarations()[0].getType()
+		return {
+			name: prop.getName(),
+			type: propType.isObject()
+				? extractObjectProps(propType)
+				: propType.getText(),
 		}
 	})
 }
