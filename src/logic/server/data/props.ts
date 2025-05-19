@@ -2,10 +2,32 @@ import {
 	ArrowFunction,
 	FunctionDeclaration,
 	FunctionExpression,
+	Project,
 	SourceFile,
 	VariableDeclaration,
 } from 'ts-morph'
 import ts from 'typescript'
+
+export type Props = {
+	name: string
+	type: string
+}
+
+export function getReactProps(
+	path: string,
+	componentName: string,
+): Props[] | undefined {
+	const project = new Project()
+	const source = project.addSourceFileAtPath(path)
+
+	const fnDecl = getFunctionDeclaration(source, componentName)
+
+	if (!fnDecl) return undefined
+
+	const paramTypes = extractParamTypes(fnDecl)
+
+	return paramTypes
+}
 
 export function getFunctionDeclaration(
 	source: SourceFile,
@@ -47,6 +69,7 @@ export function extractParamTypes(
 	fnDecl: FunctionDeclaration | ArrowFunction | FunctionExpression,
 ) {
 	const params = fnDecl.getParameters()
+
 	return params.map((p) => {
 		const type = p.getType()
 		if (type.isObject()) {

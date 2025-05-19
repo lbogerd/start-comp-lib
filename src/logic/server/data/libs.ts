@@ -8,6 +8,7 @@ import {
 	RegistryItem,
 } from '~/logic/shared/types'
 import { getItemDependencies } from './dependencies'
+import { getReactProps } from './props'
 
 export const getLibs = async (): Promise<Registry[]> => {
 	// get the name of all folders in the libs directory
@@ -90,6 +91,16 @@ export const getLibs = async (): Promise<Registry[]> => {
 							name: removeExtension(item),
 							// we can safely cast here because we checked the itemType
 							type: registryItemType as ItemType,
+
+							// temporarily used for props
+							docs: JSON.stringify(
+								getReactProps(
+									`src/libs/${lib}/${itemType}/${item}`,
+									removeExtension(item.charAt(0).toUpperCase() + item.slice(1)),
+								),
+								null,
+								2,
+							),
 
 							// TODO: remove or implement
 							description: '',
