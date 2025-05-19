@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { Loader2 } from 'lucide-react'
 import { ErrorBoundary } from '~/components/internal/error-boundary'
-import { CodeDisplay } from '~/components/libs/internal/code-display'
+import { CodeDisplay } from '~/libs/internal/ui/code-display'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 
 export const Route = createFileRoute('/libs/$libName/$compType/$compName')({
