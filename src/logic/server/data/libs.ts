@@ -11,7 +11,7 @@ import { getItemDependencies } from './dependencies'
 import { getReactProps } from './props'
 
 export const getLibs = async (): Promise<Registry[]> => {
-	// get the name of all folders in the libs directory
+	// Get the name of all folders in the libs directory
 	const libs = await glob({
 		cwd: 'src/libs',
 		onlyDirectories: true,
@@ -19,49 +19,46 @@ export const getLibs = async (): Promise<Registry[]> => {
 		expandDirectories: false,
 	})
 
-	// loop through each lib and add the items per item type
+	// Loop through each lib and aggregate **all** items (across all component types)
 	const registry: Registry[] = []
+
 	for (const lib of libs) {
-		const libItemTypes = await glob({
+		// Collect the different component-/item-type folders that exist inside the lib
+		const libItemTypeDirs = await glob({
 			onlyDirectories: true,
 			deep: 1,
 			expandDirectories: false,
 			cwd: `src/libs/${lib}`,
 		})
 
-		const itemTypes = libItemTypes.map((itemType) => {
-			return itemType.slice(0, -1)
-		})
+		const itemTypes = libItemTypeDirs.map((dir) => dir.slice(0, -1)) // remove trailing '/'
+
+		// Prepare a list that will hold every item that belongs to this lib
+		const libItems: RegistryItem[] = []
 
 		for (const itemType of itemTypes) {
+			// Parse the directory name to a valid ItemTypeEnum value (e.g. "ui" -> "registry:ui")
 			const itemTypeParse = await ItemTypeEnum.safeParseAsync(
 				`registry:${itemType}`,
 			)
 
-			// check if the itemType exists in the ItemTypeEnum
 			if (!itemTypeParse.success) {
 				throw new Error(`Invalid item type: ${itemTypeParse.error}`)
 			}
+
 			const registryItemType = itemTypeParse.data
 
-			const libItems = await glob('**/*.{js,ts,jsx,tsx}', {
-				// we dont use registryItemType here as that would include
-				// 'registry:' in the glob pattern
+			// Retrieve all relevant code files for this item type
+			const itemFiles = await glob('**/*.{js,ts,jsx,tsx}', {
 				cwd: `src/libs/${lib}/${itemType}`,
 			})
 
-			if (libItems.length === 0) {
-				continue
-			}
+			if (itemFiles.length === 0) continue
 
-			const sortedLibItems = libItems.sort((a, b) => a.localeCompare(b))
+			const sortedItemFiles = itemFiles.sort((a, b) => a.localeCompare(b))
 
-			const dependencies = new Set<string>()
-			const devDependencies = new Set<string>()
-			const registryDependencies = new Set<string>()
-
-			// loop through each item and get the dependencies
-			for (const item of sortedLibItems) {
+			for (const item of sortedItemFiles) {
+				// Determine dependencies for this specific item
 				const {
 					externalPackages,
 					devDependencies: itemDevDependencies,
@@ -71,70 +68,63 @@ export const getLibs = async (): Promise<Registry[]> => {
 					true,
 				)
 
-				for (const pkg of externalPackages) {
-					dependencies.add(pkg)
-				}
-				for (const dev of itemDevDependencies) {
-					devDependencies.add(dev)
-				}
-				for (const imp of internalImports) {
-					registryDependencies.add(imp)
-				}
-			}
+				const registryItem: RegistryItem = {
+					name: removeExtension(item),
+					type: registryItemType as ItemType,
 
-			registry.push({
-				name: lib.slice(0, -1),
-				homepage: `http://localhost:3000/libs/${lib}`,
-				items: await Promise.all(
-					sortedLibItems.map(async (item) => {
-						const registryItem: RegistryItem = {
-							name: removeExtension(item),
-							// we can safely cast here because we checked the itemType
+					// Props documentation (temporary)
+					docs: JSON.stringify(
+						getReactProps(
+							`src/libs/${lib}/${itemType}/${item}`,
+							removeExtension(item.charAt(0).toUpperCase() + item.slice(1)),
+						),
+						null,
+						2,
+					),
+
+					// TODO: remove or implement these metadata fields later
+					description: '',
+					title: '',
+					author: '',
+
+					dependencies: [...externalPackages],
+					devDependencies: [...itemDevDependencies],
+					registryDependencies: [...internalImports],
+
+					files: [
+						{
+							path: `libs/${lib.slice(0, -1)}/${itemType}/${item}`,
 							type: registryItemType as ItemType,
-
-							// temporarily used for props
-							docs: JSON.stringify(
-								getReactProps(
-									`src/libs/${lib}/${itemType}/${item}`,
-									removeExtension(item.charAt(0).toUpperCase() + item.slice(1)),
-								),
-								null,
-								2,
+							content: await readFile(
+								`src/libs/${lib}/${itemType}/${item}`,
+								'utf-8',
 							),
+						},
+					],
+				}
 
-							// TODO: remove or implement
-							description: '',
-							title: '',
-							author: '',
-
-							dependencies: [...dependencies],
-							devDependencies: [...devDependencies],
-							registryDependencies: [...registryDependencies],
-
-							files: [
-								{
-									path: `libs/${lib.slice(0, -1)}/${itemType}/${item}`,
-									type: registryItemType as ItemType,
-									content: await readFile(
-										`src/libs/${lib}/${itemType}/${item}`,
-										'utf-8',
-									),
-								},
-							],
-						}
-
-						return registryItem
-					}),
-				),
-			})
+				libItems.push(registryItem)
+			}
 		}
+
+		// Skip libs that didn't yield any items (edge-case)
+		if (libItems.length === 0) continue
+
+		// Sort items first by type and then by name for deterministic ordering
+		libItems.sort((a, b) => {
+			if (a.type === b.type) {
+				return a.name.localeCompare(b.name)
+			}
+			return a.type.localeCompare(b.type)
+		})
+
+		registry.push({
+			name: lib.slice(0, -1),
+			homepage: `http://localhost:3000/libs/${lib.slice(0, -1)}`,
+			items: libItems,
+		})
 	}
 
-	// sort by item type and then by name
-	return registry.sort((a, b) => {
-		if (a.items[0].type === b.items[0].type) {
-			return a.name.localeCompare(b.name)
-		}
-		return a.items[0].type.localeCompare(b.items[0].type)
-	})
+	// Sort the final registry list by lib name
+	return registry.sort((a, b) => a.name.localeCompare(b.name))
 }

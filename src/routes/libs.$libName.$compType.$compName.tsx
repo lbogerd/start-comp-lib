@@ -27,7 +27,7 @@ function RouteComponent() {
 		setIsLoading(true)
 
 		import(
-			`../libs/${decodeURIComponent(params.libName)}/${decodeURIComponent(params.compType).slice(0, -1)}/${decodeURIComponent(params.compName)}.tsx`
+			`../libs/${decodeURIComponent(params.libName)}/${decodeURIComponent(params.compType)}/${decodeURIComponent(params.compName)}.tsx`
 		)
 			.then((mod) => {
 				setCmp(() => {
