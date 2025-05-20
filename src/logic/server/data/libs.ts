@@ -113,7 +113,7 @@ export const getLibs = async (): Promise<Registry[]> => {
 
 							files: [
 								{
-									path: `libs/${lib}/${itemType}/${item}`,
+									path: `libs/${lib.slice(0, -1)}/${itemType}/${item}`,
 									type: registryItemType as ItemType,
 									content: await readFile(
 										`src/libs/${lib}/${itemType}/${item}`,

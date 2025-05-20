@@ -7,16 +7,16 @@ import {
 	useRef,
 	useState,
 } from 'react'
+import { useDebounce } from '~/logic/client/use-debounce'
 import { useHotkey } from '~/logic/client/use-hotkey'
 import { cn } from '~/logic/shared/cn'
 import { Registry } from '~/logic/shared/types'
-import { useDebounce } from '~/logic/client/use-debounce'
 import { Input } from './input'
 
 type SidebarProps = {
 	libs: {
 		name: Registry['name']
-		itemNames: Registry['items'][number]['name'][]
+		items: { name: Registry['items'][number]['name']; compType: string }[]
 	}[]
 } & ComponentProps<typeof BaseSidebar>
 
@@ -34,13 +34,13 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 			const filtered = libs
 				.map((lib) => ({
 					...lib,
-					itemNames: lib.itemNames.filter((itemName) =>
-						itemName.toLowerCase().includes(lowerCaseFilter),
+					items: lib.items.filter((item) =>
+						item.name.toLowerCase().includes(lowerCaseFilter),
 					),
 				}))
 				.filter(
 					(lib) =>
-						lib.itemNames.length > 0 ||
+						lib.items.length > 0 ||
 						lib.name.toLowerCase().includes(lowerCaseFilter),
 				)
 			setDisplayedLibs(filtered)
@@ -74,24 +74,11 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 				{displayedLibs?.length > 0 ? (
 					displayedLibs.map((lib) => (
 						<li key={lib.name}>
-							{/* <Link
-								to={`/libs/$libName`}
-								params={{ libName: lib.name }}
-								className="block px-4 text-lg font-semibold text-indigo-600 transition-all hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-500"
-								activeOptions={{
-									exact: false,
-								}}
-								activeProps={{
-									className: 'text-indigo-600 dark:text-indigo-400',
-								}}
-							> */}
 							{lib.name}
-							{/* </Link> */}
-
 							<ul className="mt-1 space-y-1">
-								{lib.itemNames.map((itemName) => (
+								{lib.items.map((item) => (
 									<li
-										key={itemName}
+										key={item.name}
 										className="group flex items-center space-x-2"
 									>
 										<ChevronRight className="mt-0.5 ml-3 size-4 shrink-0 opacity-0 group-hover:text-indigo-600 group-hover:opacity-100 dark:group-hover:text-indigo-400" />
@@ -99,8 +86,8 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 											to={`/libs/$libName/$compType/$compName`}
 											params={{
 												libName: lib.name,
-												compType: 'ui',
-												compName: itemName,
+												compType: item.compType,
+												compName: item.name,
 											}}
 											className="block grow text-sm text-neutral-700 transition group-hover:text-indigo-600 dark:text-neutral-300 dark:group-hover:text-indigo-400"
 											activeOptions={{
@@ -110,7 +97,7 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 												className: '!text-indigo-600 dark:!text-indigo-400',
 											}}
 										>
-											{itemName}
+											{item.name}
 										</Link>
 									</li>
 								))}

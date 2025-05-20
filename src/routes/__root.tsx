@@ -8,8 +8,8 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import * as React from 'react'
 import { Suspense } from 'react'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
-import { Sidebar, SidebarSkeleton } from '~/libs/internal/ui/sidebar'
 import { NotFound } from '~/components/NotFound'
+import { Sidebar, SidebarSkeleton } from '~/libs/internal/ui/sidebar'
 import { seo } from '~/logic/seo'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 import appCss from '~/styles/app.css?url'
@@ -86,7 +86,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						className="w-48"
 						libs={Route.useLoaderData().map((lib) => ({
 							name: lib.name,
-							itemNames: lib.items.map((item) => item.name),
+							items: lib.items.map((item) => ({
+								name: item.name,
+								compType: item.type.replace('registry:', ''),
+							})),
 						}))}
 					/>
 				</Suspense>
