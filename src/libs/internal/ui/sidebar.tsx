@@ -74,7 +74,10 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 				{displayedLibs?.length > 0 ? (
 					displayedLibs.map((lib) => (
 						<li key={lib.name}>
-							{lib.name}
+							<h3 className="ml-4 text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+								{lib.name}
+							</h3>
+
 							<ul className="mt-1 space-y-1">
 								{lib.items.map((item) => (
 									<li
