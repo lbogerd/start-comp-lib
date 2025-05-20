@@ -12,6 +12,7 @@ import { NotFound } from '~/components/NotFound'
 import { Sidebar, SidebarSkeleton } from '~/libs/internal/ui/sidebar'
 import { seo } from '~/logic/seo'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
+import { ItemType } from '~/logic/shared/types'
 import appCss from '~/styles/app.css?url'
 
 export const Route = createRootRoute({
@@ -88,7 +89,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 							name: lib.name,
 							items: lib.items.map((item) => ({
 								name: item.name,
-								compType: item.type.replace('registry:', ''),
+								compType: item.type.replace('registry:', '') as ItemType,
 							})),
 						}))}
 					/>

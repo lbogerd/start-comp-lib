@@ -10,13 +10,13 @@ import {
 import { useDebounce } from '~/logic/client/use-debounce'
 import { useHotkey } from '~/logic/client/use-hotkey'
 import { cn } from '~/logic/shared/cn'
-import { Registry } from '~/logic/shared/types'
+import { ItemType, Registry, RegistryItem } from '~/logic/shared/types'
 import { Input } from './input'
 
 type SidebarProps = {
 	libs: {
 		name: Registry['name']
-		items: { name: Registry['items'][number]['name']; compType: string }[]
+		items: { name: RegistryItem['name']; compType: ItemType }[]
 	}[]
 } & ComponentProps<typeof BaseSidebar>
 
