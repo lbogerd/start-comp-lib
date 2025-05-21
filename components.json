@@ -11,9 +11,9 @@
 		"prefix": ""
 	},
 	"aliases": {
-		"components": "~/components/libs/new-york",
+		"components": "~/libs/new-york",
 		"utils": "~/logic/client/cn",
-		"ui": "~/components/libs/new-york/ui",
+		"ui": "~/libs/new-york/ui",
 		"lib": "~/logic/client",
 		"hooks": "~/logic/client/hooks"
 	},

@@ -31,7 +31,12 @@ function RouteComponent() {
 		)
 			.then((mod) => {
 				setCmp(() => {
-					return Object.keys(mod).map((key) => mod[key])
+					return Object.entries(mod)
+						.filter(
+							([_, value]) =>
+								typeof value === 'function' && /^[A-Z]/.test(value.name),
+						)
+						.map(([_, component]) => component as ComponentType<any>)
 				})
 			})
 			.catch((error) => {
@@ -40,7 +45,7 @@ function RouteComponent() {
 			.finally(() => {
 				setIsLoading(false)
 			})
-	}, [params.libName, params.compName])
+	}, [params.libName, params.compName, params.compType])
 
 	return (
 		data && (

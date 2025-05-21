@@ -11,7 +11,7 @@ import { useDebounce } from '~/logic/client/use-debounce'
 import { useHotkey } from '~/logic/client/use-hotkey'
 import { cn } from '~/logic/shared/cn'
 import { ItemType, Registry, RegistryItem } from '~/logic/shared/types'
-import { Input } from './input'
+import { Input } from '~/libs/new-york/ui/input'
 
 type SidebarProps = {
 	libs: {
@@ -54,6 +54,13 @@ export function Sidebar({ libs, className, ...props }: SidebarProps) {
 		],
 		() => filterInputRef.current?.focus(),
 	)
+
+	// unfocus on 'esc'
+	useHotkey([{ key: 'Escape' }, { key: 'Esc' }], () => {
+		if (document.activeElement === filterInputRef.current) {
+			filterInputRef.current?.blur()
+		}
+	})
 
 	return (
 		<BaseSidebar className={className} {...props}>

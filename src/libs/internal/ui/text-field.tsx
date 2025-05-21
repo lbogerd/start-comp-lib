@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react'
-import { Input } from './input'
+import { Input } from '~/libs/new-york/ui/input'
 
 export function TextField({
 	label,
