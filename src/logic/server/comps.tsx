@@ -1,7 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import fs from 'fs/promises'
 import path from 'path'
-import { docGenParser } from './data/parsers'
 
 export const getComp = createServerFn({ method: 'GET' })
 	.validator((d: string) => d)
@@ -9,10 +8,10 @@ export const getComp = createServerFn({ method: 'GET' })
 		const componentPath = path.join('./src/libs', data)
 
 		const sourceCode = await fs.readFile(componentPath, 'utf8')
-		const docs = docGenParser.parse(componentPath)
+		// const docs = docGenParser.parse(componentPath)
 
 		return {
 			sourceCode,
-			docs: JSON.stringify(docs, null, 2),
+			// docs: JSON.stringify(docs, null, 2),
 		}
 	})

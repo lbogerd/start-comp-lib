@@ -76,9 +76,9 @@ function RouteComponent() {
 					</CodeDisplay>
 				))}
 
-				{data.docs && (
+				{/* {data.docs && (
 					<CodeDisplay title="Documentation">{data.docs}</CodeDisplay>
-				)}
+				)} */}
 			</div>
 		)
 	)
