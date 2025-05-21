@@ -5,7 +5,8 @@ import { createFormHookContexts, useForm } from '@tanstack/react-form'
 const { fieldContext, formContext } = createFormHookContexts()
 
 import { FieldInfo } from './field-info'
-import { Input } from './input'
+import { Input } from '~/libs/new-york/ui/input'
+
 interface FormValues {
 	username: string
 	age: number
