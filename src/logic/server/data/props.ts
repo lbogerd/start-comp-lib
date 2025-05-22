@@ -10,7 +10,7 @@ import {
 import ts from 'typescript'
 
 export type Props = {
-	name: string
+	name?: string
 	type: string | Props[]
 }
 
@@ -220,7 +220,7 @@ function extractObjectProps(
 	if (depth <= 0) return []
 	// If array or tuple, return as string type
 	if (type.isArray() || type.isTuple()) {
-		return [] // Don't recurse into array prototype
+		return [{ type: type.getText() }]
 	}
 	const properties = type.getProperties()
 	return properties.map((prop) => {
