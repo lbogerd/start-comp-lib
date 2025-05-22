@@ -85,12 +85,30 @@ export function extractParamTypes(
 					}
 				}
 
-				const propType = prop.getDeclarations()[0].getType()
+				let propType: TsType | undefined
+				const decls = prop.getDeclarations()
+				if (decls && decls.length > 0 && decls[0]) {
+					propType = decls[0].getType()
+				} else if (typeof prop.getTypeAtLocation === 'function') {
+					try {
+						propType = prop.getTypeAtLocation(p)
+					} catch {
+						propType = undefined
+					}
+				}
+
+				if (!propType) {
+					return {
+						name: prop.getName(),
+						type: 'any',
+					}
+				}
+
 				return {
 					name: prop.getName(),
 					type:
 						propType.isObject() && depth > 1
-							? extractObjectProps(propType, depth - 1)
+							? extractObjectProps(propType, depth - 1, p)
 							: propType.getText(),
 				}
 			})
@@ -107,16 +125,38 @@ export function extractParamTypes(
 }
 
 // Helper to recursively extract object properties with depth
-function extractObjectProps(type: TsType, depth: number): Props[] {
+function extractObjectProps(
+	type: TsType,
+	depth: number,
+	contextNode?: import('ts-morph').Node,
+): Props[] {
 	if (depth <= 0) return []
 	const properties = type.getProperties()
 	return properties.map((prop) => {
-		const propType = prop.getDeclarations()[0].getType()
+		let propType: TsType | undefined
+		const decls = prop.getDeclarations()
+		if (decls && decls.length > 0 && decls[0]) {
+			propType = decls[0].getType()
+		} else if (typeof prop.getTypeAtLocation === 'function' && contextNode) {
+			try {
+				propType = prop.getTypeAtLocation(contextNode)
+			} catch {
+				propType = undefined
+			}
+		}
+
+		if (!propType) {
+			return {
+				name: prop.getName(),
+				type: 'any',
+			}
+		}
+
 		return {
 			name: prop.getName(),
 			type:
 				propType.isObject() && depth > 1
-					? extractObjectProps(propType, depth - 1)
+					? extractObjectProps(propType, depth - 1, contextNode)
 					: propType.getText(),
 		}
 	})

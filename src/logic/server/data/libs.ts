@@ -72,15 +72,15 @@ export const getLibs = async (): Promise<Registry[]> => {
 					name: removeExtension(item),
 					type: registryItemType as ItemType,
 
-					// // Props documentation (temporary)
-					// docs: JSON.stringify(
-					// 	getReactProps(
-					// 		`src/libs/${lib}/${itemType}/${item}`,
-					// 		removeExtension(item.charAt(0).toUpperCase() + item.slice(1)),
-					// 	),
-					// 	null,
-					// 	2,
-					// ),
+					// Props documentation (temporary)
+					docs: JSON.stringify(
+						getReactProps(
+							`src/libs/${lib}/${itemType}/${item}`,
+							removeExtension(item.charAt(0).toUpperCase() + item.slice(1)),
+						),
+						null,
+						2,
+					),
 
 					// TODO: remove or implement these metadata fields later
 					description: '',
