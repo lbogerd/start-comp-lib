@@ -51,15 +51,16 @@ const EnumField = z.object({
 
 /* ---------- recursive object field ------------------------------------ */
 
-const FieldSchema: z.ZodType<any> = z.lazy(() =>
-	z.union([
-		// reference back to itself for recursion
-		TextField,
-		NumberField,
-		BooleanField,
-		EnumField,
-		ObjectField, // defined just below
-	]),
+type Field = {
+	type: 'text' | 'number' | 'boolean' | 'enum' | 'object'
+	required?: boolean
+	default?: string | number | boolean | Record<string, any>
+	values?: (string | number | boolean)[]
+	properties?: Record<string, Field>
+}
+
+const FieldSchema: z.ZodType<Field> = z.lazy(() =>
+	z.union([TextField, NumberField, BooleanField, EnumField, ObjectField]),
 )
 
 const ObjectField = z.object({
@@ -118,7 +119,7 @@ export function DynamicForm({
 									<Input
 										id={key}
 										name={key}
-										defaultValue={field.default ?? ''}
+										defaultValue={field.default?.toString() ?? ''}
 									/>
 								</div>
 							)
@@ -131,7 +132,7 @@ export function DynamicForm({
 										id={key}
 										type="number"
 										name={key}
-										defaultValue={field.default ?? ''}
+										defaultValue={field.default?.toString() ?? ''}
 									/>
 								</div>
 							)
@@ -143,7 +144,7 @@ export function DynamicForm({
 									<Checkbox
 										id={key}
 										name={key}
-										defaultChecked={field.default ?? false}
+										defaultChecked={field.default as boolean}
 									/>
 								</div>
 							)
@@ -152,13 +153,13 @@ export function DynamicForm({
 							return (
 								<div key={key}>
 									{label}
-									<Select name={key} defaultValue={field.default}>
+									<Select name={key} defaultValue={field.default?.toString()}>
 										<SelectTrigger>
 											<SelectValue placeholder={'Select an option'} />
 										</SelectTrigger>
 
 										<SelectContent>
-											{field.values.map((v: any) => (
+											{field.values?.map((v: any) => (
 												<SelectItem key={String(v)} value={String(v)}>
 													{String(v)}
 												</SelectItem>
@@ -172,7 +173,7 @@ export function DynamicForm({
 							return (
 								<fieldset key={key} style={{ marginBottom: 12 }}>
 									<legend>{key}</legend>
-									<DynamicForm asForm={false} schema={field.properties} />
+									<DynamicForm asForm={false} schema={field.properties!} />
 								</fieldset>
 							)
 
@@ -184,7 +185,7 @@ export function DynamicForm({
 									<textarea
 										id={key}
 										name={key}
-										defaultValue={field.default ?? ''}
+										defaultValue={field.default?.toString() ?? ''}
 									/>
 								</div>
 							)
@@ -212,7 +213,7 @@ export function DynamicForm({
 	)
 }
 
-const schema = {
+const schema: FormSchema = {
 	name: { type: 'text', required: true },
 	age: { type: 'number', required: true },
 	isActive: { type: 'boolean', default: true },
