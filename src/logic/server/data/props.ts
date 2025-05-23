@@ -8,16 +8,12 @@ import {
 	VariableDeclaration,
 } from 'ts-morph'
 import ts from 'typescript'
-
-export type Props = {
-	name?: string
-	type: string | Props[]
-}
+import { SimpleProp } from '~/logic/shared/types'
 
 export function getReactProps(
 	path: string,
 	componentName: string,
-): Props[] | undefined {
+): SimpleProp[] | undefined {
 	const project = new Project()
 	const source = project.addSourceFileAtPath(path)
 
@@ -138,7 +134,7 @@ export function getFunctionDeclarationsForFile(
 export function extractParamTypes(
 	fnDecl: FunctionDeclaration | ArrowFunction | FunctionExpression,
 	depth = 3,
-): Props[] {
+): SimpleProp[] {
 	const params = fnDecl.getParameters()
 
 	return params.flatMap((p) => {
@@ -155,7 +151,7 @@ export function extractParamTypes(
 		// Handle destructured object
 		if (type.isObject() && depth > 0) {
 			const properties = type.getProperties()
-			const propsArray: Props[] = properties.map((prop) => {
+			const propsArray: SimpleProp[] = properties.map((prop) => {
 				if (prop.getName() === 'style') {
 					return {
 						name: prop.getName(),
@@ -216,7 +212,7 @@ function extractObjectProps(
 	type: TsType,
 	depth: number,
 	contextNode?: import('ts-morph').Node,
-): Props[] {
+): SimpleProp[] {
 	if (depth <= 0) return []
 	// If array or tuple, return as string type
 	if (type.isArray() || type.isTuple()) {

@@ -7,7 +7,8 @@
 		"dev": "vinxi dev",
 		"build": "vinxi build",
 		"start": "vinxi start",
-		"test": "vitest",
+		"test": "vitest --run",
+		"test:dev": "vitest",
 		"shad:add": "pnpm dlx shadcn@latest add",
 		"lib:build:ny": "echo '@import \"tailwindcss\" source(none); @source \"./src/libs/new-york\";' | pnpx @tailwindcss/cli --input - --output ./dist/libs/new-york/main.css"
 	},

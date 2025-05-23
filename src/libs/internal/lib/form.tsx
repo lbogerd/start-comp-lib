@@ -1,5 +1,4 @@
 import { SelectValue } from '@radix-ui/react-select'
-import { z } from 'zod'
 import { Checkbox } from '~/libs/new-york/ui/checkbox'
 import { Input } from '~/libs/new-york/ui/input'
 import {
@@ -8,84 +7,14 @@ import {
 	SelectItem,
 	SelectTrigger,
 } from '~/libs/new-york/ui/select'
+import { SimplePropsRecord } from '~/logic/shared/types'
 import Button from '../ui/button'
-
-/* ---------- helpers ---------------------------------------------------- */
-
-const Required = z.boolean().optional() // shared “required” flag
-
-/**
- * A mixed-literal value (string | number | boolean).
- * We use this union repeatedly for the enum support.
- */
-const Literal = z.union([z.string(), z.number(), z.boolean()])
-
-/* ---------- leaf fields ------------------------------------------------ */
-
-const TextField = z.object({
-	type: z.literal('text'),
-	required: Required,
-	default: z.string().optional(),
-})
-
-const NumberField = z.object({
-	type: z.literal('number'),
-	required: Required,
-	default: z.number().optional(),
-})
-
-const BooleanField = z.object({
-	type: z.literal('boolean'),
-	required: Required,
-	default: z.boolean().optional(),
-})
-
-/* ---------- enum field ------------------------------------------------- */
-
-const EnumField = z.object({
-	type: z.literal('enum'),
-	required: Required,
-	values: z.array(Literal).min(1), // at least one allowed literal
-	default: Literal.optional(),
-})
-
-/* ---------- recursive object field ------------------------------------ */
-
-type Field = {
-	type: 'text' | 'number' | 'boolean' | 'enum' | 'object'
-	required?: boolean
-	default?: string | number | boolean | Record<string, any>
-	values?: (string | number | boolean)[]
-	properties?: Record<string, Field>
-}
-
-const FieldSchema: z.ZodType<Field> = z.lazy(() =>
-	z.union([TextField, NumberField, BooleanField, EnumField, ObjectField]),
-)
-
-const ObjectField = z.object({
-	type: z.literal('object'),
-	required: Required,
-	properties: z.record(z.string(), FieldSchema), // recursion point
-	default: z.any().optional(), // rarely useful, but allowed
-})
-
-/* ---------- union + top-level schema ---------------------------------- */
-
-export const Field = FieldSchema // handy re-export
-
-export const Schema = z.record(z.string(), Field) // { [fieldName]: Field }
-
-/* ---------- TypeScript types ------------------------------------------ */
-
-export type FieldDesc = z.infer<typeof Field>
-export type FormSchema = z.infer<typeof Schema>
 
 export function DynamicForm({
 	schema,
 	asForm = true,
 }: {
-	schema: FormSchema
+	schema: SimplePropsRecord
 	asForm?: boolean
 }) {
 	const EmptyForm = ({
@@ -213,7 +142,7 @@ export function DynamicForm({
 	)
 }
 
-const schema: FormSchema = {
+const record: SimplePropsRecord = {
 	name: { type: 'text', required: true },
 	age: { type: 'number', required: true },
 	isActive: { type: 'boolean', default: true },
@@ -232,5 +161,5 @@ const schema: FormSchema = {
 }
 
 export function ExampleForm() {
-	return <DynamicForm schema={schema} />
+	return <DynamicForm schema={record} />
 }
