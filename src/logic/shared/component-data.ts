@@ -1,7 +1,7 @@
-import { z } from 'zod'
 import { readdir } from 'fs/promises'
-import { docGenParser } from '../server/data/parsers'
 import { PropItem, PropItemType } from 'react-docgen-typescript'
+import { z } from 'zod'
+import { docGenParser } from '../server/data/parsers'
 export const propTypeSchema = z.enum([
 	'string',
 	'number',
