@@ -1,5 +1,5 @@
 [ ] prep release v0.1
--[ ] remove unused code
+-[x] remove unused code
 -[ ] verify need for all dependencies
 -[ ] update README
 -[ ] update version in package.json
