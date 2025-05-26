@@ -58,6 +58,17 @@ pnpm dev
 
 3. The component will automatically appear in the sidebar and be available for preview
 
+## Changelog
+
+### 0.1.0 (2025-05-26)
+- Initial release of start-comp-lib
+- Component preview system with live rendering
+- Code display with syntax highlighting
+- Sidebar navigation with component discovery and filtering
+- Dark mode support
+- TypeScript integration with full type safety
+- Error boundaries for component safety
+
 ## 📁 Project Structure
 
 ```

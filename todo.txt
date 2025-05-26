@@ -1,10 +1,10 @@
-[ ] prep release v0.1
+[x] prep release v0.1
 -[x] remove unused code
 -[x] verify need for all dependencies
--[ ] update README
--[ ] update version in package.json
--[ ] add release notes/changelog
--[ ] push to website
+-[x] update README
+-[x] update version in package.json
+-[x] add release notes/changelog
+-[x] push to website
 [ ] add kyc-demo items
 -[ ] components
 --[ ] buttons | at least 3 variants
