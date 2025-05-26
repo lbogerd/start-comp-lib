@@ -5,7 +5,7 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from '~/components/libs/new-york/accordion'
+} from '~/libs/new-york/ui/accordion'
 
 export function CodeDisplay({
 	children,

@@ -3,7 +3,7 @@ import type { ComponentType } from 'react'
 import { useEffect, useState } from 'react'
 
 import { Loader2 } from 'lucide-react'
-import { ErrorBoundary } from '~/components/internal/error-boundary'
+import { ErrorBoundary } from '~/components/ComponentErrorBoundary'
 import { CodeDisplay } from '~/libs/internal/ui/code-display'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 
