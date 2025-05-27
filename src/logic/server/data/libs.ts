@@ -1,5 +1,7 @@
 import { readFile } from 'fs/promises'
+import { dirname, join } from 'path'
 import { glob } from 'tinyglobby'
+import { fileURLToPath } from 'url'
 import { removeExtension } from '~/logic/shared/files'
 import {
 	ItemType,
@@ -9,10 +11,15 @@ import {
 } from '~/logic/shared/types'
 import { getItemDependencies } from './dependencies'
 
+// Get the directory of the current file and resolve the libs directory
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const libsDir = join(__dirname, '../../../libs')
+
 export const getLibs = async (): Promise<Registry[]> => {
 	// Get the name of all folders in the libs directory
 	const libs = await glob({
-		cwd: 'src/libs',
+		cwd: libsDir,
 		onlyDirectories: true,
 		deep: 1,
 		expandDirectories: false,
@@ -27,7 +34,7 @@ export const getLibs = async (): Promise<Registry[]> => {
 			onlyDirectories: true,
 			deep: 1,
 			expandDirectories: false,
-			cwd: `src/libs/${lib}`,
+			cwd: join(libsDir, lib),
 		})
 
 		const itemTypes = libItemTypeDirs.map((dir) => dir.slice(0, -1)) // remove trailing '/'
@@ -49,7 +56,7 @@ export const getLibs = async (): Promise<Registry[]> => {
 
 			// Retrieve all relevant code files for this item type
 			const itemFiles = await glob('**/*.{js,ts,jsx,tsx}', {
-				cwd: `src/libs/${lib}/${itemType}`,
+				cwd: join(libsDir, lib, itemType),
 			})
 
 			if (itemFiles.length === 0) continue
@@ -63,7 +70,7 @@ export const getLibs = async (): Promise<Registry[]> => {
 					devDependencies: itemDevDependencies,
 					internalImports,
 				} = await getItemDependencies(
-					`src/libs/${lib}/${itemType}/${item}`,
+					join(libsDir, lib, itemType, item),
 					true,
 				)
 
@@ -96,7 +103,7 @@ export const getLibs = async (): Promise<Registry[]> => {
 							path: `libs/${lib.slice(0, -1)}/${itemType}/${item}`,
 							type: registryItemType as ItemType,
 							content: await readFile(
-								`src/libs/${lib}/${itemType}/${item}`,
+								join(libsDir, lib, itemType, item),
 								'utf-8',
 							),
 						},
