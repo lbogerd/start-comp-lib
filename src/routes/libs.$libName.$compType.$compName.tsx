@@ -7,6 +7,12 @@ import { ErrorBoundary } from '~/components/ComponentErrorBoundary'
 import { CodeDisplay } from '~/libs/internal/ui/code-display'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 
+// Pre-load all component files using Vite's import.meta.glob
+// This ensures all components are included in the production build
+const componentModules = import.meta.glob('../libs/*/*/**.tsx', {
+	eager: false,
+})
+
 export const Route = createFileRoute('/libs/$libName/$compType/$compName')({
 	loader: async ({ params }) => {
 		return (await getLibsServerFn())
@@ -26,15 +32,27 @@ function RouteComponent() {
 	useEffect(() => {
 		setIsLoading(true)
 
-		import(
-			`../libs/${decodeURIComponent(params.libName)}/${decodeURIComponent(params.compType)}/${decodeURIComponent(params.compName)}.tsx`
-		)
+		// Construct the module path
+		const modulePath = `../libs/${decodeURIComponent(params.libName)}/${decodeURIComponent(params.compType)}/${decodeURIComponent(params.compName)}.tsx`
+
+		// Find the matching module in our pre-loaded glob
+		const moduleLoader = componentModules[modulePath]
+
+		if (!moduleLoader) {
+			console.error(`Component module not found: ${modulePath}`)
+			setIsLoading(false)
+			return
+		}
+
+		// Load the component module
+		moduleLoader()
 			.then((mod) => {
 				setCmp(() => {
-					return Object.entries(mod)
+					return Object.entries(mod as Record<string, unknown>)
 						.filter(
 							([_, value]) =>
-								typeof value === 'function' && /^[A-Z]/.test(value.name),
+								typeof value === 'function' &&
+								/^[A-Z]/.test((value as Function).name),
 						)
 						.map(([_, component]) => component as ComponentType<any>)
 				})
