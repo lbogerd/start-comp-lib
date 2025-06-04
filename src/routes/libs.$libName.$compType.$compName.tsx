@@ -10,7 +10,7 @@ import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 // Pre-load all component files using Vite's import.meta.glob
 // This ensures all components are included in the production build
 const componentModules = import.meta.glob('../libs/*/*/**.tsx', {
-	eager: false,
+	eager: true,
 })
 
 export const Route = createFileRoute('/libs/$libName/$compType/$compName')({
@@ -36,33 +36,31 @@ function RouteComponent() {
 		const modulePath = `../libs/${decodeURIComponent(params.libName)}/${decodeURIComponent(params.compType)}/${decodeURIComponent(params.compName)}.tsx`
 
 		// Find the matching module in our pre-loaded glob
-		const moduleLoader = componentModules[modulePath]
+		const mod = componentModules[modulePath]
 
-		if (!moduleLoader) {
+		if (!mod) {
 			console.error(`Component module not found: ${modulePath}`)
 			setIsLoading(false)
 			return
 		}
 
 		// Load the component module
-		moduleLoader()
-			.then((mod) => {
-				setCmp(() => {
-					return Object.entries(mod as Record<string, unknown>)
-						.filter(
-							([_, value]) =>
-								typeof value === 'function' &&
-								/^[A-Z]/.test((value as Function).name),
-						)
-						.map(([_, component]) => component as ComponentType<any>)
-				})
+		try {
+			setCmp(() => {
+				return Object.entries(mod as Record<string, unknown>)
+					.filter(
+						([_, value]) =>
+							typeof value === 'function' &&
+							/^[A-Z]/.test((value as Function).name),
+					)
+					.map(([_, component]) => component as ComponentType<any>)
 			})
-			.catch((error) => {
-				console.error('Failed to load component:', error)
-			})
-			.finally(() => {
-				setIsLoading(false)
-			})
+		} catch (error) {
+			console.error('Failed to process component module:', error)
+			setCmp(null) // Clear components or handle error state
+		} finally {
+			setIsLoading(false)
+		}
 	}, [params.libName, params.compName, params.compType])
 
 	return (
