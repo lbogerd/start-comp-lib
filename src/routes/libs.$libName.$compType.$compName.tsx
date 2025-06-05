@@ -33,30 +33,77 @@ function RouteComponent() {
 		setIsLoading(true)
 
 		// Construct the module path
-		const modulePath = `../libs/${decodeURIComponent(params.libName)}/${decodeURIComponent(params.compType)}/${decodeURIComponent(params.compName)}.tsx`
+		const libName = decodeURIComponent(params.libName)
+		const compType = decodeURIComponent(params.compType)
+		const compName = decodeURIComponent(params.compName)
+		const modulePath = `../libs/${libName}/${compType}/${compName}.tsx`
+
+		console.log(
+			'[ComponentLoader] Attempting to load module for path:',
+			modulePath,
+		)
+		console.log(
+			'[ComponentLoader] Available module keys:',
+			Object.keys(componentModules),
+		)
 
 		// Find the matching module in our pre-loaded glob
 		const mod = componentModules[modulePath]
 
+		console.log(
+			'[ComponentLoader] Module found for path:',
+			mod ? 'Yes' : 'No',
+			mod,
+		)
+
 		if (!mod) {
-			console.error(`Component module not found: ${modulePath}`)
+			console.error(
+				`[ComponentLoader] Component module not found: ${modulePath}`,
+			)
+			// Log available modules if a specific one isn't found, for easier debugging
+			const allModules = Object.keys(componentModules)
+			const likelyMatches = allModules.filter(
+				(m) => m.includes(compName) || m.includes(libName),
+			)
+			console.log(
+				'[ComponentLoader] All available module paths:',
+				allModules.join(', '),
+			)
+			console.log(
+				'[ComponentLoader] Likely matches based on compName/libName:',
+				likelyMatches.join(', '),
+			)
+
 			setIsLoading(false)
 			return
 		}
 
 		// Load the component module
 		try {
-			setCmp(() => {
-				return Object.entries(mod as Record<string, unknown>)
-					.filter(
-						([_, value]) =>
-							typeof value === 'function' &&
-							/^[A-Z]/.test((value as Function).name),
+			const modEntries = Object.entries(mod as Record<string, unknown>)
+			console.log(
+				'[ComponentLoader] Module entries before filtering:',
+				modEntries,
+			)
+
+			const components = modEntries
+				.filter(([key, value]) => {
+					const isFunction = typeof value === 'function'
+					const isCapitalized = /^[A-Z]/.test((value as Function).name || key) // Also check key for anonymous/default exports
+					console.log(
+						`[ComponentLoader] Filtering: Entry [${key}], IsFunction: ${isFunction}, IsCapitalized: ${isCapitalized}, Name: ${(value as Function).name}`,
 					)
-					.map(([_, component]) => component as ComponentType<any>)
-			})
+					return isFunction && isCapitalized
+				})
+				.map(([_, component]) => component as ComponentType<any>)
+
+			console.log('[ComponentLoader] Components extracted:', components)
+			setCmp(() => components)
 		} catch (error) {
-			console.error('Failed to process component module:', error)
+			console.error(
+				'[ComponentLoader] Failed to process component module:',
+				error,
+			)
 			setCmp(null) // Clear components or handle error state
 		} finally {
 			setIsLoading(false)
