@@ -1,16 +1,18 @@
+import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from '@tanstack/react-start/config'
 import tsConfigPaths from 'vite-tsconfig-paths'
-import tailwindcss from '@tailwindcss/vite'
+
 export default defineConfig({
 	tsr: {
 		appDirectory: 'src',
 	},
 	vite: {
 		plugins: [
+			// @ts-expect-error - minor typing errors
 			tsConfigPaths({
 				projects: ['./tsconfig.json'],
 			}),
-			// @ts-ignore - minor typing errors
+			// @ts-expect-error - minor typing errors
 			tailwindcss(),
 		],
 	},
