@@ -6,16 +6,16 @@
 -[x] add release notes/changelog
 -[x] push to website
 [ ] add kyc-demo items
--[ ] components
---[ ] buttons | at least 3 variants
---[ ] tag ui | (✓ verified) and (online) etc
---[ ] avatar
---[ ] achievement stats mini-card | '42 followers (+3 today)'
---[ ] tabs
---[ ] progress bar
---[ ] recent activity feed
+-[x] components
+--[x] buttons | at least 3 variants
+--[x] tag ui | (✓ verified) and (online) etc
+--[x] avatar
+--[x] achievement stats mini-card | '42 followers (+3 today)'
+--[x] tabs
+--[x] progress bar
+--[x] recent activity feed
 -[ ] blocks
 --[ ] top half
 --[ ] bottom half
--[ ] pages
---[ ] kyc demo page
+-[x] pages
+--[x] kyc demo page
