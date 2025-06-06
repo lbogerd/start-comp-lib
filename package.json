@@ -9,6 +9,7 @@
 		"build": "vinxi build",
 		"start": "vinxi start",
 		"nuke": "rm -rf node_modules .output .vinxi && pnpm install",
+		"lint": "prettier --write .",
 		"test": "vitest --run",
 		"test:dev": "vitest",
 		"shad:add": "pnpm dlx shadcn@latest add",
