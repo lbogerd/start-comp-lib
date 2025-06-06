@@ -49,7 +49,7 @@ function RouteComponent() {
 
 	return (
 		data && (
-			<div className="mx-auto max-w-2xl">
+			<div className="mx-auto max-w-6xl">
 				<h1 className="pl-2 text-2xl font-bold">{params.compName}</h1>
 				{data.description && (
 					<p className="pb-4 pl-2 text-neutral-500 dark:text-neutral-300">
