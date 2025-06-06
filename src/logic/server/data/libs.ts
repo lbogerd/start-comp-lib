@@ -9,7 +9,32 @@ import {
 } from '~/logic/shared/types'
 import { getItemDependencies } from './dependencies'
 
-export const getLibs = async (): Promise<Registry[]> => {
+export const getLibFolderss = async (): Promise<string[]> => {
+	return await glob({
+		cwd: 'src/libs',
+		onlyDirectories: true,
+		deep: 1,
+		expandDirectories: false,
+	})
+}
+
+export const getLibComponentTypeFolders = async (lib: string): Promise<string[]> => {
+	return await glob({
+		cwd: `src/libs/${lib}`,
+		onlyDirectories: true,
+		deep: 1,
+	})
+}
+
+export const getLibComponentFiles = async (lib: string, componentType: string): Promise<string[]> => {
+	return await glob({
+		cwd: `src/libs/${lib}/${componentType}`,
+		onlyFiles: true,
+		deep: 1,
+	})
+}
+
+export const getLibsComponents = async (): Promise<Registry[]> => {
 	// Get the name of all folders in the libs directory
 	const libs = await glob({
 		cwd: 'src/libs',
@@ -41,11 +66,8 @@ export const getLibs = async (): Promise<Registry[]> => {
 				`registry:${itemType}`,
 			)
 
-			if (!itemTypeParse.success) {
-				throw new Error(`Invalid item type: ${itemTypeParse.error}`)
-			}
-
-			const registryItemType = itemTypeParse.data
+			// default to "registry:file" if the item type is invalid
+			const registryItemType = itemTypeParse.success ? itemTypeParse.data : 'registry:file'
 
 			// Retrieve all relevant code files for this item type
 			const itemFiles = await glob('**/*.{js,ts,jsx,tsx}', {

@@ -1,8 +1,8 @@
 import { createServerFn } from '@tanstack/react-start'
-import { getLibs } from '../data/libs'
+import { getLibsComponents } from '../data/libs'
 
 export const getLibsServerFn = createServerFn({ method: 'GET' }).handler(
 	async () => {
-		return await getLibs()
+		return await getLibsComponents()
 	},
 )

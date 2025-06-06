@@ -1,14 +1,14 @@
 import {
-	HeadContent,
-	Outlet,
-	Scripts,
-	createRootRoute,
+    HeadContent,
+    Outlet,
+    Scripts,
+    createRootRoute,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import * as React from 'react'
 import { Suspense } from 'react'
-import { DefaultCatchBoundary } from '~/libs/internal/components/default-catch-boundary'
-import { NotFound } from '~/libs/internal/components/not-found'
+import { DefaultCatchBoundary } from '~/libs/internal/component/default-catch-boundary'
+import { NotFound } from '~/libs/internal/component/not-found'
 import { Sidebar, SidebarSkeleton } from '~/libs/internal/ui/sidebar'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 import { seo } from '~/logic/shared/seo'
