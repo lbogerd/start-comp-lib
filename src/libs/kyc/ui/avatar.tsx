@@ -1,11 +1,52 @@
 import React from 'react'
-import { cn } from '~/logic/shared/cn'
+import { tv, type VariantProps } from 'tailwind-variants'
 import { StatusDot } from './badge'
 
-interface AvatarProps {
+const avatarVariants = tv({
+	slots: {
+		container: 'group relative',
+		avatar:
+			'rounded-full bg-gradient-to-br from-orange-400 via-pink-400 to-purple-500 p-1 shadow-2xl transition-all duration-300 group-hover:scale-105',
+		content:
+			'flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-slate-800',
+		image: 'h-full w-full rounded-full object-cover',
+		fallback: '',
+		status: 'absolute',
+	},
+	variants: {
+		size: {
+			sm: {
+				avatar: 'h-12 w-12',
+				fallback: 'text-xl',
+				status: 'right-1 bottom-1 h-4 w-4',
+			},
+			md: {
+				avatar: 'h-20 w-20',
+				fallback: 'text-3xl',
+				status: 'right-1 bottom-1 h-6 w-6',
+			},
+			lg: {
+				avatar: 'h-32 w-32',
+				fallback: 'text-5xl',
+				status: 'right-2 bottom-2 h-6 w-6',
+			},
+			xl: {
+				avatar: 'h-40 w-40',
+				fallback: 'text-6xl',
+				status: 'right-3 bottom-3 h-8 w-8',
+			},
+		},
+	},
+	defaultVariants: {
+		size: 'md',
+	},
+})
+
+export type AvatarVariants = VariantProps<typeof avatarVariants>
+
+interface AvatarProps extends AvatarVariants {
 	src?: string
 	alt?: string
-	size?: 'sm' | 'md' | 'lg' | 'xl'
 	fallback?: string
 	status?: 'online' | 'away' | 'offline'
 	showStatus?: boolean
@@ -15,71 +56,34 @@ interface AvatarProps {
 export const Avatar: React.FC<AvatarProps> = ({
 	src,
 	alt = 'Avatar',
-	size = 'md',
+	size,
 	fallback = '🎮',
 	status = 'online',
 	showStatus = false,
 	className,
 }) => {
-	const sizeClasses = {
-		sm: 'w-12 h-12',
-		md: 'w-20 h-20',
-		lg: 'w-32 h-32',
-		xl: 'w-40 h-40',
-	}
-
-	const fallbackSizeClasses = {
-		sm: 'text-xl',
-		md: 'text-3xl',
-		lg: 'text-5xl',
-		xl: 'text-6xl',
-	}
-
-	const statusPositionClasses = {
-		sm: 'bottom-1 right-1',
-		md: 'bottom-1 right-1',
-		lg: 'bottom-2 right-2',
-		xl: 'bottom-3 right-3',
-	}
-
-	const statusSizeClasses = {
-		sm: 'w-4 h-4',
-		md: 'w-6 h-6',
-		lg: 'w-6 h-6',
-		xl: 'w-8 h-8',
-	}
+	const {
+		container,
+		avatar,
+		content,
+		image,
+		fallback: fallbackSlot,
+		status: statusSlot,
+	} = avatarVariants({ size })
 
 	return (
-		<div className={cn('group relative', className)}>
-			<div
-				className={cn(
-					'rounded-full bg-gradient-to-br from-orange-400 via-pink-400 to-purple-500 p-1 shadow-2xl transition-all duration-300 group-hover:scale-105',
-					sizeClasses[size],
-				)}
-			>
-				<div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-slate-800">
+		<div className={container({ class: className })}>
+			<div className={avatar()}>
+				<div className={content()}>
 					{src ? (
-						<img
-							src={src}
-							alt={alt}
-							className="h-full w-full rounded-full object-cover"
-						/>
+						<img src={src} alt={alt} className={image()} />
 					) : (
-						<div className={fallbackSizeClasses[size]}>{fallback}</div>
+						<div className={fallbackSlot()}>{fallback}</div>
 					)}
 				</div>
 			</div>
 
-			{showStatus && (
-				<StatusDot
-					status={status}
-					className={cn(
-						'absolute',
-						statusPositionClasses[size],
-						statusSizeClasses[size],
-					)}
-				/>
-			)}
+			{showStatus && <StatusDot status={status} className={statusSlot()} />}
 		</div>
 	)
 }

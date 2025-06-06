@@ -1,5 +1,5 @@
 import React from 'react'
-import { cn } from '~/logic/shared/cn'
+import { tv, type VariantProps } from 'tailwind-variants'
 import { Badge } from './badge'
 import { Card } from './card'
 import { ProgressBar } from './progress-bar'
@@ -12,7 +12,21 @@ export interface Achievement {
 	color: string
 }
 
-interface AchievementCardProps {
+const achievementCardVariants = tv({
+	slots: {
+		container: 'p-6',
+		header: 'mb-4 flex items-center justify-between',
+		content: 'flex items-center gap-3',
+		icon: 'text-3xl',
+		name: 'text-lg font-bold text-white',
+	},
+})
+
+export type AchievementCardVariants = VariantProps<
+	typeof achievementCardVariants
+>
+
+interface AchievementCardProps extends AchievementCardVariants {
 	achievement: Achievement
 	className?: string
 }
@@ -21,14 +35,14 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
 	achievement,
 	className,
 }) => {
+	const { container, header, content, icon, name } = achievementCardVariants()
+
 	return (
-		<Card variant="default" className={cn('p-6', className)}>
-			<div className="mb-4 flex items-center justify-between">
-				<div className="flex items-center gap-3">
-					<span className="text-3xl">{achievement.icon}</span>
-					<span className="text-lg font-bold text-white">
-						{achievement.name}
-					</span>
+		<Card variant="default" className={container({ class: className })}>
+			<div className={header()}>
+				<div className={content()}>
+					<span className={icon()}>{achievement.icon}</span>
+					<span className={name()}>{achievement.name}</span>
 				</div>
 				<Badge variant={achievement.rarity}>
 					{achievement.rarity.toUpperCase()}

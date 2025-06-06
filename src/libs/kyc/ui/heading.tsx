@@ -1,9 +1,33 @@
 import React from 'react'
-import { cn } from '~/logic/shared/cn'
+import { tv, type VariantProps } from 'tailwind-variants'
 
-interface HeadingProps {
-	level?: 1 | 2 | 3 | 4 | 5 | 6
-	variant?: 'default' | 'gradient' | 'section'
+const headingVariants = tv({
+	base: 'flex items-center gap-3 font-black text-white',
+	variants: {
+		level: {
+			1: 'text-5xl',
+			2: 'text-2xl',
+			3: 'text-xl',
+			4: 'text-lg',
+			5: 'text-base',
+			6: 'text-sm',
+		},
+		variant: {
+			default: '',
+			gradient:
+				'bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent',
+			section: 'mb-6',
+		},
+	},
+	defaultVariants: {
+		level: 2,
+		variant: 'default',
+	},
+})
+
+export type HeadingVariants = VariantProps<typeof headingVariants>
+
+interface HeadingProps extends HeadingVariants {
 	icon?: string
 	children: React.ReactNode
 	className?: string
@@ -11,36 +35,13 @@ interface HeadingProps {
 
 export const Heading: React.FC<HeadingProps> = ({
 	level = 2,
-	variant = 'default',
+	variant,
 	icon,
 	children,
 	className,
 }) => {
-	const baseClasses = 'font-black text-white flex items-center gap-3'
-
-	const sizeClasses = {
-		1: 'text-5xl',
-		2: 'text-2xl',
-		3: 'text-xl',
-		4: 'text-lg',
-		5: 'text-base',
-		6: 'text-sm',
-	}
-
-	const variantClasses = {
-		default: '',
-		gradient:
-			'bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent',
-		section: 'mb-6',
-	}
-
 	const baseProps = {
-		className: cn(
-			baseClasses,
-			sizeClasses[level],
-			variantClasses[variant],
-			className,
-		),
+		className: headingVariants({ level, variant, class: className }),
 	}
 
 	const content = (

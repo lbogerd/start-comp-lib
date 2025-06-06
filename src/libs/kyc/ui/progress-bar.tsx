@@ -1,7 +1,18 @@
 import React from 'react'
-import { cn } from '~/logic/shared/cn'
+import { tv, type VariantProps } from 'tailwind-variants'
 
-interface ProgressBarProps {
+const progressBarVariants = tv({
+	slots: {
+		container: 'w-full',
+		track: 'mb-2 h-3 w-full rounded-full bg-slate-700',
+		fill: 'h-3 rounded-full bg-gradient-to-r shadow-lg',
+		percentage: 'text-sm font-medium text-slate-400',
+	},
+})
+
+export type ProgressBarVariants = VariantProps<typeof progressBarVariants>
+
+interface ProgressBarProps extends ProgressBarVariants {
 	progress: number
 	color: string
 	className?: string
@@ -14,18 +25,18 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 	className,
 	showPercentage = true,
 }) => {
+	const { container, track, fill, percentage } = progressBarVariants()
+
 	return (
-		<div className={cn('w-full', className)}>
-			<div className="mb-2 h-3 w-full rounded-full bg-slate-700">
+		<div className={container({ class: className })}>
+			<div className={track()}>
 				<div
-					className={cn('h-3 rounded-full bg-gradient-to-r shadow-lg', color)}
+					className={fill({ class: color })}
 					style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
 				/>
 			</div>
 			{showPercentage && (
-				<div className="text-sm font-medium text-slate-400">
-					{progress}% Complete
-				</div>
+				<div className={percentage()}>{progress}% Complete</div>
 			)}
 		</div>
 	)
