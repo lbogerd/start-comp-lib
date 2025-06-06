@@ -5,18 +5,21 @@ A modern component library platform built with **TanStack Start** and **Tailwind
 ## ✨ Features
 
 ### 🎯 Component Preview System
+
 - **Live Component Preview**: Interactive preview of components in a dedicated sandbox environment
 - **Code Display**: View the source code of components with syntax highlighting
 - **Error Boundaries**: Graceful error handling for component rendering issues
 - **Dark Mode Support**: Toggle between light and dark themes
 
 ### 📚 Component Organization
+
 - **Library Structure**: Organize components into different libraries (e.g., `new-york`, `internal`)
 - **Component Types**: Support for different component types (`ui`, `blocks`, `pages`)
 - **Sidebar Navigation**: Easy browsing through available components with filtering
 - **Dynamic Routing**: Clean URLs for each component (`/libs/{library}/{type}/{component}`)
 
 ### 🔧 Developer Experience
+
 - **TypeScript Support**: Full TypeScript integration with type safety
 - **Hot Reload**: Development server with instant updates
 - **Modern Tooling**: Built with Vite, TanStack Start, and modern React patterns
@@ -25,6 +28,7 @@ A modern component library platform built with **TanStack Start** and **Tailwind
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js >= 24.0.0
 - pnpm (recommended package manager)
 
@@ -45,14 +49,16 @@ pnpm dev
 ### Adding Components
 
 1. Create your component in the appropriate library directory:
+
    ```
    src/libs/{library-name}/{component-type}/{component-name}.tsx
    ```
 
 2. Export your component(s) from the file:
+
    ```tsx
    export function MyComponent() {
-     return <div>Hello World</div>
+   	return <div>Hello World</div>
    }
    ```
 
@@ -61,6 +67,7 @@ pnpm dev
 ## Changelog
 
 ### 0.1.0 (2025-05-26)
+
 - Initial release of start-comp-lib
 - Component preview system with live rendering
 - Code display with syntax highlighting
@@ -103,6 +110,7 @@ src/
 ## 🗺 Roadmap
 
 ### ✅ Completed
+
 - [x] Component preview system with live rendering
 - [x] Code display with syntax highlighting
 - [x] Sidebar navigation with component discovery
@@ -111,11 +119,13 @@ src/
 - [x] Error boundaries for component safety
 
 ### 🚧 In Progress
+
 - [ ] Component documentation system
 - [ ] Copy/paste component sharing
 - [ ] Extended registry items (hooks, pages, blocks)
 
 ### 📋 Planned Features
+
 - [ ] Dynamic form generation for component props
 - [ ] shadcn CLI integration with dynamic registry
 - [ ] NPM package publishing with tsdown

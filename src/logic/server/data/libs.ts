@@ -18,7 +18,9 @@ export const getLibFolderss = async (): Promise<string[]> => {
 	})
 }
 
-export const getLibComponentTypeFolders = async (lib: string): Promise<string[]> => {
+export const getLibComponentTypeFolders = async (
+	lib: string,
+): Promise<string[]> => {
 	return await glob({
 		cwd: `src/libs/${lib}`,
 		onlyDirectories: true,
@@ -26,7 +28,10 @@ export const getLibComponentTypeFolders = async (lib: string): Promise<string[]>
 	})
 }
 
-export const getLibComponentFiles = async (lib: string, componentType: string): Promise<string[]> => {
+export const getLibComponentFiles = async (
+	lib: string,
+	componentType: string,
+): Promise<string[]> => {
 	return await glob({
 		cwd: `src/libs/${lib}/${componentType}`,
 		onlyFiles: true,
@@ -67,7 +72,9 @@ export const getLibsComponents = async (): Promise<Registry[]> => {
 			)
 
 			// default to "registry:file" if the item type is invalid
-			const registryItemType = itemTypeParse.success ? itemTypeParse.data : 'registry:file'
+			const registryItemType = itemTypeParse.success
+				? itemTypeParse.data
+				: 'registry:file'
 
 			// Retrieve all relevant code files for this item type
 			const itemFiles = await glob('**/*.{js,ts,jsx,tsx}', {
