@@ -121,45 +121,49 @@ const GameProfile: React.FC<GameProfileProps> = ({
 	]
 
 	return (
-		<div className="mx-auto min-h-dvh max-w-7xl p-4">
+		<div className="mx-auto min-h-dvh max-w-7xl p-4 sm:p-6 lg:p-8">
 			{/* Header with enhanced profile */}
-			<Card variant="gradient" className="mb-6 p-8">
+			<Card variant="gradient" className="mb-6 p-4 sm:p-6 lg:p-8">
 				{/* Background decoration */}
 				<div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5"></div>
 
-				<div className="relative z-10 mb-8 flex items-start justify-between">
+				<div className="relative z-10 mb-4 sm:mb-6 lg:mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
 					{/* Enhanced Profile Picture */}
-					<div className="relative">
-						<Avatar
-							src={profilePicture}
-							size="xl"
-							status={onlineStatus}
-							showStatus={true}
-						/>
-						{/* KYC Star */}
-						<div className="absolute -top-3 -right-3 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 p-2 shadow-lg shadow-blue-400/50">
-							<svg
-								className="h-8 w-8 text-white"
-								fill="currentColor"
-								viewBox="0 0 20 20"
-							>
-								<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-							</svg>
+					<div className="flex justify-center lg:justify-start">
+						<div className="relative">
+							<Avatar
+								src={profilePicture}
+								size="xl"
+								status={onlineStatus}
+								showStatus={true}
+							/>
+							{/* KYC Star */}
+							<div className="absolute -top-3 -right-3 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 p-2 shadow-lg shadow-blue-400/50">
+								<svg
+									className="h-6 w-6 sm:h-8 sm:w-8 text-white"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+								>
+									<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+								</svg>
+							</div>
 						</div>
 					</div>
 
 					{/* Enhanced Username and Stats */}
-					<div className="ml-8 flex-1">
-						<div className="mb-6 flex items-center gap-4">
+					<div className="flex-1 lg:ml-8">
+						<div className="mb-4 sm:mb-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start lg:gap-4">
 							<Heading level={1} variant="gradient">
 								{username}
 							</Heading>
-							{isKYCVerified && <Badge variant="verified">✓ VERIFIED</Badge>}
-							<Badge variant={onlineStatus}>{onlineStatus.toUpperCase()}</Badge>
+							<div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+								{isKYCVerified && <Badge variant="verified">✓ VERIFIED</Badge>}
+								<Badge variant={onlineStatus}>{onlineStatus.toUpperCase()}</Badge>
+							</div>
 						</div>
 
 						{/* Quick Stats Row */}
-						<div className="mb-6 grid grid-cols-4 gap-4">
+						<div className="mb-4 sm:mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
 							{socialStats.map((stat, index) => (
 								<StatCard
 									key={index}
@@ -172,15 +176,15 @@ const GameProfile: React.FC<GameProfileProps> = ({
 						</div>
 
 						{/* Status Message */}
-						<div className="mb-6">
-							<p className="text-xl font-medium text-slate-200 italic">
+						<div className="mb-4 sm:mb-6 text-center lg:text-left">
+							<p className="text-lg sm:text-xl font-medium text-slate-200 italic">
 								"{statusMessage}"
 							</p>
 						</div>
 
 						{/* Player Since */}
-						<div className="text-right">
-							<p className="font-medium text-slate-400">
+						<div className="text-center lg:text-right">
+							<p className="text-sm sm:text-base font-medium text-slate-400">
 								Gaming since {playerSince} • Favorite:{' '}
 								<span className="font-bold text-orange-400">
 									{favoriteGame}
@@ -190,22 +194,25 @@ const GameProfile: React.FC<GameProfileProps> = ({
 					</div>
 
 					{/* Social Actions */}
-					<div className="ml-8 space-y-4">
-						<Button variant="challenge" size="lg" className="w-full">
-							🤝 CHALLENGE
+					<div className="flex flex-row gap-2 sm:gap-4 lg:ml-8 lg:flex-col lg:space-y-4">
+						<Button variant="challenge" size="lg" className="flex-1 lg:w-full">
+							<span className="hidden sm:inline">🤝 CHALLENGE</span>
+							<span className="sm:hidden">🤝</span>
 						</Button>
-						<Button variant="friend" size="lg" className="w-full">
-							👥 ADD FRIEND
+						<Button variant="friend" size="lg" className="flex-1 lg:w-full">
+							<span className="hidden sm:inline">👥 ADD FRIEND</span>
+							<span className="sm:hidden">👥</span>
 						</Button>
-						<Button variant="mute" size="lg" className="w-full">
-							❌ MUTE
+						<Button variant="mute" size="lg" className="flex-1 lg:w-full">
+							<span className="hidden sm:inline">❌ MUTE</span>
+							<span className="sm:hidden">❌</span>
 						</Button>
 					</div>
 				</div>
 			</Card>
 
 			{/* Tabbed Content Section */}
-			<Card variant="gradient" className="p-8">
+			<Card variant="gradient" className="p-4 sm:p-6 lg:p-8">
 				{/* Tab Navigation */}
 				<Tabs
 					tabs={tabs}
@@ -213,12 +220,12 @@ const GameProfile: React.FC<GameProfileProps> = ({
 					onTabChange={(tab) =>
 						setActiveTab(tab as 'achievements' | 'stats' | 'social')
 					}
-					className="mb-8"
+					className="mb-6 sm:mb-8"
 				/>
 
 				{/* Tab Content */}
 				<TabContent value="achievements" activeTab={activeTab}>
-					<div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+					<div className="grid grid-cols-1 gap-6 sm:gap-8 xl:grid-cols-2">
 						{/* Achievements */}
 						<div>
 							<Heading level={3} icon="🏆" variant="section">
@@ -234,22 +241,23 @@ const GameProfile: React.FC<GameProfileProps> = ({
 						</div>
 
 						{/* Leaderboard & Recent Activity */}
-						<div className="space-y-8">
-							<div className="rounded-2xl border-2 border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 p-6 shadow-lg shadow-yellow-400/20">
+						<div className="space-y-6 sm:space-y-8">
+							<div className="rounded-2xl border-2 border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 p-4 sm:p-6 shadow-lg shadow-yellow-400/20">
 								<Heading level={3} icon="🥇" className="mb-4 text-yellow-300">
 									LEADERBOARD POSITION
 								</Heading>
-								<div className="mb-2 text-5xl font-black text-white">
+								<div className="mb-2 text-4xl sm:text-5xl font-black text-white">
 									#{leaderboardRank}
 								</div>
-								<div className="mb-4 text-lg font-bold text-yellow-200">
+								<div className="mb-4 text-base sm:text-lg font-bold text-yellow-200">
 									in {gameMode.toUpperCase()}
 								</div>
 								<Button
 									variant="challenge"
 									className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black hover:from-yellow-500 hover:to-orange-600"
 								>
-									VIEW FULL RANKINGS
+									<span className="hidden sm:inline">VIEW FULL RANKINGS</span>
+									<span className="sm:hidden">VIEW RANKINGS</span>
 								</Button>
 							</div>
 
@@ -270,7 +278,7 @@ const GameProfile: React.FC<GameProfileProps> = ({
 				</TabContent>
 
 				<TabContent value="stats" activeTab={activeTab}>
-					<div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
+					<div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
 						<StatCard
 							value="1,247"
 							label="Games Played"
@@ -299,7 +307,7 @@ const GameProfile: React.FC<GameProfileProps> = ({
 				</TabContent>
 
 				<TabContent value="social" activeTab={activeTab}>
-					<div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+					<div className="grid grid-cols-1 gap-6 sm:gap-8 xl:grid-cols-2">
 						<div>
 							<Heading level={3} icon="👥" variant="section">
 								<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
@@ -312,7 +320,7 @@ const GameProfile: React.FC<GameProfileProps> = ({
 										<Card
 											key={index}
 											variant="glass"
-											className="flex items-center justify-between p-4"
+											className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between"
 										>
 											<div className="flex items-center gap-4">
 												<Avatar
@@ -323,7 +331,7 @@ const GameProfile: React.FC<GameProfileProps> = ({
 												/>
 												<span className="font-bold text-white">{friend}</span>
 											</div>
-											<Button variant="challenge" size="sm">
+											<Button variant="challenge" size="sm" className="w-full sm:w-auto">
 												CHALLENGE
 											</Button>
 										</Card>
@@ -338,7 +346,7 @@ const GameProfile: React.FC<GameProfileProps> = ({
 								</span>
 							</Heading>
 							<div className="space-y-4">
-								<Card variant="default" className="p-6">
+								<Card variant="default" className="p-4 sm:p-6">
 									<div className="mb-2 text-lg font-bold text-white">
 										vs CryptoGamer
 									</div>
