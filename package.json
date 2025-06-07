@@ -8,7 +8,7 @@
 		"dev": "vinxi dev",
 		"build": "vinxi build",
 		"start": "vinxi start",
-		"nuke": "rm -rf node_modules .output .vinxi && pnpm install",
+		"nuke": "rm -rf node_modules .output .vinxi && rm src/routeTree.gen.ts && pnpm install",
 		"lint": "prettier --write .",
 		"test": "vitest --run",
 		"test:dev": "vitest",
