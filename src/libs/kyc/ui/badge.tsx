@@ -2,7 +2,7 @@ import React from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const badgeVariants = tv({
-	base: 'flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold shadow-lg',
+	base: 'flex items-center gap-1 rounded-full px-2 py-1 sm:px-3 sm:py-1 text-xs sm:text-sm font-bold shadow-lg transition-all',
 	variants: {
 		variant: {
 			verified:
@@ -45,7 +45,7 @@ export const Badge: React.FC<BadgeProps> = ({
 }
 
 const statusDotVariants = tv({
-	base: 'h-8 w-8 rounded-full border-4 border-slate-800 shadow-lg',
+	base: 'h-6 w-6 sm:h-8 sm:w-8 rounded-full border-2 sm:border-4 border-slate-800 shadow-lg transition-all',
 	variants: {
 		status: {
 			online: 'bg-green-400 shadow-green-400/50',

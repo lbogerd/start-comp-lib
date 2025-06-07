@@ -2,13 +2,13 @@ import React from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const cardVariants = tv({
-	base: 'rounded-2xl transition-all duration-300',
+	base: 'rounded-2xl transition-all duration-300 touch-manipulation',
 	variants: {
 		variant: {
 			default:
-				'border border-slate-600 bg-slate-800/50 backdrop-blur hover:scale-105',
+				'border border-slate-600 bg-slate-800/50 backdrop-blur hover:scale-105 active:scale-100',
 			glass:
-				'border border-slate-600 bg-slate-800/50 backdrop-blur hover:bg-slate-700/50',
+				'border border-slate-600 bg-slate-800/50 backdrop-blur hover:bg-slate-700/50 active:bg-slate-700/60',
 			gradient:
 				'relative overflow-hidden border-2 border-slate-700 bg-gradient-to-br from-slate-800 to-slate-900 shadow-2xl',
 		},
@@ -38,13 +38,13 @@ export const Card: React.FC<CardProps> = ({
 }
 
 const statCardVariants = tv({
-	base: 'p-4 text-center',
+	base: 'p-3 sm:p-4 text-center',
 	slots: {
-		base: 'p-4 text-center',
-		icon: 'mb-2 text-4xl',
+		base: 'p-3 sm:p-4 text-center',
+		icon: 'mb-1 sm:mb-2 text-2xl sm:text-3xl lg:text-4xl',
 		value:
-			'mb-2 bg-gradient-to-r bg-clip-text text-3xl font-black text-transparent',
-		label: 'text-sm font-medium text-slate-300',
+			'mb-1 sm:mb-2 bg-gradient-to-r bg-clip-text text-2xl sm:text-3xl font-black text-transparent',
+		label: 'text-xs sm:text-sm font-medium text-slate-300',
 		trend: 'text-xs font-bold text-green-400',
 	},
 })

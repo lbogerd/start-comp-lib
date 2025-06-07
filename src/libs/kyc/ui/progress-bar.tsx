@@ -4,9 +4,9 @@ import { tv, type VariantProps } from 'tailwind-variants'
 const progressBarVariants = tv({
 	slots: {
 		container: 'w-full',
-		track: 'mb-2 h-3 w-full rounded-full bg-slate-700',
-		fill: 'h-3 rounded-full bg-gradient-to-r shadow-lg',
-		percentage: 'text-sm font-medium text-slate-400',
+		track: 'mb-2 h-2 sm:h-3 w-full rounded-full bg-slate-700',
+		fill: 'h-2 sm:h-3 rounded-full bg-gradient-to-r shadow-lg transition-all duration-300',
+		percentage: 'text-xs sm:text-sm font-medium text-slate-400',
 	},
 })
 

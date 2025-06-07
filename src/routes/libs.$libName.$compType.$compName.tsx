@@ -2,9 +2,15 @@ import { createFileRoute } from '@tanstack/react-router'
 import type { ComponentType } from 'react'
 import { useEffect, useState } from 'react'
 
-import { Loader2 } from 'lucide-react'
+import { Loader2, Monitor } from 'lucide-react'
 import { ErrorBoundary } from '~/libs/internal/component/component-error-boundary'
 import { CodeDisplay } from '~/libs/internal/ui/code-display'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger
+} from '~/libs/kyc/ui/dropdown-menu'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 
 export const Route = createFileRoute('/libs/$libName/$compType/$compName')({
@@ -22,6 +28,18 @@ function RouteComponent() {
 
 	const [Cmp, setCmp] = useState<ComponentType<any>[] | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
+	const [selectedBreakpoint, setSelectedBreakpoint] = useState<string>('responsive')
+
+	const breakpoints = [
+		{ label: 'Responsive', value: 'responsive', class: 'w-full max-w-full' },
+		{ label: 'Small (640px)', value: 'sm', class: 'w-full max-w-sm mx-auto' },
+		{ label: 'Medium (768px)', value: 'md', class: 'w-full max-w-md mx-auto' },
+		{ label: 'Large (1024px)', value: 'lg', class: 'w-full max-w-lg mx-auto' },
+		{ label: 'XL (1280px)', value: 'xl', class: 'w-full max-w-xl mx-auto' },
+		{ label: '2XL (1536px)', value: '2xl', class: 'w-full max-w-2xl mx-auto' },
+	]
+
+	const currentBreakpoint = breakpoints.find(bp => bp.value === selectedBreakpoint)
 
 	useEffect(() => {
 		setIsLoading(true)
@@ -59,10 +77,29 @@ function RouteComponent() {
 					</p>
 				)}
 
-				<h3 className="pb-2 pl-2 text-lg font-bold">Preview</h3>
+				<div className="flex items-center justify-between pb-2 pl-2">
+					<h3 className="text-lg font-bold">Preview</h3>
+					<DropdownMenu>
+						<DropdownMenuTrigger className="flex items-center gap-2 rounded-lg bg-neutral-100 px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700">
+							<Monitor className="size-4" />
+							{currentBreakpoint?.label}
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							{breakpoints.map((breakpoint) => (
+								<DropdownMenuItem
+									key={breakpoint.value}
+									onClick={() => setSelectedBreakpoint(breakpoint.value)}
+									className={selectedBreakpoint === breakpoint.value ? 'bg-neutral-100 dark:bg-neutral-700' : ''}
+								>
+									{breakpoint.label}
+								</DropdownMenuItem>
+							))}
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 				<div
 					id="component-container"
-					className="flex min-h-96 w-full max-w-full resize flex-col overflow-auto rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-900"
+					className={`flex min-h-96 resize flex-col overflow-auto rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-900 ${currentBreakpoint?.class}`}
 				>
 					{Cmp?.length && Cmp.length > 0 && !isLoading ? (
 						Cmp.map((Cmp, index) => (

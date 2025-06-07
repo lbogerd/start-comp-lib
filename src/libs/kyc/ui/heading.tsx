@@ -2,21 +2,21 @@ import React from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const headingVariants = tv({
-	base: 'flex items-center gap-3 font-black text-white',
+	base: 'flex items-center gap-2 sm:gap-3 font-black text-white',
 	variants: {
 		level: {
-			1: 'text-5xl',
-			2: 'text-2xl',
-			3: 'text-xl',
-			4: 'text-lg',
-			5: 'text-base',
-			6: 'text-sm',
+			1: 'text-3xl sm:text-4xl lg:text-5xl',
+			2: 'text-xl sm:text-2xl',
+			3: 'text-lg sm:text-xl',
+			4: 'text-base sm:text-lg',
+			5: 'text-sm sm:text-base',
+			6: 'text-xs sm:text-sm',
 		},
 		variant: {
 			default: '',
 			gradient:
 				'bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent',
-			section: 'mb-6',
+			section: 'mb-4 sm:mb-6',
 		},
 	},
 	defaultVariants: {

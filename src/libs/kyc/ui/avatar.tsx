@@ -16,24 +16,24 @@ const avatarVariants = tv({
 	variants: {
 		size: {
 			sm: {
-				avatar: 'h-12 w-12',
-				fallback: 'text-xl',
-				status: 'right-1 bottom-1 h-4 w-4',
+				avatar: 'h-10 w-10 sm:h-12 sm:w-12',
+				fallback: 'text-lg sm:text-xl',
+				status: 'right-0.5 bottom-0.5 h-3 w-3 sm:right-1 sm:bottom-1 sm:h-4 sm:w-4',
 			},
 			md: {
-				avatar: 'h-20 w-20',
-				fallback: 'text-3xl',
-				status: 'right-1 bottom-1 h-6 w-6',
+				avatar: 'h-16 w-16 sm:h-20 sm:w-20',
+				fallback: 'text-2xl sm:text-3xl',
+				status: 'right-1 bottom-1 h-5 w-5 sm:h-6 sm:w-6',
 			},
 			lg: {
-				avatar: 'h-32 w-32',
-				fallback: 'text-5xl',
-				status: 'right-2 bottom-2 h-6 w-6',
+				avatar: 'h-24 w-24 sm:h-32 sm:w-32',
+				fallback: 'text-4xl sm:text-5xl',
+				status: 'right-1 bottom-1 h-5 w-5 sm:right-2 sm:bottom-2 sm:h-6 sm:w-6',
 			},
 			xl: {
-				avatar: 'h-40 w-40',
-				fallback: 'text-6xl',
-				status: 'right-3 bottom-3 h-8 w-8',
+				avatar: 'h-32 w-32 sm:h-40 sm:w-40',
+				fallback: 'text-5xl sm:text-6xl',
+				status: 'right-2 bottom-2 h-6 w-6 sm:right-3 sm:bottom-3 sm:h-8 sm:w-8',
 			},
 		},
 	},

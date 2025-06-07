@@ -9,8 +9,8 @@ interface Tab {
 
 const tabsVariants = tv({
 	slots: {
-		container: 'flex space-x-2 rounded-2xl bg-slate-800/50 p-2',
-		tab: 'flex-1 rounded-xl px-6 py-4 text-lg font-bold transition-all',
+		container: 'flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0 rounded-2xl bg-slate-800/50 p-2',
+		tab: 'flex-1 rounded-xl px-3 py-3 sm:px-6 sm:py-4 text-sm sm:text-lg font-bold transition-all touch-manipulation min-h-[3rem]',
 	},
 	variants: {
 		active: {
@@ -18,7 +18,7 @@ const tabsVariants = tv({
 				tab: 'bg-gradient-to-r from-orange-400 to-pink-400 text-white shadow-lg shadow-orange-400/30',
 			},
 			false: {
-				tab: 'text-slate-400 hover:bg-slate-700 hover:text-white',
+				tab: 'text-slate-400 hover:bg-slate-700 hover:text-white active:bg-slate-600',
 			},
 		},
 	},
