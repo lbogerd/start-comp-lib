@@ -9,7 +9,10 @@ import {
 } from '~/logic/shared/types'
 import { getItemDependencies } from './dependencies'
 
-export const getLibFolderss = async (): Promise<string[]> => {
+export const getLibFolders = async (): Promise<string[]> => {
+	console.log(`Finding lib folders...`)
+	console.log(`cwd: ${process.cwd()}`)
+
 	return await glob({
 		cwd: 'src/libs',
 		onlyDirectories: true,
@@ -41,24 +44,14 @@ export const getLibComponentFiles = async (
 
 export const getLibsComponents = async (): Promise<Registry[]> => {
 	// Get the name of all folders in the libs directory
-	const libs = await glob({
-		cwd: 'src/libs',
-		onlyDirectories: true,
-		deep: 1,
-		expandDirectories: false,
-	})
+	const libs = await getLibFolders()
 
 	// Loop through each lib and aggregate **all** items (across all component types)
 	const registry: Registry[] = []
 
 	for (const lib of libs) {
 		// Collect the different component-/item-type folders that exist inside the lib
-		const libItemTypeDirs = await glob({
-			onlyDirectories: true,
-			deep: 1,
-			expandDirectories: false,
-			cwd: `src/libs/${lib}`,
-		})
+		const libItemTypeDirs = await getLibComponentTypeFolders(lib)
 
 		const itemTypes = libItemTypeDirs.map((dir) => dir.slice(0, -1)) // remove trailing '/'
 
@@ -77,9 +70,7 @@ export const getLibsComponents = async (): Promise<Registry[]> => {
 				: 'registry:file'
 
 			// Retrieve all relevant code files for this item type
-			const itemFiles = await glob('**/*.{js,ts,jsx,tsx}', {
-				cwd: `src/libs/${lib}/${itemType}`,
-			})
+			const itemFiles = await getLibComponentFiles(lib, itemType)
 
 			if (itemFiles.length === 0) continue
 
