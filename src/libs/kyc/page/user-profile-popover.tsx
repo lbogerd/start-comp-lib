@@ -55,6 +55,7 @@ const UserProfilePopover: React.FC<UserProfilePopoverProps> = ({
 				size="lg"
 				className="w-80 overflow-hidden border-slate-600 bg-slate-900 p-0"
 				sideOffset={8}
+				align="start"
 			>
 				{/* Header with gradient background */}
 				<div className="relative bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 p-4 pb-2">
@@ -91,42 +92,32 @@ const UserProfilePopover: React.FC<UserProfilePopoverProps> = ({
 								</h3>
 							</div>
 
-							{/* Status badges with better spacing */}
-							<div className="mb-3 flex flex-wrap items-center gap-2">
-								<Badge variant={onlineStatus} className="px-2 py-1 text-xs">
-									{onlineStatus.toUpperCase()}
-								</Badge>
-								{isKYCVerified && (
-									<Badge variant="verified" className="px-2 py-1 text-xs">
-										✓ VERIFIED
-									</Badge>
-								)}
-							</div>
-						</div>
-					</div>
+							{/* Stats */}
+							<div
+								id="stats"
+								className="mt-4 flex flex-col items-center justify-between gap-2 rounded-lg bg-slate-800/40 px-4 py-2 [&>*]:w-full [&>*]:border-b [&>*]:border-slate-700/50 [&>*]:pb-1 [&>*]:last:border-b-0 [&>*]:last:pb-0"
+							>
+								<div className="flex items-center justify-center gap-1">
+									<span className="text-sm text-yellow-400">🏆</span>
+									<span className="text-sm font-semibold text-white">
+										#{leaderboardRank}
+									</span>
+								</div>
 
-					{/* Stats */}
-					<div
-						id="stats"
-						className="mt-4 flex items-center justify-between rounded-lg bg-slate-800/80 px-3 py-2"
-					>
-						<div className="flex items-center gap-1">
-							<span className="text-sm text-yellow-400">🏆</span>
-							<span className="text-sm font-semibold text-white">
-								#{leaderboardRank}
-							</span>
-						</div>
-						<div className="flex items-center gap-1">
-							<span className="text-sm text-green-400">🎯</span>
-							<span className="text-sm font-semibold text-white">
-								{totalWins}W
-							</span>
-						</div>
-						<div className="flex items-center gap-1">
-							<span className="text-sm text-orange-400">🔥</span>
-							<span className="text-sm font-semibold text-white">
-								{winStreak}
-							</span>
+								<div className="flex items-center justify-center gap-1">
+									<span className="text-sm text-green-400">🎯</span>
+									<span className="text-sm font-semibold text-white">
+										{totalWins}W
+									</span>
+								</div>
+
+								<div className="flex items-center justify-center gap-1">
+									<span className="text-sm text-orange-400">🔥</span>
+									<span className="text-sm font-semibold text-white">
+										{winStreak}
+									</span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

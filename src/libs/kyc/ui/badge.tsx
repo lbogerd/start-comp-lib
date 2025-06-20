@@ -2,16 +2,16 @@ import React from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const badgeVariants = tv({
-	base: 'flex items-center gap-1 rounded-full px-2 py-1 sm:px-3 sm:py-1 text-xs sm:text-sm font-bold shadow-lg transition-all',
+	base: 'flex items-center gap-1 rounded-full px-2 py-1 text-xs font-bold shadow-lg transition-all sm:px-3 sm:py-1 sm:text-sm',
 	variants: {
 		variant: {
 			verified:
 				'bg-gradient-to-r from-blue-400 to-cyan-400 text-white shadow-blue-400/30',
 			online:
-				'bg-gradient-to-r from-green-400 to-emerald-400 text-white shadow-green-400/30',
-			away: 'bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-yellow-400/30',
+				'bg-gradient-to-r from-green-400 to-emerald-400 text-white shadow-green-400/10',
+			away: 'bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-yellow-400/10',
 			offline:
-				'bg-gradient-to-r from-gray-400 to-gray-600 text-white shadow-gray-400/30',
+				'bg-gradient-to-r from-gray-400 to-gray-600 text-white shadow-gray-400/10',
 			legendary:
 				'bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500 text-white shadow-yellow-400/30',
 			epic: 'bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 text-white shadow-purple-400/30',
@@ -45,7 +45,7 @@ export const Badge: React.FC<BadgeProps> = ({
 }
 
 const statusDotVariants = tv({
-	base: 'h-6 w-6 sm:h-8 sm:w-8 rounded-full border-2 sm:border-4 border-slate-800 shadow-lg transition-all',
+	base: 'h-6 w-6 rounded-full border-2 border-slate-800 shadow-lg transition-all sm:h-8 sm:w-8 sm:border-4',
 	variants: {
 		status: {
 			online: 'bg-green-400 shadow-green-400/50',
