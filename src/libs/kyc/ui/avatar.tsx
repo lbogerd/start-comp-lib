@@ -18,7 +18,8 @@ const avatarVariants = tv({
 			sm: {
 				avatar: 'h-10 w-10 sm:h-12 sm:w-12',
 				fallback: 'text-lg sm:text-xl',
-				status: 'right-0.5 bottom-0.5 h-3 w-3 sm:right-1 sm:bottom-1 sm:h-4 sm:w-4',
+				status:
+					'right-0.5 bottom-0.5 h-3 w-3 sm:right-1 sm:bottom-1 sm:h-4 sm:w-4',
 			},
 			md: {
 				avatar: 'h-16 w-16 sm:h-20 sm:w-20',

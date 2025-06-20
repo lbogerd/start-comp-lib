@@ -65,5 +65,14 @@ interface StatusDotProps extends StatusDotVariants {
 }
 
 export const StatusDot: React.FC<StatusDotProps> = ({ status, className }) => {
-	return <div className={statusDotVariants({ status, class: className })} />
+	const capitalizedStatus = status
+		? status?.charAt(0).toUpperCase() + status?.slice(1)
+		: undefined
+
+	return (
+		<div
+			className={statusDotVariants({ status, class: className })}
+			title={capitalizedStatus}
+		/>
+	)
 }

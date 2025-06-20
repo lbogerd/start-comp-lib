@@ -11,7 +11,7 @@ interface UserProfilePopoverProps {
 	isKYCVerified?: boolean
 	profilePicture?: string
 	statusMessage?: string
-	playerSince?: string
+	playerSince?: Date
 	leaderboardRank?: number
 	totalWins?: number
 	winStreak?: number
@@ -30,7 +30,7 @@ const UserProfilePopover: React.FC<UserProfilePopoverProps> = ({
 	isKYCVerified = true,
 	profilePicture,
 	statusMessage = 'Ready to dominate the leaderboards! 🎮',
-	playerSince = '2024.01',
+	playerSince = new Date('2024-01-01'),
 	leaderboardRank = 4,
 	totalWins = 127,
 	winStreak = 8,
@@ -53,12 +53,12 @@ const UserProfilePopover: React.FC<UserProfilePopoverProps> = ({
 			<PopoverContent
 				variant="dark"
 				size="lg"
-				className="w-80 overflow-hidden border-slate-600 bg-slate-900 p-0"
+				className="w-80 overflow-hidden border-slate-600/30 bg-slate-900 p-0"
 				sideOffset={8}
 				align="start"
 			>
 				{/* Header with gradient background */}
-				<div className="relative bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 p-4 pb-2">
+				<div className="relative bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 p-4 pt-6">
 					<div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5" />
 
 					{/* Avatar and basic info */}
@@ -72,7 +72,10 @@ const UserProfilePopover: React.FC<UserProfilePopoverProps> = ({
 							/>
 							{/* KYC verification indicator */}
 							{isKYCVerified && (
-								<div className="absolute -top-1 -right-1 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 p-1 shadow-lg">
+								<div
+									className="absolute -top-1 -right-1 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 p-1 shadow-lg"
+									title="Verified"
+								>
 									<svg
 										className="h-3 w-3 text-white"
 										fill="currentColor"
@@ -100,21 +103,28 @@ const UserProfilePopover: React.FC<UserProfilePopoverProps> = ({
 								<div className="flex items-center justify-center gap-1">
 									<span className="text-sm text-yellow-400">🏆</span>
 									<span className="text-sm font-semibold text-white">
-										#{leaderboardRank}
+										#{leaderboardRank}{' '}
+										<span className="my-auto text-xs text-slate-400">
+											ranked
+										</span>
 									</span>
 								</div>
 
 								<div className="flex items-center justify-center gap-1">
 									<span className="text-sm text-green-400">🎯</span>
 									<span className="text-sm font-semibold text-white">
-										{totalWins}W
+										{totalWins}{' '}
+										<span className="my-auto text-xs text-slate-400">wins</span>
 									</span>
 								</div>
 
 								<div className="flex items-center justify-center gap-1">
 									<span className="text-sm text-orange-400">🔥</span>
 									<span className="text-sm font-semibold text-white">
-										{winStreak}
+										{winStreak}{' '}
+										<span className="my-auto text-xs text-slate-400">
+											win streak
+										</span>
 									</span>
 								</div>
 							</div>
@@ -123,7 +133,7 @@ const UserProfilePopover: React.FC<UserProfilePopoverProps> = ({
 				</div>
 
 				{/* Status and game info */}
-				<div className="space-y-3 p-4 pt-2">
+				<div className="space-y-3 p-4 pb-6">
 					{/* Status message */}
 					<div className="text-sm text-slate-300 italic">
 						"{truncatedStatus}"
@@ -131,7 +141,7 @@ const UserProfilePopover: React.FC<UserProfilePopoverProps> = ({
 
 					{/* Game info */}
 					<div className="flex justify-between text-xs text-slate-400">
-						<span>Since {playerSince}</span>
+						<span>Since {playerSince.toLocaleDateString()}</span>
 						<span>
 							Favorite:{' '}
 							<span className="font-medium text-orange-400">
@@ -199,7 +209,7 @@ const UserProfilePopoverExample = () => {
 							winStreak={5}
 							favoriteGame="Crash"
 							statusMessage="Let's see who's the real crash master! 🚀"
-							playerSince="2023.12"
+							playerSince={new Date('2023-12-01')}
 							onChallenge={() => console.log('Challenge clicked')}
 							onAddFriend={() => console.log('Add friend clicked')}
 							onMute={() => console.log('Mute clicked')}
@@ -224,7 +234,7 @@ const UserProfilePopoverExample = () => {
 							winStreak={12}
 							favoriteGame="Towers"
 							statusMessage="Building my way to the top! 🏗️"
-							playerSince="2024.01"
+							playerSince={new Date('2024-01-01')}
 						>
 							<span className="cursor-pointer font-medium text-green-400 hover:text-green-300">
 								@ProPlayer99
@@ -245,7 +255,7 @@ const UserProfilePopoverExample = () => {
 							winStreak={23}
 							favoriteGame="Spin"
 							statusMessage="Luck is just preparation meeting opportunity! 🍀"
-							playerSince="2023.08"
+							playerSince={new Date('2023-08-01')}
 						>
 							<span className="cursor-pointer font-medium text-purple-400 hover:text-purple-300">
 								@LuckyWinner
