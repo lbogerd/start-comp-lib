@@ -77,10 +77,13 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="en" className="font-[Inter]">
 			<head>
 				<HeadContent />
+				<link rel="preconnect" href="https://rsms.me/" />
+				<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 			</head>
+
 			<body className="flex min-h-dvh w-dvh min-w-dvw overflow-x-hidden overscroll-none bg-white text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">
 				<Suspense fallback={<SidebarSkeleton className="w-48" />}>
 					<Sidebar
