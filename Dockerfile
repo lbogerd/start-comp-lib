@@ -75,4 +75,4 @@ EXPOSE 3000
 
 # Command to run the application.
 # This should correspond to the "start" script in your package.json.
-CMD ["pnpm", "start"] 
+CMD ["node", ".output/server/index.mjs"] 
