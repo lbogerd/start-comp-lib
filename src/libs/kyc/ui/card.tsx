@@ -2,7 +2,7 @@ import React from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const cardVariants = tv({
-	base: 'rounded-2xl transition-all duration-300 touch-manipulation',
+	base: 'touch-manipulation rounded-2xl transition-all duration-300',
 	variants: {
 		variant: {
 			default:
@@ -38,13 +38,13 @@ export const Card: React.FC<CardProps> = ({
 }
 
 const statCardVariants = tv({
-	base: 'p-3 sm:p-4 text-center',
+	base: 'p-3 text-center sm:p-4',
 	slots: {
-		base: 'p-3 sm:p-4 text-center',
-		icon: 'mb-1 sm:mb-2 text-2xl sm:text-3xl lg:text-4xl',
+		base: 'p-3 text-center sm:p-4',
+		icon: 'mb-1 text-2xl sm:mb-2 sm:text-3xl lg:text-4xl',
 		value:
-			'mb-1 sm:mb-2 bg-gradient-to-r bg-clip-text text-2xl sm:text-3xl font-black text-transparent',
-		label: 'text-xs sm:text-sm font-medium text-slate-300',
+			'mb-1 bg-gradient-to-r bg-clip-text text-2xl font-black text-transparent sm:mb-2 sm:text-3xl',
+		label: 'text-xs font-medium text-slate-300 sm:text-sm',
 		trend: 'text-xs font-bold text-green-400',
 	},
 })

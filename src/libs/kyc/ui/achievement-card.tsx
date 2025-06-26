@@ -15,10 +15,11 @@ export interface Achievement {
 const achievementCardVariants = tv({
 	slots: {
 		container: 'p-4 sm:p-6',
-		header: 'mb-3 sm:mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between',
+		header:
+			'mb-3 flex flex-col gap-3 sm:mb-4 sm:flex-row sm:items-center sm:justify-between',
 		content: 'flex items-center gap-3',
 		icon: 'text-2xl sm:text-3xl',
-		name: 'text-base sm:text-lg font-bold text-white',
+		name: 'text-base font-bold text-white sm:text-lg',
 	},
 })
 

@@ -9,7 +9,7 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuTrigger
+	DropdownMenuTrigger,
 } from '~/libs/kyc/ui/dropdown-menu'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 
@@ -28,7 +28,8 @@ function RouteComponent() {
 
 	const [Cmp, setCmp] = useState<ComponentType<any>[] | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
-	const [selectedBreakpoint, setSelectedBreakpoint] = useState<string>('responsive')
+	const [selectedBreakpoint, setSelectedBreakpoint] =
+		useState<string>('responsive')
 
 	const breakpoints = [
 		{ label: 'Responsive', value: 'responsive', class: 'w-full max-w-full' },
@@ -39,7 +40,9 @@ function RouteComponent() {
 		{ label: '2XL (1536px)', value: '2xl', class: 'w-full max-w-2xl mx-auto' },
 	]
 
-	const currentBreakpoint = breakpoints.find(bp => bp.value === selectedBreakpoint)
+	const currentBreakpoint = breakpoints.find(
+		(bp) => bp.value === selectedBreakpoint,
+	)
 
 	useEffect(() => {
 		setIsLoading(true)
@@ -89,7 +92,11 @@ function RouteComponent() {
 								<DropdownMenuItem
 									key={breakpoint.value}
 									onClick={() => setSelectedBreakpoint(breakpoint.value)}
-									className={selectedBreakpoint === breakpoint.value ? 'bg-neutral-100 dark:bg-neutral-700' : ''}
+									className={
+										selectedBreakpoint === breakpoint.value
+											? 'bg-neutral-100 dark:bg-neutral-700'
+											: ''
+									}
 								>
 									{breakpoint.label}
 								</DropdownMenuItem>

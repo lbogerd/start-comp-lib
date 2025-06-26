@@ -127,7 +127,7 @@ const GameProfile: React.FC<GameProfileProps> = ({
 				{/* Background decoration */}
 				<div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5"></div>
 
-				<div className="relative z-10 mb-4 sm:mb-6 lg:mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+				<div className="relative z-10 mb-4 flex flex-col gap-6 sm:mb-6 lg:mb-8 lg:flex-row lg:items-start lg:justify-between">
 					{/* Enhanced Profile Picture */}
 					<div className="flex justify-center lg:justify-start">
 						<div className="relative">
@@ -140,7 +140,7 @@ const GameProfile: React.FC<GameProfileProps> = ({
 							{/* KYC Star */}
 							<div className="absolute -top-3 -right-3 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 p-2 shadow-lg shadow-blue-400/50">
 								<svg
-									className="h-6 w-6 sm:h-8 sm:w-8 text-white"
+									className="h-6 w-6 text-white sm:h-8 sm:w-8"
 									fill="currentColor"
 									viewBox="0 0 20 20"
 								>
@@ -152,18 +152,20 @@ const GameProfile: React.FC<GameProfileProps> = ({
 
 					{/* Enhanced Username and Stats */}
 					<div className="flex-1 lg:ml-8">
-						<div className="mb-4 sm:mb-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start lg:gap-4">
+						<div className="mb-4 flex flex-col items-center gap-3 sm:mb-6 sm:flex-row sm:justify-center lg:justify-start lg:gap-4">
 							<Heading level={1} variant="gradient">
 								{username}
 							</Heading>
 							<div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
 								{isKYCVerified && <Badge variant="verified">✓ VERIFIED</Badge>}
-								<Badge variant={onlineStatus}>{onlineStatus.toUpperCase()}</Badge>
+								<Badge variant={onlineStatus}>
+									{onlineStatus.toUpperCase()}
+								</Badge>
 							</div>
 						</div>
 
 						{/* Quick Stats Row */}
-						<div className="mb-4 sm:mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+						<div className="mb-4 grid grid-cols-2 gap-3 sm:mb-6 sm:grid-cols-4 sm:gap-4">
 							{socialStats.map((stat, index) => (
 								<StatCard
 									key={index}
@@ -176,15 +178,15 @@ const GameProfile: React.FC<GameProfileProps> = ({
 						</div>
 
 						{/* Status Message */}
-						<div className="mb-4 sm:mb-6 text-center lg:text-left">
-							<p className="text-lg sm:text-xl font-medium text-slate-200 italic">
+						<div className="mb-4 text-center sm:mb-6 lg:text-left">
+							<p className="text-lg font-medium text-slate-200 italic sm:text-xl">
 								"{statusMessage}"
 							</p>
 						</div>
 
 						{/* Player Since */}
 						<div className="text-center lg:text-right">
-							<p className="text-sm sm:text-base font-medium text-slate-400">
+							<p className="text-sm font-medium text-slate-400 sm:text-base">
 								Gaming since {playerSince} • Favorite:{' '}
 								<span className="font-bold text-orange-400">
 									{favoriteGame}
@@ -242,14 +244,14 @@ const GameProfile: React.FC<GameProfileProps> = ({
 
 						{/* Leaderboard & Recent Activity */}
 						<div className="space-y-6 sm:space-y-8">
-							<div className="rounded-2xl border-2 border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 p-4 sm:p-6 shadow-lg shadow-yellow-400/20">
+							<div className="rounded-2xl border-2 border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 p-4 shadow-lg shadow-yellow-400/20 sm:p-6">
 								<Heading level={3} icon="🥇" className="mb-4 text-yellow-300">
 									LEADERBOARD POSITION
 								</Heading>
-								<div className="mb-2 text-4xl sm:text-5xl font-black text-white">
+								<div className="mb-2 text-4xl font-black text-white sm:text-5xl">
 									#{leaderboardRank}
 								</div>
-								<div className="mb-4 text-base sm:text-lg font-bold text-yellow-200">
+								<div className="mb-4 text-base font-bold text-yellow-200 sm:text-lg">
 									in {gameMode.toUpperCase()}
 								</div>
 								<Button
@@ -331,7 +333,11 @@ const GameProfile: React.FC<GameProfileProps> = ({
 												/>
 												<span className="font-bold text-white">{friend}</span>
 											</div>
-											<Button variant="challenge" size="sm" className="w-full sm:w-auto">
+											<Button
+												variant="challenge"
+												size="sm"
+												className="w-full sm:w-auto"
+											>
 												CHALLENGE
 											</Button>
 										</Card>

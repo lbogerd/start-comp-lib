@@ -1,27 +1,32 @@
-"use client"
+'use client'
 
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
-import * as React from "react"
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
+import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react'
+import * as React from 'react'
 import { tv } from 'tailwind-variants'
 
 const dropdownMenuVariants = tv({
 	slots: {
-		content: 'z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-2xl border border-slate-600 bg-slate-800/50 backdrop-blur p-2 shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-		item: 'relative flex cursor-default items-center gap-2 rounded-xl px-3 py-2.5 text-sm outline-hidden select-none transition-all data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-slate-700/50 focus:text-white hover:bg-slate-700/50 hover:text-white [&_svg:not([class*="text-"])]:text-slate-400 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-4',
-		checkboxItem: 'relative flex cursor-default items-center gap-2 rounded-xl py-2.5 pr-3 pl-8 text-sm outline-hidden select-none transition-all data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-slate-700/50 focus:text-white hover:bg-slate-700/50 hover:text-white [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-4',
-		radioItem: 'relative flex cursor-default items-center gap-2 rounded-xl py-2.5 pr-3 pl-8 text-sm outline-hidden select-none transition-all data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-slate-700/50 focus:text-white hover:bg-slate-700/50 hover:text-white [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-4',
+		content:
+			'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-2xl border border-slate-600 bg-slate-800/50 p-2 shadow-2xl backdrop-blur',
+		item: 'relative flex cursor-default items-center gap-2 rounded-xl px-3 py-2.5 text-sm outline-hidden transition-all select-none hover:bg-slate-700/50 hover:text-white focus:bg-slate-700/50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-4 [&_svg:not([class*="text-"])]:text-slate-400',
+		checkboxItem:
+			'relative flex cursor-default items-center gap-2 rounded-xl py-2.5 pr-3 pl-8 text-sm outline-hidden transition-all select-none hover:bg-slate-700/50 hover:text-white focus:bg-slate-700/50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-4',
+		radioItem:
+			'relative flex cursor-default items-center gap-2 rounded-xl py-2.5 pr-3 pl-8 text-sm outline-hidden transition-all select-none hover:bg-slate-700/50 hover:text-white focus:bg-slate-700/50 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-4',
 		label: 'px-3 py-2 text-sm font-medium text-slate-300',
-		separator: 'bg-slate-600 -mx-1 my-2 h-px',
-		shortcut: 'text-slate-400 ml-auto text-xs tracking-widest',
-		subTrigger: 'flex cursor-default items-center rounded-xl px-3 py-2.5 text-sm outline-hidden select-none transition-all focus:bg-slate-700/50 focus:text-white hover:bg-slate-700/50 hover:text-white data-[state=open]:bg-slate-700/50 data-[state=open]:text-white',
-		subContent: 'z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-2xl border border-slate-600 bg-slate-800/50 backdrop-blur p-2 shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+		separator: '-mx-1 my-2 h-px bg-slate-600',
+		shortcut: 'ml-auto text-xs tracking-widest text-slate-400',
+		subTrigger:
+			'flex cursor-default items-center rounded-xl px-3 py-2.5 text-sm outline-hidden transition-all select-none hover:bg-slate-700/50 hover:text-white focus:bg-slate-700/50 focus:text-white data-[state=open]:bg-slate-700/50 data-[state=open]:text-white',
+		subContent:
+			'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-2xl border border-slate-600 bg-slate-800/50 p-2 shadow-2xl backdrop-blur',
 	},
 	variants: {
 		variant: {
 			default: {},
 			destructive: {
-				item: 'text-red-400 focus:bg-red-500/10 focus:text-red-400 hover:bg-red-500/10 hover:text-red-400 [&_svg]:!text-red-400',
+				item: 'text-red-400 hover:bg-red-500/10 hover:text-red-400 focus:bg-red-500/10 focus:text-red-400 [&_svg]:!text-red-400',
 			},
 		},
 		inset: {
@@ -92,11 +97,11 @@ function DropdownMenuGroup({
 function DropdownMenuItem({
 	className,
 	inset,
-	variant = "default",
+	variant = 'default',
 	...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Item> & {
 	inset?: boolean
-	variant?: "default" | "destructive"
+	variant?: 'default' | 'destructive'
 }) {
 	const { item } = dropdownMenuVariants({ variant, inset })
 	return (
@@ -202,7 +207,7 @@ function DropdownMenuSeparator({
 function DropdownMenuShortcut({
 	className,
 	...props
-}: React.ComponentProps<"span">) {
+}: React.ComponentProps<'span'>) {
 	const { shortcut } = dropdownMenuVariants()
 	return (
 		<span
@@ -256,11 +261,19 @@ function DropdownMenuSubContent({
 }
 
 export {
-	DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent,
-	DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup,
+	DropdownMenu,
+	DropdownMenuCheckboxItem,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuPortal,
+	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuSeparator,
 	DropdownMenuShortcut,
-	DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger
+	DropdownMenuSub,
+	DropdownMenuSubContent,
+	DropdownMenuSubTrigger,
+	DropdownMenuTrigger,
 }
-

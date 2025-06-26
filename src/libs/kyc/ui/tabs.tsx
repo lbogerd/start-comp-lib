@@ -9,8 +9,9 @@ interface Tab {
 
 const tabsVariants = tv({
 	slots: {
-		container: 'flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0 rounded-2xl bg-slate-800/50 p-2',
-		tab: 'flex-1 rounded-xl px-3 py-3 sm:px-6 sm:py-4 text-sm sm:text-lg font-bold transition-all touch-manipulation min-h-[3rem]',
+		container:
+			'flex flex-col space-y-2 rounded-2xl bg-slate-800/50 p-2 sm:flex-row sm:space-y-0 sm:space-x-2',
+		tab: 'min-h-[3rem] flex-1 touch-manipulation rounded-xl px-3 py-3 text-sm font-bold transition-all sm:px-6 sm:py-4 sm:text-lg',
 	},
 	variants: {
 		active: {

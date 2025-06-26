@@ -2,7 +2,7 @@ import React from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const headingVariants = tv({
-	base: 'flex items-center gap-2 sm:gap-3 font-black text-white',
+	base: 'flex items-center gap-2 font-black text-white sm:gap-3',
 	variants: {
 		level: {
 			1: 'text-3xl sm:text-4xl lg:text-5xl',
