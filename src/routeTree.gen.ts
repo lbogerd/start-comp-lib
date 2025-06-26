@@ -11,10 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ParticlesImport } from './routes/particles'
 import { Route as IndexImport } from './routes/index'
 import { Route as LibsLibNameCompTypeCompNameImport } from './routes/libs.$libName.$compType.$compName'
 
 // Create/Update Routes
+
+const ParticlesRoute = ParticlesImport.update({
+  id: '/particles',
+  path: '/particles',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -40,6 +47,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/particles': {
+      id: '/particles'
+      path: '/particles'
+      fullPath: '/particles'
+      preLoaderRoute: typeof ParticlesImport
+      parentRoute: typeof rootRoute
+    }
     '/libs/$libName/$compType/$compName': {
       id: '/libs/$libName/$compType/$compName'
       path: '/libs/$libName/$compType/$compName'
@@ -54,36 +68,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/particles': typeof ParticlesRoute
   '/libs/$libName/$compType/$compName': typeof LibsLibNameCompTypeCompNameRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/particles': typeof ParticlesRoute
   '/libs/$libName/$compType/$compName': typeof LibsLibNameCompTypeCompNameRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/particles': typeof ParticlesRoute
   '/libs/$libName/$compType/$compName': typeof LibsLibNameCompTypeCompNameRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/libs/$libName/$compType/$compName'
+  fullPaths: '/' | '/particles' | '/libs/$libName/$compType/$compName'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/libs/$libName/$compType/$compName'
-  id: '__root__' | '/' | '/libs/$libName/$compType/$compName'
+  to: '/' | '/particles' | '/libs/$libName/$compType/$compName'
+  id: '__root__' | '/' | '/particles' | '/libs/$libName/$compType/$compName'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ParticlesRoute: typeof ParticlesRoute
   LibsLibNameCompTypeCompNameRoute: typeof LibsLibNameCompTypeCompNameRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ParticlesRoute: ParticlesRoute,
   LibsLibNameCompTypeCompNameRoute: LibsLibNameCompTypeCompNameRoute,
 }
 
@@ -98,11 +117,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/particles",
         "/libs/$libName/$compType/$compName"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/particles": {
+      "filePath": "particles.tsx"
     },
     "/libs/$libName/$compType/$compName": {
       "filePath": "libs.$libName.$compType.$compName.tsx"

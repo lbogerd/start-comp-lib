@@ -1,58 +1,13 @@
-import { WinParticles } from '../ui/win-particles'
+import { createFileRoute } from '@tanstack/react-router'
 
-/**
- * Converts SVG string to data URL with color customization support
- * @param svgString - Raw SVG string
- * @param color - Optional color to apply to the SVG (replaces fill/stroke attributes)
- * @returns Base64 encoded data URL
- */
-export const svgToDataUrl = (
-	svgString: string,
-	colors: {
-		fill: 'currentColor' | 'none' | string
-		stroke: 'currentColor' | 'none' | string
-	} = {
-		fill: 'currentColor',
-		stroke: 'currentColor',
-	},
-): string => {
-	let processedSvg = svgString.trim()
+import { svgToDataUrl } from '~/logic/shared/svg'
+import { WinParticles } from '../libs/kyc/ui/win-particles'
 
-	// If color is provided, apply it to the SVG
-	if (colors) {
-		// Replace existing fill attributes with the new color
-		processedSvg = processedSvg.replace(
-			/fill="[^"]*"/g,
-			`fill="${colors.fill}"`,
-		)
+export const Route = createFileRoute('/particles')({
+	component: RouteComponent,
+})
 
-		// Replace existing stroke attributes with the new col  or
-		processedSvg = processedSvg.replace(
-			/stroke="[^"]*"/g,
-			`stroke="${colors.stroke}"`,
-		)
-
-		// If no fill or stroke attributes exist, add fill to the first element after <svg>
-		if (!processedSvg.includes('fill=') && !processedSvg.includes('stroke=')) {
-			// Find the first element after opening <svg> tag
-			const svgMatch = processedSvg.match(/(<svg[^>]*>)(.*)(<\/svg>)/s)
-			if (svgMatch) {
-				const [, openTag, content, closeTag] = svgMatch
-				// Add fill to the first path, polygon, circle, rect, etc.
-				const elementWithColor = content.replace(
-					/(<(path|polygon|circle|rect|ellipse|line|polyline)[^>]*?)>/,
-					`$1 fill="${colors.fill}">`,
-				)
-				processedSvg = openTag + elementWithColor + closeTag
-			}
-		}
-	}
-
-	// Encode to base64 data URL
-	return `data:image/svg+xml;base64,${btoa(processedSvg)}`
-}
-
-const ParticlesPage = () => {
+function RouteComponent() {
 	// Example SVG strings
 	const bitcoin = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bitcoin-icon lucide-bitcoin"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>`
 
@@ -97,5 +52,3 @@ const ParticlesPage = () => {
 		/>
 	)
 }
-
-export default ParticlesPage
