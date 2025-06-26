@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import Particles from 'react-particles'
 import { loadSlim } from 'tsparticles-slim'
 
@@ -11,6 +11,8 @@ interface WinParticlesProps {
 	svgDataUrl?: string | string[]
 	/** Number of particles to emit */
 	particleCount?: number
+	/** FPS limit for the particle animation */
+	fpsLimit?: number
 	/** Custom colors for particles (when not using SVG) */
 	colors?: string[]
 	/** Container class name */
@@ -24,10 +26,14 @@ export const WinParticles: React.FC<WinParticlesProps> = ({
 	duration = 3000,
 	svgDataUrl,
 	particleCount = 50,
+	fpsLimit = 120,
 	colors = ['#FFD700', '#FF6B35', '#F7931E', '#FFE66D', '#06FFA5'],
 	className = '',
 	onComplete,
 }) => {
+	// State to force re-mounting the Particles component for reset
+	const [resetKey, setResetKey] = useState(0)
+
 	const particlesInit = useCallback(async (engine: any) => {
 		await loadSlim(engine)
 	}, [])
@@ -44,7 +50,7 @@ export const WinParticles: React.FC<WinParticlesProps> = ({
 					value: 'transparent',
 				},
 			},
-			fpsLimit: 120,
+			fpsLimit,
 			particles: {
 				number: {
 					value: active ? particleCount : 0,
@@ -140,19 +146,35 @@ export const WinParticles: React.FC<WinParticlesProps> = ({
 		}
 	}, [active, duration, onComplete])
 
-	if (!active) return null
+	// Handler to increment the resetKey, which will reset the animation
+	const handleReset = () => {
+		setResetKey((k) => k + 1)
+	}
 
 	return (
-		<div
-			className={`pointer-events-none fixed inset-0 z-50 ${className}`}
-			style={{ zIndex: 9999 }}
-		>
-			<Particles
-				id="win-particles"
-				init={particlesInit}
-				// @ts-expect-error
-				options={particlesOptions}
-			/>
-		</div>
+		<>
+			{/* Button to reset/restart the animation by changing the key */}
+			<button
+				className="bg-opacity-80 hover:bg-opacity-100 pointer-events-auto rounded bg-white px-3 py-1 text-black shadow transition"
+				onClick={handleReset}
+			>
+				Reset Animation
+			</button>
+			<div
+				className={`pointer-events-none fixed inset-0 z-50 ${className}`}
+				style={{ zIndex: 9999 }}
+			>
+				{/* The Particles component uses the resetKey as its key, so changing it will re-mount and restart the animation */}
+				{active && (
+					<Particles
+						key={resetKey}
+						id="win-particles"
+						init={particlesInit}
+						// @ts-expect-error
+						options={particlesOptions}
+					/>
+				)}
+			</div>
+		</>
 	)
 }

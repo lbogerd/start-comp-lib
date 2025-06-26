@@ -1,3 +1,5 @@
+'use client'
+
 import { createFileRoute } from '@tanstack/react-router'
 import type { ComponentType } from 'react'
 import { useEffect, useState } from 'react'
