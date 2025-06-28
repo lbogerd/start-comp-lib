@@ -60,9 +60,6 @@ export const Route = createRootRoute({
 			</RootDocument>
 		)
 	},
-	loader: async () => {
-		return await getLibsServerFn()
-	},
 	notFoundComponent: () => <NotFound />,
 	component: RootComponent,
 })
@@ -85,20 +82,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 
 			<body className="flex min-h-dvh w-dvh min-w-dvw overflow-x-hidden overscroll-none bg-white text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">
-				<Suspense fallback={<SidebarSkeleton className="w-48" />}>
-					<Sidebar
-						className="w-48"
-						libs={Route.useLoaderData().map((lib) => ({
-							name: lib.name,
-							items: lib.items.map((item) => ({
-								name: item.name,
-								compType: item.type.replace('registry:', '') as ItemType,
-							})),
-						}))}
-					/>
-				</Suspense>
-
-				<div className="w-full p-4">{children}</div>
+				{children}
 
 				<TanStackRouterDevtools position="bottom-right" />
 				<Scripts />

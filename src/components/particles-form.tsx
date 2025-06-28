@@ -22,7 +22,7 @@ export function ParticlesForm({
 	return (
 		<form
 			onSubmit={form.onSubmit((values) => onSubmit(values))}
-			className="mx-auto max-w-md rounded-lg bg-white p-6 shadow"
+			className="max-w-md rounded-lg bg-white p-6 shadow"
 		>
 			<div className="flex flex-col gap-6">
 				<div className="flex flex-col gap-1">

@@ -15,7 +15,7 @@ import {
 } from '~/libs/kyc/ui/dropdown-menu'
 import { getLibsServerFn } from '~/logic/server/server-functions/libs'
 
-export const Route = createFileRoute('/libs/$libName/$compType/$compName')({
+export const Route = createFileRoute('/_app/libs/$libName/$compType/$compName')({
 	loader: async ({ params }) => {
 		return (await getLibsServerFn())
 			.find((lib) => lib.name === params.libName)
