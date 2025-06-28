@@ -13,9 +13,9 @@ export const Route = createFileRoute('/particles_')({
 function RouteComponent() {
 	const [resetKey, setResetKey] = useState(0)
 	const [formData, setFormData] = useState({
-		particleCount: 50,
-		duration: 3000,
+		particleCount: 250,
 		fpsLimit: 120,
+		interactive: true,
 	})
 	const [active, setActive] = useState(true)
 
@@ -56,6 +56,13 @@ function RouteComponent() {
 
 	return (
 		<div className="flex w-full flex-col items-center gap-6 bg-neutral-100 p-6">
+			<WinParticles
+				key={resetKey} // Change key to force re-mount
+				svgImageUrls={multipleShapes}
+				particleCount={formData.particleCount}
+				fpsLimit={formData.fpsLimit}
+				isInteractive={formData.interactive}
+			/>
 			<h1 className="text-2xl font-bold">Particles Example</h1>
 
 			<h2 className="text-lg">Adjust settings</h2>
@@ -65,15 +72,6 @@ function RouteComponent() {
 					setActive(true)
 					setResetKey((prev) => prev + 1) // Force re-mount
 				}}
-			/>
-
-			<WinParticles
-				key={resetKey} // Change key to force re-mount
-				active={active}
-				svgDataUrl={multipleShapes}
-				particleCount={formData.particleCount}
-				duration={formData.duration}
-				fpsLimit={formData.fpsLimit}
 			/>
 		</div>
 	)
