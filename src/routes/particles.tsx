@@ -1,14 +1,25 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { svgToDataUrl } from '~/logic/shared/svg'
-import { WinParticles } from '../libs/kyc/ui/win-particles'
+import { WinParticles } from '../components/win-particles'
+import { useState } from 'react'
+import { Button } from '~/libs/kyc/ui/button'
+import { ParticlesForm } from '~/components/particles-form'
 
 export const Route = createFileRoute('/particles')({
 	component: RouteComponent,
 })
 
 function RouteComponent() {
-	// Example SVG strings
+	const [resetKey, setResetKey] = useState(0)
+	const [formData, setFormData] = useState({
+		particleCount: 50,
+		duration: 3000,
+		fpsLimit: 120,
+	})
+	const [active, setActive] = useState(true)
+
+	// Example SVG strings taken from Lucide icons
 	const bitcoin = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bitcoin-icon lucide-bitcoin"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>`
 
 	const dollar = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign-icon lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`
@@ -44,11 +55,26 @@ function RouteComponent() {
 	]
 
 	return (
-		<WinParticles
-			active={true}
-			svgDataUrl={multipleShapes}
-			particleCount={100}
-			duration={4000}
-		/>
+		<>
+			<h1 className="text-2xl font-bold">Particles Example</h1>
+
+			<h2 className="text-lg">Adjust settings</h2>
+			<ParticlesForm
+				onSubmit={(values) => {
+					setFormData(values)
+					setActive(true)
+					setResetKey((prev) => prev + 1) // Force re-mount
+				}}
+			/>
+
+			<WinParticles
+				key={resetKey} // Change key to force re-mount
+				active={active}
+				svgDataUrl={multipleShapes}
+				particleCount={formData.particleCount}
+				duration={formData.duration}
+				fpsLimit={formData.fpsLimit}
+			/>
+		</>
 	)
 }
